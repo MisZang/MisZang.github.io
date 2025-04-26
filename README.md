@@ -92,7 +92,7 @@
 
 *   📱 **电话:** 15526312845
 *   ✉️ **邮箱:** [ucxx66@163.com](mailto:ucxx66@163.com)
-*   🔗 **GitHub:**https://github.com/miszang.github.io
+*   🔗 **GitHub:** https://miszang.github.io
 
 **微信扫码添加:**
 ![Screenshot_2025_0427_015845](https://github.com/user-attachments/assets/aefae782-a13d-4d30-bd56-64143d4c3933)
