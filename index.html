@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姜同学 - 个人主页</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --text-color: #333;
+            --light-grey: #ecf0f1;
+            --background-color: #f8f9fa; /* 保留作为背景图片加载失败时的备用 */
+            --white: #ffffff;
+            --border-radius: 8px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+            --sidebar-width: 280px;
+            --content-padding: 30px;
+            --content-max-width: 1100px;
+
+            /* Language Highlight Colors */
+            --lang-java-bg: #f39c12;
+            --lang-python-bg: #3498db;
+            --lang-js-bg: #f1c40f;
+            --lang-htmlcss-bg: #e74c3c;
+            --lang-c-bg: #95a5a6;
+            --lang-sql-bg: #1abc9c;
+            --lang-highlight-text: var(--white);
+        }
+
+        *, *::before, *::after {
+             box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            /* --- 背景图片设置 --- */
+            background-color: var(--background-color); /* 图片加载失败时的备用背景色 */
+            /* IMPORTANT: Use a relative path here */
+            /* Assuming your HTML file is in the '个人主页' folder,
+               and the image is in '个人主页/图片/背景图片.jpg' (or .png) */
+            background-image: url('图片/背景图片.jpg'); /* <-- **** 替换为你的背景图片的相对路径和文件名 **** */
+            background-size: cover; /* 图片覆盖整个背景区域 */
+            background-position: center center; /* 图片居中 */
+            background-repeat: no-repeat; /* 不重复 */
+            background-attachment: fixed; /* 背景图片固定，内容滚动 */
+            /* ------------------- */
+            color: var(--text-color); /* 主文本颜色 */
+            font-weight: 300;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--secondary-color); /* 侧边栏有自己的背景色，会覆盖 body 的背景图片 */
+            color: var(--white);
+            padding: var(--content-padding);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 3px 0px 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            z-index: 100;
+        }
+        .profile-pic-placeholder {
+            width: 150px;
+            height: 150px;
+            background-color: var(--light-grey); /* Placeholder 背景色 */
+            border-radius: 50%;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--secondary-color);
+            font-size: 0.9em;
+            text-align: center;
+            overflow: hidden;
+        }
+         .profile-pic-placeholder img { width: 100%; height: 100%; object-fit: cover; }
+        .sidebar h1 { font-size: 1.8em; margin-bottom: 10px; text-align: center; font-weight: 500; color: var(--primary-color); }
+        .sidebar .job-title-sidebar { font-size: 1em; color: var(--light-grey); text-align: center; margin-bottom: 25px; font-weight: 300; line-height: 1.5; }
+        .sidebar-info ul { list-style: none; padding: 0; margin: 0; width: 100%; }
+        .sidebar-info li { display: flex; align-items: center; margin-bottom: 15px; font-size: 0.95em; }
+        .sidebar-info li i { color: var(--primary-color); margin-right: 12px; font-size: 1.2em; width: 20px; text-align: center; }
+        .sidebar-info li strong { font-weight: 400; margin-right: 5px; color: var(--light-grey); }
+        .sidebar-info li span, .sidebar-info li a { color: #bdc3c7; word-break: break-all; text-decoration: none; }
+        .sidebar-info li a:hover { color: var(--primary-color); }
+        /* Style for Sidebar WeChat trigger */
+        #wechat-trigger-sidebar { cursor: pointer; }
+        #wechat-trigger-sidebar:hover span, #wechat-trigger-sidebar:hover i { color: var(--primary-color); }
+
+
+        /* --- Main Content Area --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: var(--content-padding);
+            width: calc(100% - var(--sidebar-width));
+            position: relative;
+            min-height: 100vh;
+            /* main-content 自身没有背景色，所以 body 的背景图片会在它后面显示，
+               但在 .section 内部会被 .section 的白色背景覆盖 */
+        }
+        .content-wrapper {
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+        }
+
+        /* --- Section Styling --- */
+        .section {
+            margin-bottom: 35px;
+            background-color: var(--white); /* 内容区域有自己的背景色，会覆盖 body 的背景图片 */
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        .section h2 { font-size: 1.6em; color: var(--primary-color); border-bottom: 2px solid var(--light-grey); padding-bottom: 12px; margin-top: 0; margin-bottom: 25px; font-weight: 500; display: flex; align-items: center; }
+        .section h2 i { margin-right: 10px; font-size: 0.9em; }
+
+        /* --- Skills --- */
+        .skills ul { list-style: none; padding: 0; margin: 0; }
+        .skills .skill-category { margin-bottom: 20px; }
+        .skills .skill-category strong { display: block; margin-bottom: 10px; color: var(--secondary-color); font-weight: 500; font-size: 1.1em; }
+        .skills .skill-list { display: flex; flex-wrap: wrap; gap: 12px; }
+        .skills .skill-item { background-color: var(--light-grey); color: var(--secondary-color); padding: 6px 16px; border-radius: 18px; font-size: 0.95em; white-space: nowrap; transition: all 0.2s ease-in-out; cursor: default; }
+        .skills .skill-item:hover { transform: translateY(-2px); box-shadow: 0 3px 6px rgba(0,0,0,0.08); }
+        .skills .skill-item.highlight { background-color: var(--primary-color); color: var(--white); font-weight: 400; }
+        .skills .skill-item.lang-java { background-color: var(--lang-java-bg); color: var(--lang-highlight-text); }
+        .skills .skill-item.lang-python { background-color: var(--lang-python-bg); color: var(--lang-highlight-text); }
+        .skills .skill-item.lang-js { background-color: var(--lang-js-bg); color: var(--lang-highlight-text); }
+        .skills .skill-item.lang-htmlcss { background-color: var(--lang-htmlcss-bg); color: var(--lang-highlight-text); }
+        .skills .skill-item.lang-c { background-color: var(--lang-c-bg); color: var(--lang-highlight-text); }
+        .skills .skill-item.lang-sql { background-color: var(--lang-sql-bg); color: var(--lang-highlight-text); }
+        .skills .skill-item.game { background-color: #e74c3c; color: var(--white); }
+
+        /* --- Experience / Projects --- */
+        .experience .project { margin-bottom: 30px; padding: 25px; border-left: 5px solid var(--primary-color); background-color: #fdfdfd; border-radius: 0 var(--border-radius) var(--border-radius) 0; transition: box-shadow 0.3s ease; }
+        .experience .project:hover { box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08); }
+        .experience h3 { font-size: 1.3em; color: var(--secondary-color); margin-top: 0; margin-bottom: 8px; font-weight: 500; }
+        .experience .tech-stack { font-size: 0.9em; color: #555; margin-bottom: 10px; font-style: italic; }
+        .experience .tech-stack strong { font-style: normal; font-weight: 500; color: var(--secondary-color); }
+        .experience .date { font-size: 0.9em; color: #7f8c8d; margin-bottom: 15px; display: block; }
+        .experience p { margin-bottom: 12px; color: #444; }
+        .experience ul { padding-left: 20px; margin-top: 12px; margin-bottom: 8px; }
+        .experience li { margin-bottom: 8px; color: var(--text-color); }
+        .experience li::marker { color: var(--primary-color); }
+        .project-image-placeholder { width: 100%; height: 150px; background-color: var(--light-grey); margin-top: 15px; margin-bottom: 10px; border-radius: var(--border-radius); display: flex; justify-content: center; align-items: center; color: #aaa; font-style: italic; }
+
+        /* --- Education & Certifications --- */
+        .education p, .certifications p { margin: 5px 0 15px 0; }
+        .education strong, .certifications strong { color: var(--secondary-color); }
+        .certifications ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+        .certifications li { background-color: var(--light-grey); padding: 5px 12px; border-radius: 15px; font-size: 0.9em; }
+
+        /* --- About Me --- */
+        .about p { font-size: 1.05em; line-height: 1.9; text-align: justify; }
+        .about strong { color: var(--primary-color); font-weight: 500; }
+
+        /* --- Contact / Online Presence Section --- */
+        .online-presence ul {
+            list-style: none;
+            padding: 0;
+            display: flex; /* Arrange items horizontally */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 15px; /* Spacing between buttons */
+        }
+        .online-presence li {
+            background-color: var(--light-grey); /* Button background */
+            border-radius: var(--border-radius);
+            padding: 10px 18px; /* Button padding */
+            transition: all 0.3s ease;
+            display: flex; /* Align icon and text inside */
+            align-items: center;
+            position: relative; /* Needed for WeChat tooltip positioning */
+            cursor: default; /* Default cursor for list item */
+        }
+        .online-presence li:hover:not(.wechat-hover-trigger) { /* Exclude wechat hover trigger from this specific hover effect */
+             background-color: #dcdfe4; /* Slightly darker on hover */
+             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .online-presence li i {
+            color: var(--primary-color); /* Icon color */
+            margin-right: 10px; /* Space between icon and text */
+            font-size: 1.1em;
+        }
+        .online-presence li a, .online-presence li span {
+            color: var(--secondary-color); /* Text color */
+            text-decoration: none; /* Remove underline */
+            font-weight: 400;
+        }
+        .online-presence li a {
+             cursor: pointer; /* Make links clickable */
+        }
+        .online-presence li a:hover {
+            color: var(--primary-color); /* Link text color on hover */
+        }
+
+        /* --- WeChat Hover Tooltip (for Footer) --- */
+        .wechat-tooltip {
+            display: none; /* Hidden by default */
+            position: absolute;
+            bottom: 115%; /* Position above the trigger item */
+            left: 50%;
+            transform: translateX(-50%); /* Center horizontally */
+            background-color: var(--white);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 10; /* Ensure it's above other items */
+            width: 180px; /* Adjust width as needed */
+            text-align: center;
+            opacity: 0; /* Start invisible for transition */
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            pointer-events: none; /* Prevent tooltip from interfering with hover */
+        }
+        .wechat-tooltip img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 5px;
+        }
+        .wechat-tooltip span {
+            font-size: 0.85em;
+            color: #555;
+        }
+        /* Show tooltip on hover of the parent li in the footer */
+        .online-presence li.wechat-hover-trigger:hover .wechat-tooltip {
+            display: block; /* Make it appear */
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto; /* Allow interaction if needed, though usually not */
+        }
+
+        /* --- WeChat Modal (for Sidebar Click) --- */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1001; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+            /* Use flex for centering when displayed by JS */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+        .modal-content {
+            background-color: var(--white);
+            margin: auto;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            max-width: 90%; /* Max width relative to viewport */
+            width: 300px; /* Or specific width */
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .modal-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 15px auto; /* Center image */
+        }
+        .modal-close {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 992px) {
+             :root {
+                 --sidebar-width: 240px;
+                 --content-padding: 25px;
+             }
+            .main-content {
+                width: calc(100% - var(--sidebar-width));
+                margin-left: var(--sidebar-width);
+                padding: var(--content-padding);
+             }
+        }
+        @media (max-width: 768px) { /* Mobile */
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                margin-bottom: 20px;
+                z-index: 1;
+                box-shadow: none;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+                min-height: unset;
+            }
+            .content-wrapper { padding: 0; }
+            .section { padding: 20px; }
+            .profile-pic-placeholder { width: 120px; height: 120px; }
+            .modal-content { width: 85%; padding: 20px; } /* Adjust modal size */
+
+            /* Adjust contact buttons layout on mobile */
+            .online-presence ul {
+                 justify-content: center; /* Center buttons on mobile */
+                 gap: 10px;
+            }
+             .online-presence li {
+                 padding: 8px 15px; /* Slightly smaller padding */
+             }
+             /* Tooltip positioning might need adjustment on mobile */
+        }
+         @media (max-width: 480px) {
+             body { font-size: 15px; }
+             .skills .skill-item { padding: 5px 12px; font-size: 0.9em; }
+             .main-content { padding: 15px; }
+             .section { padding: 15px; }
+             .modal-content { width: 90%; }
+         }
+
+    </style>
+</head>
+<body>
+
+    <!-- ===== Sidebar ===== -->
+    <aside class="sidebar">
+        <div class="profile-pic-placeholder">
+             <!-- 替换为你的头像图片 -->
+             <img src="图片/头像.jpg" alt="姜同学头像"> <!-- 示例：如果你的头像也在图片文件夹 -->
+             <!-- <img src="https://via.placeholder.com/150" alt="姜同学头像"> -->
+        </div>
+        <h1>姜同学</h1>
+        <p class="job-title-sidebar">
+            游戏策划 / 全栈开发 / 技术探索者
+        </p>
+
+        <nav class="sidebar-info">
+             <ul>
+                <li><i class="fas fa-user"></i><span><strong>年龄:</strong> 21岁</span></li>
+                <li><i class="fas fa-graduation-cap"></i><span><strong>学历:</strong> 大专 (软件技术)</span></li>
+                <li><i class="fas fa-map-marker-alt"></i><span><strong>坐标:</strong> 广东</span></li>
+                <li><i class="fas fa-briefcase"></i><span><strong>状态:</strong> 寻找机会中</span></li>
+                <li><i class="fas fa-phone"></i><a href="tel:15526312845">15526312845</a></li>
+                <li><i class="fas fa-envelope"></i><a href="mailto:ucxx66@163.com">ucxx66@163.com</a></li>
+                <!-- Sidebar WeChat - Added ID for click trigger -->
+                <li id="wechat-trigger-sidebar"><i class="fab fa-weixin"></i><span><strong>微信:</strong> G16689683054 (点击查看)</span></li>
+                <li><i class="fab fa-github"></i><a href="https://github.com/your-github-username" target="_blank" rel="noopener noreferrer">GitHub (待补充)</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- ===== Main Content Area ===== -->
+    <main class="main-content">
+        <div class="content-wrapper">
+
+            <!-- === About Me === -->
+            <section class="section about">
+                 <h2><i class="fas fa-user-circle"></i>关于我</h2>
+                <p>
+                    你好！我是一名对<strong>游戏设计</strong>与<strong>软件开发</strong>充满热情的应届毕业生。我拥有超过<strong>一万小时</strong>的多元游戏经验（策略、RPG、MOBA 等），这不仅培养了我对游戏的热爱，更锻炼了我<strong>深度拆解和分析游戏系统</strong>的能力，尤其擅长从核心循环、养成梯度、经济模型及玩家心理层面进行研究。
+                </p>
+                <p>
+                    同时，作为软件技术专业的学生，我具备扎实的<strong>全栈开发</strong>基础，熟练掌握 <strong>Java (Spring Boot)</strong>、<strong>前端技术 (Vue.js, Electron, H5/CSS/JS)</strong> 以及 <strong>Python</strong> 等，并拥有完整的项目开发经验（如独立完成的类微信 IM 应用）。我热衷于<strong>用技术验证设计想法</strong>，例如使用 <strong>UE5</strong> 进行关卡原型设计，或利用 <strong>Python</strong> 进行玩家社群数据分析。
+                </p>
+                <p>
+                    我具备优秀的<strong>逻辑思维</strong>、<strong>问题解决</strong>、<strong>快速学习</strong>和<strong>文档撰写</strong>能力。无论是进行游戏系统/关卡/技术策划，还是从事前端/后端/全栈开发，或是提供 IT 技术支持，我都渴望能将我的分析能力、技术实践和持续学习的热情结合起来，为团队创造价值。我目前离校，期待能尽快加入一个专业的团队，在实战中不断成长。
+                </p>
+            </section>
+
+            <!-- === Skills === -->
+            <section class="section skills">
+                 <h2><i class="fas fa-cogs"></i>专业技能</h2>
+                 <div class="skill-category">
+                    <strong>游戏设计 & 分析:</strong>
+                     <div class="skill-list">
+                        <span class="skill-item game highlight">游戏系统拆解</span>
+                        <span class="skill-item game">核心玩法分析</span>
+                        <span class="skill-item game">数值体验感知</span>
+                        <span class="skill-item game">用户分层研究</span>
+                        <span class="skill-item game">付费系统分析</span>
+                        <span class="skill-item game">竞品分析</span>
+                        <span class="skill-item">设计文档撰写</span>
+                        <span class="skill-item game">关卡设计基础</span>
+                        <span class="skill-item game lang-python">玩家社群分析 (Python)</span>
+                    </div>
+                </div>
+                 <div class="skill-category">
+                    <strong>引擎 & 工具:</strong>
+                     <div class="skill-list">
+                        <span class="skill-item game highlight">Unreal Engine 5 (蓝图基础, 白盒搭建)</span>
+                        <span class="skill-item highlight">Git & GitHub/Gitee</span>
+                        <span class="skill-item highlight">VS Code</span>
+                        <span class="skill-item">Excel/WPS (精通函数, 数据透视表)</span>
+                        <span class="skill-item">Photoshop (基础)</span>
+                        <span class="skill-item">剪映 (基础)</span>
+                        <span class="skill-item">Unity (了解/学习中)</span>
+                        <span class="skill-item">PLC 编程 (基础/了解)</span>
+                    </div>
+                </div>
+                 <div class="skill-category">
+                    <strong>编程 & 开发:</strong>
+                    <div class="skill-list">
+                        <span class="skill-item lang-java highlight">Java (Spring Boot)</span>
+                        <span class="skill-item lang-python highlight">Python (基础, 数据处理)</span>
+                        <span class="skill-item lang-htmlcss highlight">HTML5</span>
+                        <span class="skill-item lang-htmlcss highlight">CSS3 (含 Sass/Less 了解)</span>
+                        <span class="skill-item lang-js highlight">JavaScript (ES6+)</span>
+                         <span class="skill-item lang-js highlight">TypeScript (了解/学习中)</span>
+                        <span class="skill-item lang-js highlight">Vue.js (2/3)</span>
+                        <span class="skill-item lang-js">Vue Router</span>
+                        <span class="skill-item lang-js">Vuex / Pinia</span>
+                        <span class="skill-item lang-js highlight">Electron</span>
+                        <span class="skill-item lang-js">Node.js (基础)</span>
+                        <span class="skill-item lang-sql highlight">SQL (MySQL 基础)</span>
+                        <span class="skill-item lang-c">C 语言 (基础)</span>
+                        <span class="skill-item">C# (了解/Unity 相关)</span>
+                        <span class="skill-item">Shell/Bash (基础)</span>
+                        <span class="skill-item">RESTful API (设计与交互)</span>
+                        <span class="skill-item">Axios / Fetch</span>
+                        <span class="skill-item">WebSocket</span>
+                        <span class="skill-item">响应式布局 (Flexbox/Grid)</span>
+                        <span class="skill-item highlight">npm / yarn</span>
+                        <span class="skill-item">Webpack (基础) / Vite (了解)</span>
+                        <span class="skill-item">uniapp (了解/实践)</span>
+                        <span class="skill-item">DevOps (基础了解, Jenkins 实践)</span>
+                    </div>
+                </div>
+                 <div class="skill-category">
+                    <strong>软技能 & 其他:</strong>
+                    <div class="skill-list">
+                        <span class="skill-item highlight">逻辑思维 & 分析能力</span>
+                        <span class="skill-item highlight">问题解决</span>
+                        <span class="skill-item highlight">快速学习 & 适应性</span>
+                        <span class="skill-item">沟通协作</span>
+                        <span class="skill-item">文档撰写</span>
+                        <span class="skill-item">用户洞察 (游戏/小说创作经验)</span>
+                        <span class="skill-item">IT 基础运维 (了解)</span>
+                        <span class="skill-item">客户服务意识</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- === Experience === -->
+            <section class="section experience">
+                 <h2><i class="fas fa-project-diagram"></i>项目与实践经验</h2>
+                 <!-- Project entries remain the same -->
+                 <div class="project">
+                    <h3>游戏系统深度拆解与分析 (以《明日方舟》为例)</h3>
+                    <span class="date">长期实践 (5400+ 小时投入)</span>
+                     <div class="tech-stack"><strong>涉及技能:</strong> 游戏分析, 系统拆解, 用户心理, 数据分析 (Python, Excel), 竞品研究</div>
+                    <p><strong>实践描述:</strong> 作为深度玩家，系统性地拆解《明日方舟》的核心循环（挑战-资源-养成）、养成系统（材料梯度、基建）、经济模型及付费设计（用户分层策略）。</p>
+                    <p><strong>关键行动与成果:</strong></p>
+                    <ul>
+                        <li>分析“理智”系统对游戏节奏的调控及玩家“资源焦虑”的产生机制。</li>
+                        <li>利用 Python 爬取并分析近万条玩家社区评论，结合 Excel 建立情感分析模型，量化验证玩家痛点与爽点。</li>
+                        <li>总结零氪、月卡、重氪玩家的转化与留存策略，理解二次元用户的付费心理。</li>
+                        <li><strong>收获:</strong> 形成了对塔防+养成类游戏设计的系统性认知，验证了数据分析在挖掘玩家需求中的价值，提升了从玩家与设计者双重视角审视游戏的能力。</li>
+                    </ul>
+                    <div class="project-image-placeholder">游戏分析相关图表/导图占位符</div>
+                </div>
+                 <div class="project">
+                    <h3>毕业设计: 类微信 PC 端应用 (IM 应用)</h3>
+                    <span class="date">2023/03 - 2025/01</span>
+                     <div class="tech-stack"><strong>技术栈:</strong> Electron, Vue.js, Spring Boot, MySQL, WebSocket, Axios, Vue Router, Vuex/Pinia, (可能涉及 Redis, Express, FFmpeg)</div>
+                    <p><strong>项目描述:</strong> 独立开发一款仿微信功能的即时通讯桌面客户端。经历了技术选型调整与架构迭代，最终交付包含用户管理、好友关系、实时消息、文件传输等 18 个核心模块的系统 (约 1.2 万行代码)。</p>
+                    <p><strong>主要职责与贡献:</strong></p>
+                    <ul>
+                        <li>承担<strong>全栈开发</strong>与<strong>系统架构设计</strong>，负责前后端搭建、数据库设计。</li>
+                        <li>基于 <strong>Vue.js</strong> 进行前端组件化开发，使用 <strong>Electron</strong> 构建跨平台桌面应用。</li>
+                        <li>使用 <strong>Spring Boot</strong> 构建后端 RESTful API 服务，处理业务逻辑与数据持久化。</li>
+                        <li>攻克 <strong>WebSocket</strong> 实时消息推送稳定性难题。</li>
+                        <li>主导技术架构迭代，展现技术判断力、解决复杂问题的能力和项目管理潜力。</li>
+                        <li>使用 Git 进行版本控制，了解 Jenkins 自动化部署流程。</li>
+                    </ul>
+                    <p><strong>项目收获:</strong> 深入掌握了 Vue.js 全家桶及 Electron 应用开发；熟练运用 Java Spring Boot 进行后端开发；全面理解了软件开发生命周期，提升了全栈开发、架构设计和复杂问题解决能力。</p>
+                    <div class="project-image-placeholder">IM 应用截图/架构图占位符</div>
+                </div>
+                 <div class="project">
+                    <h3>游戏关卡原型设计与验证 (塔防游戏分析)</h3>
+                    <span class="date">个人实践</span>
+                     <div class="tech-stack"><strong>涉及技能:</strong> 关卡分析, Unreal Engine 5 (蓝图, 白盒), A/B 测试思维</div>
+                    <p><strong>实践描述:</strong> 针对某塔防游戏通过率异常低的关卡 (42%)，怀疑关卡节奏或数值设计存在问题。</p>
+                    <p><strong>关键行动与成果:</strong></p>
+                    <ul>
+                        <li>使用 <strong>UE5</strong> 快速搭建关卡部分场景的白盒原型。</li>
+                        <li>通过<strong>蓝图</strong>调整敌人波次节奏、增加假定技能等参数。</li>
+                        <li>进行简单的调整前后对比测试，初步验证调整方案（如“缩短前两波间隔+增加初期范围技能”）对理论通过率的提升效果。</li>
+                        <li><strong>收获:</strong> 展现了利用游戏引擎进行<strong>快速原型设计</strong>和<strong>迭代验证</strong>的能力，证明了将分析洞察转化为可行设计方案的潜力。</li>
+                    </ul>
+                    <div class="project-image-placeholder">UE5 关卡原型截图占位符</div>
+                </div>
+            </section>
+
+            <!-- === Education === -->
+            <section class="section education">
+                 <h2><i class="fas fa-university"></i>教育背景</h2>
+                 <p><strong>汕头职业技术学院</strong></p>
+                 <p><strong>专业:</strong> 软件技术</p>
+                 <p><strong>学历:</strong> 大专</p>
+                 <p><strong>时间:</strong> 2022/09 - 2025/06 (应届)</p>
+            </section>
+
+            <!-- === Certifications === -->
+            <section class="section certifications">
+                <h2><i class="fas fa-certificate"></i>资格证书</h2>
+                <ul>
+                    <li>全国计算机等级一级</li>
+                    <li>全国计算机等级二级 (MS Office 高级应用)</li>
+                    <li>网页制作员 (Web 初级)</li>
+                    <li>程序员</li>
+                    <li>电工中级</li>
+                    <li>电工特种作业操作证</li>
+                </ul>
+            </section>
+
+             <!-- === Contact / Online === -->
+            <section class="section online-presence">
+                 <h2><i class="fas fa-share-alt"></i>找到我</h2>
+                 <p>期待与您进一步交流！您可以通过以下方式联系我或了解更多：</p>
+                <!-- Contact buttons list -->
+                <ul>
+                    <li> <!-- Phone -->
+                         <i class="fas fa-phone"></i>
+                         <a href="tel:15526312845">15526312845</a>
+                    </li>
+                    <li> <!-- Email -->
+                         <i class="fas fa-envelope"></i>
+                         <a href="mailto:ucxx66@163.com">ucxx66@163.com</a>
+                    </li>
+                    <!-- Footer WeChat - Keep hover trigger and tooltip -->
+                    <li class="wechat-hover-trigger">
+                        <i class="fab fa-weixin"></i>
+                        <span>G16689683054</span>
+                        <div class="wechat-tooltip">
+                             <!-- **** 重要：替换为你自己的二维码图片相对路径和文件名 **** -->
+                             <img src="图片/二维码/Screenshot_2025_0427_015845.png" alt="微信二维码">
+                             <!-- <img src="https://via.placeholder.com/150x150?text=微信二维码-footer" alt="微信二维码"> -->
+                             <span>微信扫码联系我</span>
+                        </div>
+                    </li>
+                    <li> <!-- GitHub -->
+                         <i class="fab fa-github"></i>
+                         <a href="https://github.com/your-github-username" target="_blank" rel="noopener noreferrer">GitHub (待补充)</a>
+                    </li>
+                </ul>
+            </section>
+
+        </div> <!-- End of content-wrapper -->
+    </main>
+
+    <!-- ===== WeChat QR Code Modal (for Sidebar Click) ===== -->
+    <div id="wechat-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <p style="font-weight: 500; margin-bottom: 15px; color: var(--secondary-color);">扫描微信二维码</p>
+            <!-- **** 重要：将 src 替换成你的二维码图片相对路径和文件名 **** -->
+            <img src="图片/二维码/Screenshot_2025_0427_015845.png" alt="微信二维码" id="wechat-qr-image-modal">
+            <!-- <img src="https://via.placeholder.com/250x250?text=微信二维码-modal" alt="微信二维码" id="wechat-qr-image-modal"> -->
+        </div>
+    </div>
+
+    <!-- JavaScript for Modal -->
+    <script>
+        // Get modal elements
+        const modal = document.getElementById("wechat-modal");
+        const modalClose = document.querySelector(".modal-close");
+        // --- Get ONLY the sidebar trigger ---
+        const wechatTriggerSidebar = document.getElementById("wechat-trigger-sidebar");
+
+        // Function to open modal
+        function openModal() {
+            if (modal) {
+                // Use 'flex' for display to enable centering via CSS
+                modal.style.display = "flex";
+            }
+        }
+
+        // Function to close modal
+        function closeModal() {
+             if (modal) {
+                modal.style.display = "none";
+             }
+        }
+
+        // --- Event listener ONLY for the sidebar trigger ---
+        // Attach the click event listener to the sidebar WeChat list item
+        if (wechatTriggerSidebar) {
+            wechatTriggerSidebar.addEventListener("click", openModal);
+        }
+        // No listener needed for the footer hover item here
+
+        // --- Modal closing listeners ---
+        // Attach click event listener to the close button
+        if (modalClose) {
+            modalClose.addEventListener("click", closeModal);
+        }
+
+        // Close modal if clicked outside the content area (the modal background)
+        window.addEventListener("click", (event) => {
+            if (event.target === modal) { // Check if the click target is the modal itself
+                closeModal();
+            }
+        });
+
+        // Optional: Close modal with Escape key
+        window.addEventListener("keydown", (event) => {
+             if (event.key === "Escape" && modal && modal.style.display === "flex") {
+                 closeModal();
+             }
+        });
+    </script>
+
+</body>
+</html>
