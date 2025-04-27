@@ -25,6 +25,7 @@
             --sidebar-width: 280px;
             --error-color: #e74c3c;
             --success-color: #2ecc71;
+            --warning-color: #f39c12; /* Added warning color */
         }
 
         * {
@@ -515,6 +516,11 @@
             max-width: 300px;
             width: 80%;
         }
+        /* Wider modal for warnings */
+         #wechat-warning-modal .modal-content {
+             max-width: 400px;
+         }
+
 
         .modal-close {
             position: absolute;
@@ -1076,6 +1082,9 @@
          .notification.info {
              background-color: var(--primary-color);
          }
+         .notification.warning {
+             background-color: var(--warning-color);
+         }
 
 
         @keyframes slideIn {
@@ -1151,6 +1160,40 @@
         .add-category-btn {
             margin-top: 10px;
         }
+
+         /* Styles for the warning modal */
+         #wechat-warning-modal .modal-content {
+             text-align: left;
+             max-width: 450px;
+         }
+         #wechat-warning-modal h3 {
+             color: var(--warning-color);
+             margin-top: 0;
+             margin-bottom: 15px;
+         }
+         #wechat-warning-modal p {
+             margin-bottom: 15px;
+             line-height: 1.5;
+             font-size: 0.95em;
+         }
+          #wechat-warning-modal .button-container {
+             text-align: center;
+             margin-top: 25px;
+         }
+          #wechat-warning-modal button {
+             background-color: var(--primary-color);
+             color: white;
+             border: none;
+             padding: 10px 20px;
+             border-radius: 5px;
+             cursor: pointer;
+             font-size: 1em;
+             transition: background-color 0.3s;
+         }
+          #wechat-warning-modal button:hover {
+             background-color: #3a7bc8;
+         }
+
 
         @media (max-width: 768px) {
             body {
@@ -1552,22 +1595,18 @@
                              <div class="hint">仅影响侧边栏和主页的微信文字显示，不影响二维码。</div>
                         </div>
 
+                        <!-- WeChat QR Code Setting (Modified) -->
                         <div class="form-group">
                             <label>微信二维码 (弹窗显示)</label>
-                            <div class="avatar-upload">
-                                <div class="avatar-preview" id="wechat-qr-preview-container">
-                                    <span>二维码预览</span>
+                             <!-- Removed the QR preview container -->
+                            <div class="form-group file-input-wrapper">
+                                <div class="file-input-button" id="change-wechat-qr-button">
+                                    <i class="fas fa-qrcode"></i> 更换二维码
                                 </div>
-                                <div class="avatar-controls">
-                                    <div class="form-group file-input-wrapper">
-                                        <div class="file-input-button">
-                                            <i class="fas fa-upload"></i> 上传二维码
-                                        </div>
-                                        <input type="file" id="wechat-qr-upload-input" accept="image/*">
-                                    </div>
-                                    <div class="hint">推荐使用清晰的二维码图片</div>
-                                </div>
+                                <!-- Keep the actual file input, but hide it -->
+                                <input type="file" id="wechat-qr-upload-input" accept="image/*" style="display: none;">
                             </div>
+                            <div class="hint">二维码将在主页侧边栏点击微信号时弹窗显示。<br>上传图片后，请手动将图片重命名为 **WeChatQC.png** 并替换到项目文件夹的 **图片/二维码/** 路径下。</div>
                         </div>
 
                         <div class="form-group">
@@ -1677,15 +1716,38 @@
 
     </main>
 
-    <!-- WeChat Modal -->
+    <!-- WeChat Modal (Displays the QR code using the fixed path) -->
     <div id="wechat-modal" class="modal">
         <div class="modal-content">
             <span class="modal-close">&times;</span>
             <p style="font-weight: 500; margin-bottom: 15px; color: var(--secondary-color);">扫描微信二维码</p>
-            <img src="图片/二维码/Screenshot_2025_0427_015845.png" alt="微信二维码" id="wechat-qr-image-modal">
+            <!-- QR code image uses the fixed path -->
+            <img src="图片/二维码/WeChatQC.png" alt="微信二维码" id="wechat-qr-image-modal">
              <div class="hint" style="margin-top: 10px;">请勿将本页面二维码直接分享，此二维码可能随更新而变化。</div>
         </div>
     </div>
+
+    <!-- WeChat QR Change Warning Modal (New Modal) -->
+     <div id="wechat-warning-modal" class="modal">
+         <div class="modal-content">
+             <span class="modal-close">&times;</span>
+             <h3><i class="fas fa-exclamation-triangle" style="color: var(--warning-color); margin-right: 8px;"></i> 重要提示</h3>
+             <p>请注意：由于浏览器安全限制，您选择的二维码图片无法直接被网页文件修改和重命名。</p>
+             <p>如果您将此项目托管在 GitHub 等平台，您必须在**本地**完成以下操作：</p>
+             <ol>
+                 <li>将项目仓库克隆或下载到您的电脑。</li>
+                 <li>选择新的二维码图片。</li>
+                 <li>手动将新图片重命名为 **WeChatQC.png**。</li>
+                 <li>将重命名后的图片替换到项目文件夹的 **图片/二维码/** 路径下。</li>
+                 <li>将修改提交并推送回您的 GitHub 仓库。</li>
+             </ol>
+             <p>点击“我已确认”后，将打开文件选择器，选择图片**仅用于更新主页显示和保存配置（仅路径）**，实际文件需要您手动处理。</p>
+
+             <div class="button-container">
+                 <button type="button" id="confirm-wechat-qr-change">我已确认</button>
+             </div>
+         </div>
+     </div>
 
      <!-- Avatar Selection Modal -->
     <div id="avatar-selection-modal" class="modal">
@@ -1733,18 +1795,22 @@
             }
 
 
-            // --- WeChat Modal ---
+            // --- Modals ---
             const wechatModal = document.getElementById("wechat-modal");
-            const wechatModalClose = wechatModal?.querySelector(".modal-close"); // Renamed to avoid conflict
-             const wechatQrImageModal = document.getElementById('wechat-qr-image-modal');
+            const wechatModalClose = wechatModal?.querySelector(".modal-close");
+            const wechatQrImageModal = document.getElementById('wechat-qr-image-modal'); // Image element inside the WeChat display modal
 
-            // --- Avatar Selection Modal ---
             const avatarSelectionModal = document.getElementById("avatar-selection-modal");
             const avatarModalClose = avatarSelectionModal?.querySelector(".avatar-modal-close");
             const avatarListContainer = document.getElementById('avatar-list');
             const changeAvatarButton = document.getElementById('change-avatar-button'); // The button that opens the avatar modal
             const avatarCountSpan = document.getElementById('avatar-count');
             const AVATAR_COUNT = 101; // Number of avatars from 0.jpg to 100.jpg
+
+            // New WeChat Warning Modal elements
+            const wechatWarningModal = document.getElementById('wechat-warning-modal');
+            const wechatWarningModalClose = wechatWarningModal?.querySelector('.modal-close');
+            const confirmWechatQrChangeButton = document.getElementById('confirm-wechat-qr-change');
 
 
             function openModal(modalElement) {
@@ -1759,16 +1825,19 @@
                  }
             }
 
-            // WeChat modal trigger in sidebar is handled by click delegation on document.body now
-
+            // --- Modal Close Listeners ---
             if (wechatModalClose) {
                 wechatModalClose.addEventListener("click", () => closeModal(wechatModal));
             }
              if (avatarModalClose) {
                  avatarModalClose.addEventListener("click", () => closeModal(avatarSelectionModal));
              }
+             if (wechatWarningModalClose) {
+                 wechatWarningModalClose.addEventListener("click", () => closeModal(wechatWarningModal));
+             }
 
 
+            // --- Modal Click Outside Listeners ---
             window.addEventListener("click", (event) => {
                 if (event.target === wechatModal) {
                     closeModal(wechatModal);
@@ -1776,8 +1845,12 @@
                  if (event.target === avatarSelectionModal) {
                      closeModal(avatarSelectionModal);
                  }
+                 if (event.target === wechatWarningModal) {
+                     closeModal(wechatWarningModal);
+                 }
             });
 
+            // --- Modal Escape Key Listener ---
             window.addEventListener("keydown", (event) => {
                  if (event.key === "Escape") {
                      if (wechatModal && wechatModal.style.display === "flex") {
@@ -1785,6 +1858,9 @@
                      }
                      if (avatarSelectionModal && avatarSelectionModal.style.display === "flex") {
                          closeModal(avatarSelectionModal);
+                     }
+                     if (wechatWarningModal && wechatWarningModal.style.display === "flex") {
+                         closeModal(wechatWarningModal);
                      }
                  }
             });
@@ -1843,6 +1919,7 @@
             function showPage(pageIdToShow) {
                 let pageFound = false;
 
+                // Close any tooltips
                 if (tooltipTimeoutId) {
                     clearTimeout(tooltipTimeoutId);
                     tooltipTimeoutId = null;
@@ -1850,6 +1927,11 @@
                 if (homeTooltip) {
                     homeTooltip.classList.remove('show');
                 }
+                // Close any open modals
+                 closeModal(wechatModal);
+                 closeModal(avatarSelectionModal);
+                 closeModal(wechatWarningModal);
+
 
                 allPages.forEach(page => {
                     if (page.id === pageIdToShow) {
@@ -1858,6 +1940,10 @@
                          if (page.id === 'settings-page') {
                              // IMPORTANT: Only populate avatar here. Other fields remain empty on load.
                              populateSettingsForm(currentSettings);
+                         } else {
+                             // When navigating *away* from settings, clear the form
+                              // This ensures it's empty next time it's opened
+                              clearSettingsForm();
                          }
                     } else {
                         page.style.display = 'none';
@@ -1869,15 +1955,17 @@
                      const resumePage = document.getElementById('resume-page');
                      if (resumePage) resumePage.style.display = 'block';
                 } else {
+                     // Show "click to return home" tooltip when NOT on the resume page
                      if (pageIdToShow !== 'resume-page' && homeTooltip) {
                          homeTooltip.classList.add('show');
                          tooltipTimeoutId = setTimeout(() => {
                              homeTooltip.classList.remove('show');
                              tooltipTimeoutId = null;
-                         }, 3000);
+                         }, 3000); // Hide after 3 seconds
                      }
                 }
 
+                 // Scroll to top or near top
                  if (mainContentArea) {
                      const scrollTarget = window.innerWidth <= 768 ? 0 : mainContentArea.offsetTop - 20;
                      window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
@@ -1900,6 +1988,7 @@
             if (profileHomeLink) {
                 profileHomeLink.addEventListener('click', function(event) {
                      event.preventDefault();
+                     // Clear any active tooltips on returning home
                      if (tooltipTimeoutId) {
                          clearTimeout(tooltipTimeoutId);
                          tooltipTimeoutId = null;
@@ -1921,12 +2010,13 @@
             // --- Settings Data & Logic ---
 
             const SETTINGS_STORAGE_KEY = 'resumeSettings';
+            // Define the fixed QR code path
+            const FIXED_WECHAT_QR_PATH = '图片/二维码/WeChatQC.png';
             let currentSettings = {};
 
             // Selectors for Settings Page Elements
             const settingsPageElement = document.getElementById('settings-page'); // Get the settings page div
             const settingsForm = document.getElementById('settings-form');
-            // const avatarUploadInput = document.getElementById('avatar-upload-input'); // Removed this input
             const avatarPreviewContainer = document.getElementById('avatar-preview-container');
             const nameInput = document.getElementById('name-input');
             const jobTitleInput = document.getElementById('job-title-input');
@@ -1937,11 +2027,14 @@
             const phoneInput = document.getElementById('phone-input');
             const emailInput = document.getElementById('email-input');
             const wechatInput = document.getElementById('wechat-input');
+            // wechatQrUploadInput is the hidden file input
             const wechatQrUploadInput = document.getElementById('wechat-qr-upload-input');
-            const wechatQrPreviewContainer = document.getElementById('wechat-qr-preview-container');
+            // changeWechatQrButton is the button that triggers the warning modal
+            const changeWechatQrButton = document.getElementById('change-wechat-qr-button');
+
             const githubInput = document.getElementById('github-input');
             const otherContactsContainer = document.getElementById('other-contacts-container');
-            const addOtherContactBtn = document.getElementById('add-other-contact-btn'); // Restored button
+            const addOtherContactBtn = document.getElementById('add-other-contact-btn');
             const welcomeMessageInput = document.getElementById('welcome-message-input');
             const aboutMeInput = document.getElementById('about-me-input');
             const skillsContainerEdit = document.getElementById('skills-container');
@@ -1992,7 +2085,8 @@
                     phone: '15526312845',
                     email: 'ucxx66@163.com',
                     wechat: 'G16689683054',
-                    wechatQr: '图片/二维码/Screenshot_2025_0427_015845.png',
+                    // Fixed QR path
+                    wechatQr: FIXED_WECHAT_QR_PATH,
                     github: 'https://github.com/MisZang/MisZang.github.io/tree/main',
                     others: []
                 },
@@ -2174,7 +2268,7 @@
                  // Remove any existing img or span
                  previewContainer.innerHTML = '';
 
-                 if (src && src !== 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7') { // Check for actual source, not just transparent pixel
+                 if (src && src !== 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' && src !== '') { // Check for actual source, not just transparent pixel or empty string
                      const img = document.createElement('img');
                      img.src = src;
                      // Add error handling for broken images
@@ -2211,11 +2305,16 @@
                      if (!currentSettings.education) currentSettings.education = [];
                      if (!currentSettings.certificates) currentSettings.certificates = [];
 
+                     // Ensure wechatQr is always the fixed path after loading
+                     currentSettings.contact.wechatQr = FIXED_WECHAT_QR_PATH;
+
                      console.log('Loaded settings:', currentSettings); // Log loaded settings
 
                 } catch (e) {
                     console.error("Error parsing settings from localStorage:", e);
                     currentSettings = JSON.parse(JSON.stringify(defaultSettings)); // Fallback to defaults
+                     // Ensure wechatQr is always the fixed path after fallback
+                    currentSettings.contact.wechatQr = FIXED_WECHAT_QR_PATH;
                 }
                 updateResumeDisplay(currentSettings);
 
@@ -2245,6 +2344,7 @@
             /**
              * Populates the #settings-page form fields with data.
              * MODIFIED: Only populates avatar preview. Other fields remain empty initially.
+             * Also does NOT populate QR preview.
              */
             function populateSettingsForm(data) {
                 if (!settingsForm) return;
@@ -2290,9 +2390,7 @@
                  }, 0);
 
 
-                // Update QR code preview from currentSettings, as it's a different type of image input
-                 updateAvatarPreview(data.contact?.wechatQr, wechatQrPreviewContainer, '二维码预览');
-
+                // QR preview is NOT populated in settings page anymore.
 
                 // Optional: If you wanted a "lazy load" on input focus/typing, you'd add listeners here
                 // that check if the field is empty and, if so, fill it from currentSettings.
@@ -2301,7 +2399,7 @@
 
             /**
              * Clears all input fields and dynamic lists in the settings form.
-             * Called after successful save.
+             * Called after successful save, or when leaving settings.
              */
              function clearSettingsForm() {
                  if (!settingsForm) return;
@@ -2324,10 +2422,8 @@
                  if (certificatesContainerEdit) certificatesContainerEdit.innerHTML = '';
                  if (otherContactsContainer) otherContactsContainer.innerHTML = '';
 
-                 // Clear image previews (optional, preserves the empty state look)
-                 // Avatar preview is NOT cleared because we want the selected avatar to persist in the form until explicitly changed
-                 // updateAvatarPreview(null, avatarPreviewContainer, '头像预览');
-                 updateAvatarPreview(null, wechatQrPreviewContainer, '二维码预览');
+                 // Avatar preview is NOT cleared, it stays showing the selected avatar.
+                 // QR preview is NOT cleared because it's not in the settings form anymore.
 
 
                  // Reset checkboxes if necessary
@@ -2398,7 +2494,7 @@
                              if (other.value && !other.value.startsWith('tel:')) linkHref = `tel:${other.value}`;
                          } else if (other.icon === 'fab fa-weixin') {
                              typeForMaskingCopy = 'wechat';
-                              linkHref = 'javascript:void(0);'; // Ensure wechat icon is not a clickable link by default, unless value is a real link
+                              linkHref = 'javascript:void(0);'; // Ensure wechat icon in others is not a clickable link by default, unless value is a real link
                          } else if (other.icon && (other.icon.includes('copy') || other.icon.includes('paste') || other.icon.includes('clipboard'))) { // Added 'clipboard'
                               // Optional: Add a specific icon to mark as copyable text (not masked)
                              typeForMaskingCopy = 'copy-only';
@@ -2435,8 +2531,9 @@
                           // sidebarContactContent.style.display is handled by collapsible logic
                      }
                 }
+                 // Update the QR image source in the *display modal* using the fixed path
                  if (wechatQrImageModal) {
-                      wechatQrImageModal.src = data.contact?.wechatQr || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Use default transparent pixel if no image
+                      wechatQrImageModal.src = currentSettings.contact?.wechatQr || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Use default transparent pixel if no image
                  }
 
                 // Main Content Updates (Resume Page)
@@ -2576,7 +2673,8 @@
                         // Using the revised createMainContactLi
                          if (hasPhone) mainContactList.appendChild(createMainContactLi('fas fa-phone', `tel:${contacts.phone}`, contacts.phone, 'phone'));
                          if (hasEmail) mainContactList.appendChild(createMainContactLi('fas fa-envelope', `mailto:${contacts.email}`, contacts.email)); // Not masked/copied
-                         if (hasWechat) mainContactList.appendChild(createMainContactLi('fab fa-weixin', 'javascript:void(0);', contacts.wechat, 'wechat', null, null, true)); // This is the main wechat entry with tooltip
+                         // This is the main wechat entry with tooltip/modal, uses fixed path for the image
+                         if (hasWechat) mainContactList.appendChild(createMainContactLi('fab fa-weixin', 'javascript:void(0);', contacts.wechat, 'wechat', null, null, true));
                           if (hasGithub) mainContactList.appendChild(createMainContactLi('fab fa-github', contacts.github, 'GitHub', null, '_blank', 'noopener noreferrer')); // Github is just a link
 
                          (contacts.others || []).forEach(other => {
@@ -2609,7 +2707,7 @@
                                // Refined rule: If typeForMaskingCopy is explicitly set by icon check above, use it. Otherwise, if rawValueOrText exists AND it's NOT a standard URL/tel/mailto, AND it's NOT just a placeholder '#' or similar, AND other.type doesn't imply a link (like 'Website', 'Blog'), then make it 'copy-only'.
 
                                if (typeForMaskingCopy === null && rawValueOrText && rawValueOrText !== '#' &&
-                                   !rawValueOrText.startsWith('http://') && !rawValueOrText.startsWith('https://') && !rawValueOrText.startsWith('tel:') && !rawValueOrText.startsWith('mailto:') &&
+                                   !rawValueOrText.startsWith('http://') && !rawValueOrText.startsWith('https://') && !rawValueOrText.startsWith('tel:') && !rawValueValue.startsWith('mailto:') &&
                                    !(other.type && (other.type.toLowerCase() === 'website' || other.type.toLowerCase() === 'blog' || other.type.toLowerCase() === 'portfolio')) ) {
                                     typeForMaskingCopy = 'copy-only';
                                     linkHref = 'javascript:void(0)'; // Ensure non-link behavior
@@ -2734,6 +2832,8 @@
              * Saves the current settings from the form to localStorage and updates display.
              * MODIFIED: Merges form data with existing settings. Uses form value if not empty.
              * Rebuilds dynamic lists based *only* on current form state.
+             * QR code path is NOT read from form preview (which is removed),
+             * it is taken from currentSettings (which is updated by the QR file selection logic).
              */
             function saveSettings() {
                  if (!settingsForm) {
@@ -2742,12 +2842,13 @@
                      return;
                  }
 
-                 // Start with a deep copy of the *current* settings (the last saved state)
+                 // Start with a deep copy of the *current* settings (the last loaded/modified state)
                  const tempSettings = JSON.parse(JSON.stringify(currentSettings));
 
                  // Update basic fields and contact info from the form
                  // ONLY update if the form input has a non-empty value.
-                 // Avatar and QR are updated directly by the selection/upload logic.
+                 // Avatar is updated directly by the selection logic.
+                 // QR is updated directly by its selection logic.
 
                  const nameValue = nameInput?.value.trim();
                  if (nameValue) tempSettings.name = nameValue;
@@ -2779,11 +2880,14 @@
                  const wechatValue = wechatInput?.value.trim();
                  if (wechatValue) tempSettings.contact.wechat = wechatValue;
 
-                 // Avatar and QR preview sources are already updated by file/selection handlers.
-                 // Read them directly from the preview elements.
-                 // If the preview is empty (no img tag), save null.
+                 // Avatar preview source is already updated by selection handler.
+                 // Read it directly from the preview element.
                  tempSettings.profilePic = avatarPreviewContainer?.querySelector('img')?.src || null;
-                 tempSettings.contact.wechatQr = wechatQrPreviewContainer?.querySelector('img')?.src || null;
+
+                 // QR code path is NOT read from a form preview.
+                 // It is already set to FIXED_WECHAT_QR_PATH by the QR change workflow.
+                 // We ensure it's the fixed path before saving.
+                 tempSettings.contact.wechatQr = FIXED_WECHAT_QR_PATH;
 
 
                  const githubValue = githubInput?.value.trim();
@@ -2882,7 +2986,7 @@
                  otherContactsContainer?.querySelectorAll('.dynamic-item').forEach(entry => {
                      const typeInput = entry.querySelector('input[placeholder^="方式类型"]');
                      const valueInput = entry.querySelector('input[placeholder^="内容/链接"]');
-                     const iconInput = entry.querySelector('input[placeholder^="Font Awesome 图标类"]');
+                     const iconInput = entry.querySelector('input[placeholder^="Font Awesome 图标类 (可选)"]'); // Corrected selector
 
                      // Save only if at least one field is filled
                      if (typeInput?.value.trim() || valueInput?.value.trim() || iconInput?.value.trim()) {
@@ -2980,8 +3084,7 @@
                 // Update the image preview if image data exists in the loaded object
                  const previewContainer = newEntry.querySelector('.project-image-settings-preview');
                  if (previewContainer && exp.image) {
-                     // Use handleFileUpload's logic to read and set preview if it's a data URL or file object
-                     // For saved paths, just set the src directly
+                     // For saved paths (which are stored as data URLs or relative paths), just set the src directly
                       updateAvatarPreview(exp.image, previewContainer, '图片预览');
                  }
 
@@ -3034,7 +3137,7 @@
                  // if (save) { saveSettings(); }
              }
 
-             // addOtherContactEntry function is kept but the button to add them is removed
+             // addOtherContactEntry function is kept
              function addOtherContactEntry(other = {}, save = true) {
                  const entryId = other.id || Date.now() + '_con' + Math.random();
                  const newEntry = document.createElement('div');
@@ -3062,20 +3165,22 @@
              }
 
              /**
-              * Handle file upload for images (used for QR code and Project images).
+              * Handle file upload for images (used for Project images).
               * Reads file as Data URL and updates the preview element.
+              * NOTE: This is DIFFERENT from the WeChat QR upload workflow now.
               * @param {Event} event - The change event from the file input.
               * @param {HTMLElement} previewContainer - The container element (e.g., div.avatar-preview).
               * @param {string} defaultText - Text to show when no image is present.
               */
-             function handleFileUpload(event, previewContainer, defaultText) {
+             function handleProjectImageUpload(event, previewContainer, defaultText) {
                  const file = event.target.files[0];
                  if (file) {
                      const reader = new FileReader();
                      reader.onload = (e) => {
+                         // For project images, we store the Data URL or path directly.
+                         // Storing as Data URL makes it immediately visible in settings.
                          updateAvatarPreview(e.target.result, previewContainer, defaultText);
-                         // Note: We don't saveSettings() here, save is triggered by the button.
-                         // Image data URL is saved when saveSettings reads the preview src.
+                         // No saveSettings() here.
                      };
                      reader.onerror = () => {
                          showNotification(`读取文件失败: ${file.name}`, 'error');
@@ -3084,10 +3189,41 @@
                      reader.readAsDataURL(file);
                  } else {
                      // If file selection was cancelled or cleared
-                     // User likely wants to remove the image if they clear the input
                      updateAvatarPreview(null, previewContainer, defaultText); // Clear or reset preview
-                      // Note: This change (setting preview to null) will be picked up by saveSettings
-                      // leading to the image being removed from the saved settings.
+                 }
+             }
+
+            /**
+             * Handles the WeChat QR code file selection after the warning modal confirmation.
+             * NOTE: This does NOT actually save or rename the file on the user's disk.
+             * It updates the stored path to the fixed one and updates the display.
+             * @param {Event} event - The change event from the file input.
+             */
+            function handleWechatQrFileSelect(event) {
+                 const file = event.target.files[0];
+                 if (file) {
+                      // We don't read the file content here (it's not needed for display).
+                      // We just confirm a file was selected and proceed.
+
+                      // 1. Update the stored QR path to the fixed path
+                      currentSettings.contact.wechatQr = FIXED_WECHAT_QR_PATH;
+
+                      // 2. Update the main resume display (specifically the QR modal image)
+                      if (wechatQrImageModal) {
+                           wechatQrImageModal.src = currentSettings.contact.wechatQr;
+                      }
+                       // Other parts of updateResumeDisplay are triggered by saveSettings or initial load
+
+                      // 3. Show a notification with instructions
+                      showNotification('已选择二维码图片。请手动将图片重命名为 **WeChatQC.png** 并替换到项目文件夹的 **图片/二维码/** 路径下。然后点击 **保存设置**。', 'warning');
+                       console.log(`User selected file: ${file.name}. Instructing user to manually replace ${FIXED_WECHAT_QR_PATH}.`);
+
+                      // 4. Optional: Clear the file input value so selecting the same file again triggers change
+                      event.target.value = '';
+
+                 } else {
+                      // User cancelled the file selection after confirming the warning
+                      showNotification('已取消更换二维码。', 'info');
                  }
              }
 
@@ -3128,8 +3264,6 @@
                          // Update the avatar preview in the settings page
                          updateAvatarPreview(selectedAvatarPath, avatarPreviewContainer, '头像预览');
                          // Update the currentSettings object directly (this is NOT saved until button click)
-                         // This ensures the path is in currentSettings even if user navigates away without saving
-                         // and comes back. But saveSettings will ultimately read from the preview.
                          currentSettings.profilePic = selectedAvatarPath;
                          // Note: Settings will be saved when the user clicks the "保存设置" button.
                          closeModal(avatarSelectionModal);
@@ -3309,15 +3443,24 @@
                          clearTimeout(parseInt(notificationElement.dataset.timeoutId));
                      }
 
-                     notificationElement.textContent = message;
+                     // Add clear button
+                     const closeBtn = document.createElement('span');
+                     closeBtn.innerHTML = '&times;';
+                     closeBtn.style.cssText = 'margin-left: 10px; cursor: pointer; font-weight: bold;';
+                     closeBtn.onclick = () => { notificationElement.style.display = 'none'; notificationElement.dataset.timeoutId = ''; };
+
+                     notificationElement.innerHTML = ''; // Clear previous content
+                     notificationElement.appendChild(document.createTextNode(message));
+                     notificationElement.appendChild(closeBtn); // Add close button
+
                      notificationElement.className = `notification ${type}`; // Apply base class and type class
                      notificationElement.style.display = 'block'; // Make visible
 
-                     // Set a timeout to hide it
+                     // Set a timeout to hide it (unless user clicks close)
                      const timeoutId = setTimeout(() => {
                          notificationElement.style.display = 'none';
                          notificationElement.dataset.timeoutId = ''; // Clear the stored ID
-                     }, 3000); // Hide after 3 seconds
+                     }, 10000); // Hide after 10 seconds (increased duration for warning)
                       notificationElement.dataset.timeoutId = timeoutId.toString(); // Store the timeout ID
                  } else {
                       // Fallback for environments without the notification element
@@ -3378,27 +3521,26 @@
                         return; // Stop propagation for this click
                     }
 
+                    // Handle click on "更换二维码" button to open the warning modal
+                    if (event.target.closest('#change-wechat-qr-button')) {
+                         event.preventDefault();
+                         openModal(wechatWarningModal);
+                         return; // Stop propagation
+                    }
+
+
                 });
 
                  // Delegate file input change event for project images and QR
                  settingsPageElement.addEventListener('change', function(event) {
                       // Check if the changed element is a project image upload input
                       if (event.target.classList.contains('project-image-upload-input')) {
-                          const fileInput = event.target;
-                          // Find the associated preview container within the same dynamic item
-                          const projectItem = fileInput.closest('.dynamic-item');
-                          const previewContainer = projectItem?.querySelector('.project-image-settings-preview');
-                          if (previewContainer) {
-                               // Use the reusable handleFileUpload function
-                               handleFileUpload(event, previewContainer, '图片预览');
-                           } else {
-                                console.warn("Could not find project image preview container for uploaded file.");
-                           }
+                           handleProjectImageUpload(event, event.target.closest('.dynamic-item')?.querySelector('.project-image-settings-preview'), '图片预览');
                            // No need to call saveSettings here, it's done via the button
                       }
-                       // Check if the changed element is the wechat QR upload input
+                       // Check if the changed element is the wechat QR upload input (triggered AFTER the warning modal)
                       else if (event.target === wechatQrUploadInput) {
-                           handleFileUpload(event, wechatQrPreviewContainer, '二维码预览');
+                           handleWechatQrFileSelect(event); // Call the specific handler for QR
                        }
                  });
 
@@ -3432,12 +3574,8 @@
                 }
 
                  // Listen for form submission on the form itself
-                 // This will trigger if user presses Enter while *not* in a tag input,
-                 // or if there were a submit button (which we removed the bottom one).
-                 // Since header button is type="button", form submit is less critical but good to handle.
                  settingsForm.addEventListener('submit', (e) => {
                      e.preventDefault();
-                     // Decide if you want pressing Enter in other fields to save.
                      // For simplicity, let's rely only on the Save button click for now.
                      console.log("Form submit event triggered, but saveSettings() is linked to the header button.");
                  });
@@ -3448,7 +3586,6 @@
                 if (addProjectBtn) addProjectBtn.addEventListener('click', (e) => { e.preventDefault(); addExperienceEntry(); });
                 if (addEducationBtn) addEducationBtn.addEventListener('click', (e) => { e.preventDefault(); addEducationEntry(); });
                 if (addCertificateBtn) addCertificateBtn.addEventListener('click', (e) => { e.preventDefault(); addCertEntry(); });
-                 // addOtherContactBtn listener is commented out because the button is removed
                  if (addOtherContactBtn) addOtherContactBtn.addEventListener('click', (e) => { e.preventDefault(); addOtherContactEntry(); });
 
 
@@ -3523,6 +3660,16 @@
                   }
 
              });
+
+             // --- WeChat Warning Modal Confirmation Listener ---
+             if (confirmWechatQrChangeButton && wechatQrUploadInput) {
+                 confirmWechatQrChangeButton.addEventListener('click', function() {
+                     closeModal(wechatWarningModal); // Close the warning modal
+                     wechatQrUploadInput.click(); // Programmatically click the hidden file input
+                 });
+             } else {
+                  console.error("WeChat warning modal button or file input not found!");
+             }
 
              // Update avatar count display on load
              if (avatarCountSpan) {
