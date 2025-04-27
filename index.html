@@ -377,7 +377,7 @@
             width: 100%;
             height: 150px; /* Keep a fixed height for placeholder */
             background-color: var(--tag-bg);
-            border-radius: 5px;
+            border-radius: 5倍px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -518,7 +518,7 @@
         }
         /* Wider modal for warnings */
          #wechat-warning-modal .modal-content {
-             max-width: 400px;
+             max-width: 450px;
          }
 
 
@@ -1385,6 +1385,7 @@
              <ul>
                 <li><i class="fas fa-user"></i><span><strong>年龄:</strong> <span class="sidebar-age"></span></span></li>
                 <li><i class="fas fa-graduation-cap"></i><span><strong>学历:</strong> <span class="sidebar-education"></span></span></li>
+                <!-- Apply masking to sidebar location -->
                 <li><i class="fas fa-map-marker-alt"></i><span><strong>坐标:</strong> <span class="sidebar-location"></span></span></li>
                 <li><i class="fas fa-briefcase"></i><span><strong>状态:</strong> <span class="sidebar-status"></span></span></li>
             </ul>
@@ -1567,6 +1568,7 @@
                         <div class="form-group">
                             <label for="location-input">所在地</label>
                             <input type="text" id="location-input" placeholder="请输入您的所在地">
+                             <div class="hint">例如：广东省汕头市濠江区。保存后将显示为市级。</div>
                         </div>
 
                         <div class="form-group">
@@ -1582,6 +1584,7 @@
                         <div class="form-group">
                             <label for="phone-input">电话</label>
                             <input type="tel" id="phone-input" placeholder="请输入您的联系电话">
+                             <div class="hint">在设置页面将脱敏显示。</div>
                         </div>
 
                         <div class="form-group">
@@ -1592,7 +1595,7 @@
                         <div class="form-group">
                             <label for="wechat-input">微信号 (用于侧边栏显示)</label>
                             <input type="text" id="wechat-input" placeholder="请输入您的微信号">
-                             <div class="hint">仅影响侧边栏和主页的微信文字显示，不影响二维码。</div>
+                             <div class="hint">在设置页面将脱敏显示。仅影响侧边栏和主页的微信文字显示，不影响二维码。</div>
                         </div>
 
                         <!-- WeChat QR Code Setting (Modified) -->
@@ -1741,7 +1744,7 @@
                  <li>将重命名后的图片替换到项目文件夹的 **图片/二维码/** 路径下。</li>
                  <li>将修改提交并推送回您的 GitHub 仓库。</li>
              </ol>
-             <p>点击“我已确认”后，将打开文件选择器，选择图片**仅用于更新主页显示和保存配置（仅路径）**，实际文件需要您手动处理。</p>
+             <p>点击“我已确认”后，将打开文件选择器，选择图片**仅用于更新主页显示（需要手动替换文件后刷新）和保存配置（仅路径）**，实际文件需要您手动处理。</p>
 
              <div class="button-container">
                  <button type="button" id="confirm-wechat-qr-change">我已确认</button>
@@ -1807,10 +1810,13 @@
             const avatarCountSpan = document.getElementById('avatar-count');
             const AVATAR_COUNT = 101; // Number of avatars from 0.jpg to 100.jpg
 
+
             // New WeChat Warning Modal elements
             const wechatWarningModal = document.getElementById('wechat-warning-modal');
             const wechatWarningModalClose = wechatWarningModal?.querySelector('.modal-close');
             const confirmWechatQrChangeButton = document.getElementById('confirm-wechat-qr-change');
+             // The hidden file input for QR code
+            const wechatQrUploadInput = document.getElementById('wechat-qr-upload-input');
 
 
             function openModal(modalElement) {
@@ -1938,12 +1944,13 @@
                         page.style.display = 'block';
                         pageFound = true;
                          if (page.id === 'settings-page') {
-                             // IMPORTANT: Only populate avatar here. Other fields remain empty on load.
-                             populateSettingsForm(currentSettings);
+                             // Load settings into the form when opening the settings page
+                             loadSettingsIntoForm(currentSettings);
                          } else {
                              // When navigating *away* from settings, clear the form
                               // This ensures it's empty next time it's opened
-                              clearSettingsForm();
+                              // Commented out clearSettingsForm() as the new requirement is NOT to clear on load.
+                              // clearSettingsForm();
                          }
                     } else {
                         page.style.display = 'none';
@@ -2027,10 +2034,12 @@
             const phoneInput = document.getElementById('phone-input');
             const emailInput = document.getElementById('email-input');
             const wechatInput = document.getElementById('wechat-input');
-            // wechatQrUploadInput is the hidden file input
-            const wechatQrUploadInput = document.getElementById('wechat-qr-upload-input');
+
             // changeWechatQrButton is the button that triggers the warning modal
             const changeWechatQrButton = document.getElementById('change-wechat-qr-button');
+            // wechatQrUploadInput is the hidden file input (needed to programmatically trigger file selection)
+            // It was already declared above in the modals section
+
 
             const githubInput = document.getElementById('github-input');
             const otherContactsContainer = document.getElementById('other-contacts-container');
@@ -2138,6 +2147,8 @@
                         if (typeof source[key] === 'object' && source[key] !== null && key in target && typeof target[key] === 'object' && target[key] !== null) {
                              if (Array.isArray(source[key])) {
                                  // For arrays, replace if source is present, otherwise keep target
+                                 // If source[key] is an empty array, it will still replace the target array.
+                                 // This is the desired behavior for dynamic lists: what's in the form overwrites.
                                  if (source[key] !== undefined) {
                                       target[key] = source[key];
                                  }
@@ -2146,9 +2157,7 @@
                              }
                         } else {
                             // For primitive types or null/undefined, replace if source is present
-                            if (source[key] !== undefined) {
-                                 target[key] = source[key];
-                            }
+                             target[key] = source[key]; // Standard merge behavior for non-objects/arrays
                         }
                     }
                 }
@@ -2156,7 +2165,7 @@
             }
 
              /**
-              * Masks the name based on rules.
+              * Masks the name based on rules for main display.
               * Chinese: First char + "同学". Eg: "赵子龙" -> "赵同学".
               * English/Other: First part before space, hyphen, or dot. Eg: "aileng·sbmith" -> "aileng".
               */
@@ -2175,9 +2184,18 @@
                  }
              }
 
+             /**
+              * Masks the name for SETTINGS DISPLAY ONLY.
+              * Zhao Zilong -> Zhao同学 or 赵子龙 -> 赵同学
+              * (Assuming same rule as main display mask for simplicity)
+              */
+             function maskNameForSettings(name) {
+                  return maskName(name); // Reuse the same masking logic
+             }
+
 
             /**
-             * Mask phone numbers and WeChat IDs for display.
+             * Mask phone numbers and WeChat IDs for main display.
              * Phone: 13812345678 -> 138****5678 (Mask middle 4 digits)
              * WeChat: abc123456789 -> abc****789 (Mask middle if length > 7, show first 3 and last 4)
              */
@@ -2198,14 +2216,93 @@
                 return value;
             }
 
+            /**
+             * Masks phone numbers for SETTINGS DISPLAY ONLY.
+             * Based on requirement: Keep first 3, rest ****
+             */
+            function maskPhoneForSettings(phone) {
+                 if (!phone) return '';
+                 phone = String(phone);
+                 if (phone.length <= 3) return phone; // Don't mask if too short
+                 return phone.substring(0, 3) + '****';
+             }
+
+            /**
+             * Masks WeChat IDs for SETTINGS DISPLAY ONLY.
+             * Based on requirement: Keep first 4, rest *****
+             */
+            function maskWechatForSettings(wechat) {
+                 if (!wechat) return '';
+                 wechat = String(wechat);
+                 if (wechat.length <= 4) return wechat; // Don't mask if too short
+                 return wechat.substring(0, 4) + '*****';
+             }
+
              /**
-              * Mask school names for display.
-              * Keep first 2 and last 2 characters, replace middle with stars.
-              * Example: "广东工商职业技术大学" (10 chars) -> "广东****大学"
-              * Example: "北京大学" (4 chars) -> "北京大学" (no mask)
-              * Example: "清华" (2 chars) -> "清华" (no mask)
-              * Example: "武汉大学" (4 chars) -> "武汉大学" (no mask)
-              * Modified: Now keeps first 2 and last 2 for names >= 5 characters.
+              * Masks location for SETTINGS DISPLAY AND SIDEBAR DISPLAY ONLY.
+              * Keep Province + City level if possible.
+              * Example: "广东省汕头市濠江区" -> "广东省汕头市"
+              */
+             function maskLocation(location) {
+                 if (!location) return '';
+                 location = String(location).trim();
+                 if (location.length === 0) return '';
+
+                 // Look for Province (省)
+                 const provinceMatch = location.match(/(\S+省)/);
+                 let province = provinceMatch ? provinceMatch[1] : null;
+                 let remaining = provinceMatch ? location.substring(location.indexOf('省') + 1) : location;
+
+                 // Look for City (市) in the remaining string
+                 const cityMatch = remaining.match(/(\S+市)/);
+                 let city = cityMatch ? cityMatch[1] : null;
+
+                 if (province && city) {
+                     return province + city; // Keep Province + City
+                 } else if (province) {
+                     return province; // Keep only Province if found
+                 } else if (city) {
+                     // If no province found but city found at the start or after other text
+                     return city; // Keep only City
+                 } else {
+                      // Fallback: If no 省 or 市 found, just return the original value
+                      return location;
+                 }
+             }
+
+
+             /**
+              * Mask school names for SETTINGS DISPLAY ONLY.
+              * Based on user examples:
+              * Length <= 3: No mask (e.g., "清华", "北大")
+              * Length == 4: First 1 char + one '*' + Last 2 chars (e.g., "清华大学" -> "清*大学")
+              * Length > 4: First 2 chars + '*' repeated (length - 4) times + Last 2 chars (e.g., "广东财经教育学院" (8) -> "广东****学院")
+              */
+             function maskSchoolNameForSettings(schoolName) {
+                 if (!schoolName) return '';
+                 schoolName = String(schoolName).trim();
+                 const len = schoolName.length;
+
+                 if (len <= 3) {
+                     return schoolName; // No mask for very short names
+                 } else if (len === 4) {
+                     // Matches "清华大学" -> "清*大学" example
+                     return schoolName.substring(0, 1) + '*' + schoolName.substring(len - 2);
+                 } else {
+                     // General rule for longer names: first 2 + stars + last 2
+                     // Stars count: total length - (chars kept at start + chars kept at end) = len - 4
+                     const maskedLength = len - 4;
+                     const stars = maskedLength > 0 ? '*'.repeat(maskedLength) : '';
+                     return schoolName.substring(0, 2) + stars + schoolName.substring(len - 2);
+                 }
+             }
+
+
+             /**
+              * Mask school names for MAIN DISPLAY ONLY.
+              * Rule from previous requirement: keep first 2 and last 2 characters, replace middle with stars if length >= 5.
+              * Length <= 4, no mask.
+              * This is DIFFERENT from the settings masking rule.
               */
              function maskSchoolName(value) {
                  if (!value) return '';
@@ -2220,20 +2317,6 @@
                  // Ensure maskedLength is not negative
                  const stars = maskedLength > 0 ? '*'.repeat(maskedLength) : '';
                  return start + stars + end;
-             }
-
-
-             /**
-              * Generates a random HSL color string and its lightness value.
-              * Adjusts saturation and lightness range for better visual appeal and contrast calculation.
-              * Returns { colorString: 'hsl(...)', lightness: number }
-              */
-             function getRandomHslColor() {
-                 const hue = Math.floor(Math.random() * 360); // Random hue (0-359)
-                 const saturation = Math.floor(Math.random() * (90 - 70) + 70); // Saturation between 70% and 90% for vividness
-                 const lightness = Math.floor(Math.random() * (75 - 35) + 35);  // Lightness between 35% and 75% to avoid pure black/white and very dark/light shades
-                 const colorString = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-                 return { colorString: colorString, lightness: lightness };
              }
 
 
@@ -2341,66 +2424,12 @@
                 }
             }
 
-            /**
-             * Populates the #settings-page form fields with data.
-             * MODIFIED: Only populates avatar preview. Other fields remain empty initially.
-             * Also does NOT populate QR preview.
-             */
-            function populateSettingsForm(data) {
-                if (!settingsForm) return;
-
-                // Update Avatar Preview - Use the stored path directly
-                updateAvatarPreview(data.profilePic || defaultSettings.profilePic, avatarPreviewContainer, '头像预览');
-
-                // --- IMPORTANT CHANGE ---
-                // Do NOT populate other form fields or dynamic lists here.
-                // They will remain empty when the settings page is opened.
-                // This satisfies the requirement "所有输入框除了头像以外都是空的" when opened.
-                // The saveSettings function will handle merging with the existing currentSettings data.
-
-                // Example of NOT populating:
-                if (nameInput) nameInput.value = ''; // Keep empty
-                if (jobTitleInput) jobTitleInput.value = ''; // Keep empty
-                if (ageInput) ageInput.value = '';
-                if (educationLevelInput) educationLevelInput.value = '';
-                if (locationInput) locationInput.value = '';
-                if (statusInput) statusInput.value = '';
-                if (phoneInput) phoneInput.value = '';
-                if (emailInput) emailInput.value = '';
-                if (wechatInput) wechatInput.value = '';
-                if (githubInput) githubInput.value = '';
-                if (welcomeMessageInput) welcomeMessageInput.value = '';
-                if (aboutMeInput) aboutMeInput.value = '';
-                 if (markdownInput) markdownInput.value = '';
-
-
-                // Clear dynamic containers
-                if (skillsContainerEdit) skillsContainerEdit.innerHTML = '';
-                if (projectsContainerEdit) projectsContainerEdit.innerHTML = '';
-                if (educationContainerEdit) educationContainerEdit.innerHTML = '';
-                if (certificatesContainerEdit) certificatesContainerEdit.innerHTML = '';
-                if (otherContactsContainer) otherContactsContainer.innerHTML = '';
-
-                // Uncheck markdown checkbox initially
-                if (useMarkdownCheckbox) useMarkdownCheckbox.checked = false;
-                // Trigger change event to hide markdown editor section initially
-                 setTimeout(() => {
-                    const event = new Event('change');
-                    if(useMarkdownCheckbox) useMarkdownCheckbox.dispatchEvent(event);
-                 }, 0);
-
-
-                // QR preview is NOT populated in settings page anymore.
-
-                // Optional: If you wanted a "lazy load" on input focus/typing, you'd add listeners here
-                // that check if the field is empty and, if so, fill it from currentSettings.
-                // This is complex and not implemented in this version based on the refined strategy.
-            }
 
             /**
              * Clears all input fields and dynamic lists in the settings form.
-             * Called after successful save, or when leaving settings.
+             * This function is now commented out as we want to load existing data, not clear.
              */
+             /*
              function clearSettingsForm() {
                  if (!settingsForm) return;
 
@@ -2435,7 +2464,7 @@
                   }, 0);
 
              }
-
+             */
 
             /**
              * Updates the main resume display.
@@ -2445,14 +2474,17 @@
                 // Use the path stored in settings
                 if (sidebarAvatar) sidebarAvatar.src = data.profilePic || defaultSettings.profilePic;
 
-                // Apply name masking to the sidebar name display
+                // Apply name masking to the sidebar name display (using the original maskName)
                 if (sidebarNameSpan) sidebarNameSpan.textContent = maskName(data.name || '');
                 if (sidebarJobTitle) sidebarJobTitle.textContent = data.jobTitle || '';
 
                 // FIX: Only update the text content of the inner spans
                 if (sidebarAgeSpan) sidebarAgeSpan.textContent = data.age || '';
                 if (sidebarEducationSpan) sidebarEducationSpan.textContent = data.educationLevel || '';
-                if (sidebarLocationSpan) sidebarLocationSpan.textContent = data.location || '';
+
+                // --- Apply Location Masking to Sidebar Display ---
+                if (sidebarLocationSpan) sidebarLocationSpan.textContent = maskLocation(data.location || ''); // Apply maskLocation here
+
                 if (sidebarStatusSpan) sidebarStatusSpan.textContent = data.status || '';
 
                 // Sidebar Contact Info
@@ -2488,11 +2520,11 @@
 
                          let typeForMaskingCopy = null;
                          // Check if icon implies phone/wechat/copy for copyability
-                         if (other.icon === 'fas fa-phone') {
+                         if (other.icon === 'fas fa-phone' || (other.type || '').toLowerCase() === '电话') {
                              typeForMaskingCopy = 'phone';
                               // Also update href to tel: if it's a phone icon but href isn't tel:
                              if (other.value && !other.value.startsWith('tel:')) linkHref = `tel:${other.value}`;
-                         } else if (other.icon === 'fab fa-weixin') {
+                         } else if (other.icon === 'fab fa-weixin' || (other.type || '').toLowerCase() === '微信') {
                              typeForMaskingCopy = 'wechat';
                               linkHref = 'javascript:void(0);'; // Ensure wechat icon in others is not a clickable link by default, unless value is a real link
                          } else if (other.icon && (other.icon.includes('copy') || other.icon.includes('paste') || other.icon.includes('clipboard'))) { // Added 'clipboard'
@@ -2629,7 +2661,7 @@
                          const educationUl = document.createElement('ul');
                          if (data.education && data.education.length > 0) {
                              data.education.forEach(edu => {
-                                  // Apply school name masking here for display
+                                  // Apply school name masking here for main display
                                  const maskedSchool = maskSchoolName(edu.school);
 
                                  const li = document.createElement('li');
@@ -2683,10 +2715,10 @@
 
                              let typeForMaskingCopy = null;
                              // Check if icon implies phone/wechat/copy for copyability
-                             if (other.icon === 'fas fa-phone') {
+                             if (other.icon === 'fas fa-phone' || (other.type || '').toLowerCase() === '电话') {
                                  typeForMaskingCopy = 'phone';
                                   if (other.value && !other.value.startsWith('tel:')) linkHref = `tel:${other.value}`;
-                             } else if (other.icon === 'fab fa-weixin') {
+                             } else if (other.icon === 'fab fa-weixin' || (other.type || '').toLowerCase() === '微信') {
                                  typeForMaskingCopy = 'wechat';
                                  linkHref = 'javascript:void(0);'; // Explicitly make wechat icon in others not a link by default
                              } else if (other.icon && (other.icon.includes('copy') || other.icon.includes('paste') || other.icon.includes('clipboard'))) { // Added 'clipboard'
@@ -2707,7 +2739,7 @@
                                // Refined rule: If typeForMaskingCopy is explicitly set by icon check above, use it. Otherwise, if rawValueOrText exists AND it's NOT a standard URL/tel/mailto, AND it's NOT just a placeholder '#' or similar, AND other.type doesn't imply a link (like 'Website', 'Blog'), then make it 'copy-only'.
 
                                if (typeForMaskingCopy === null && rawValueOrText && rawValueOrText !== '#' &&
-                                   !rawValueOrText.startsWith('http://') && !rawValueOrText.startsWith('https://') && !rawValueOrText.startsWith('tel:') && !rawValueValue.startsWith('mailto:') &&
+                                   !rawValueOrText.startsWith('http://') && !rawValueOrText.startsWith('https://') && !rawValueOrText.startsWith('tel:') && !rawValueOrText.startsWith('mailto:') &&
                                    !(other.type && (other.type.toLowerCase() === 'website' || other.type.toLowerCase() === 'blog' || other.type.toLowerCase() === 'portfolio')) ) {
                                     typeForMaskingCopy = 'copy-only';
                                     linkHref = 'javascript:void(0)'; // Ensure non-link behavior
@@ -2819,7 +2851,6 @@
 
             /**
              * Wraps lines separated by double newlines in <p> tags. Used for About Me section.
-             * This function was missing and is restored to fix the ReferenceError.
              */
              function wrapInParagraphs(text) {
                  if (!text) return '';
@@ -2830,10 +2861,7 @@
 
             /**
              * Saves the current settings from the form to localStorage and updates display.
-             * MODIFIED: Merges form data with existing settings. Uses form value if not empty.
-             * Rebuilds dynamic lists based *only* on current form state.
-             * QR code path is NOT read from form preview (which is removed),
-             * it is taken from currentSettings (which is updated by the QR file selection logic).
+             * Reads whatever is in the input fields (masked or full).
              */
             function saveSettings() {
                  if (!settingsForm) {
@@ -2843,45 +2871,26 @@
                  }
 
                  // Start with a deep copy of the *current* settings (the last loaded/modified state)
+                 // This ensures we don't lose data for fields not currently visible or modified.
                  const tempSettings = JSON.parse(JSON.stringify(currentSettings));
 
                  // Update basic fields and contact info from the form
-                 // ONLY update if the form input has a non-empty value.
-                 // Avatar is updated directly by the selection logic.
-                 // QR is updated directly by its selection logic.
-
-                 const nameValue = nameInput?.value.trim();
-                 if (nameValue) tempSettings.name = nameValue;
-
-                 const jobTitleValue = jobTitleInput?.value.trim();
-                 if (jobTitleValue) tempSettings.jobTitle = jobTitleValue;
-
-                 const ageValue = ageInput?.value.trim();
-                 if (ageValue) tempSettings.age = ageValue;
-
-                 const educationLevelValue = educationLevelInput?.value.trim();
-                 if (educationLevelValue) tempSettings.educationLevel = educationLevelValue;
-
-                 const locationValue = locationInput?.value.trim();
-                 if (locationValue) tempSettings.location = locationValue;
-
-                 const statusValue = statusInput?.value.trim();
-                 if (statusValue) tempSettings.status = statusValue;
+                 // Reads the current value from the input, whether masked or full
+                 tempSettings.name = nameInput?.value.trim() || '';
+                 tempSettings.jobTitle = jobTitleInput?.value.trim() || '';
+                 tempSettings.age = ageInput?.value.trim() || '';
+                 tempSettings.educationLevel = educationLevelInput?.value.trim() || '';
+                 tempSettings.location = locationInput?.value.trim() || ''; // Save the value AS IS from the input (could be masked or full)
+                 tempSettings.status = statusInput?.value.trim() || '';
 
                  // Ensure contact structure exists before assigning
                  if (!tempSettings.contact) tempSettings.contact = {};
 
-                 const phoneValue = phoneInput?.value.trim();
-                 if (phoneValue) tempSettings.contact.phone = phoneValue;
+                 tempSettings.contact.phone = phoneInput?.value.trim() || ''; // Save the value AS IS
+                 tempSettings.contact.email = emailInput?.value.trim() || '';
+                 tempSettings.contact.wechat = wechatInput?.value.trim() || ''; // Save the value AS IS
 
-                 const emailValue = emailInput?.value.trim();
-                 if (emailValue) tempSettings.contact.email = emailValue;
-
-                 const wechatValue = wechatInput?.value.trim();
-                 if (wechatValue) tempSettings.contact.wechat = wechatValue;
-
-                 // Avatar preview source is already updated by selection handler.
-                 // Read it directly from the preview element.
+                 // Avatar preview source is read directly from the preview element.
                  tempSettings.profilePic = avatarPreviewContainer?.querySelector('img')?.src || null;
 
                  // QR code path is NOT read from a form preview.
@@ -2890,14 +2899,9 @@
                  tempSettings.contact.wechatQr = FIXED_WECHAT_QR_PATH;
 
 
-                 const githubValue = githubInput?.value.trim();
-                 if (githubValue) tempSettings.contact.github = githubValue;
-
-                 const welcomeMessageValue = welcomeMessageInput?.value.trim();
-                 if (welcomeMessageValue) tempSettings.welcomeMessage = welcomeMessageValue;
-
-                 const aboutMeValue = aboutMeInput?.value.trim();
-                 if (aboutMeValue) tempSettings.aboutMe = aboutMeValue;
+                 tempSettings.contact.github = githubInput?.value.trim() || '';
+                 tempSettings.welcomeMessage = welcomeMessageInput?.value.trim() || '';
+                 tempSettings.aboutMe = aboutMeInput?.value.trim() || '';
 
 
                  // Markdown content always saves whatever is in the textarea
@@ -2906,8 +2910,7 @@
 
 
                  // 3. Rebuild dynamic lists based on current form elements
-                 // IMPORTANT: This will OVERWRITE the existing lists in tempSettings
-                 // if the dynamic list container in the form is empty.
+                 // This will OVERWRITE the existing lists in tempSettings with whatever is currently in the form.
 
                  // Skills
                  tempSettings.skills = []; // Clear the array in the copy
@@ -2936,6 +2939,7 @@
                  tempSettings.experience = []; // Clear the array in the copy
                  projectsContainerEdit?.querySelectorAll('.dynamic-item').forEach(entry => {
                      const descTextarea = entry.querySelector('textarea');
+                     // Read the src from the preview element.
                      const imageSrc = entry.querySelector('.project-image-settings-preview img')?.src || null;
 
                       // Only add if description is not empty OR an image is present
@@ -2943,7 +2947,7 @@
                          tempSettings.experience.push({
                              id: entry.dataset.id || Date.now() + '_exp' + Math.random(), // Reuse ID or create new
                              desc: descTextarea?.value.trim() || '',
-                             image: imageSrc
+                             image: imageSrc // Save the data URL or path
                          });
                      }
                  });
@@ -2960,7 +2964,7 @@
                       if (schoolInput?.value.trim() || majorInput?.value.trim() || degreeInput?.value.trim() || timeInput?.value.trim()) {
                           tempSettings.education.push({
                               id: entry.dataset.id || Date.now() + '_edu' + Math.random(), // Reuse ID or create new
-                              school: schoolInput?.value.trim() || '',
+                              school: schoolInput?.value.trim() || '', // Save current input value (masked or full)
                               major: majorInput?.value.trim() || '',
                               degree: degreeInput?.value.trim() || '',
                               time: timeInput?.value.trim() || ''
@@ -2986,14 +2990,14 @@
                  otherContactsContainer?.querySelectorAll('.dynamic-item').forEach(entry => {
                      const typeInput = entry.querySelector('input[placeholder^="方式类型"]');
                      const valueInput = entry.querySelector('input[placeholder^="内容/链接"]');
-                     const iconInput = entry.querySelector('input[placeholder^="Font Awesome 图标类 (可选)"]'); // Corrected selector
+                     const iconInput = entry.querySelector('input[placeholder^="Font Awesome 图标类 (可选)"]');
 
                      // Save only if at least one field is filled
                      if (typeInput?.value.trim() || valueInput?.value.trim() || iconInput?.value.trim()) {
                          tempSettings.contact.others.push({
                              id: entry.dataset.id || Date.now() + '_con' + Math.random(), // Reuse ID if exists
                              type: typeInput?.value.trim() || '',
-                             value: valueInput?.value.trim() || '',
+                             value: valueInput?.value.trim() || '', // Save current input value (masked or full)
                              icon: iconInput?.value.trim() || ''
                          });
                      }
@@ -3011,8 +3015,10 @@
                     // Update main display immediately after saving with the new settings
                     updateResumeDisplay(currentSettings);
 
-                     // --- NEW: Clear the settings form after saving ---
-                    clearSettingsForm();
+                    // --- IMPORTANT: Reload the form with the saved (now potentially masked) data ---
+                    // This makes the form reflect the saved state.
+                    loadSettingsIntoForm(currentSettings);
+
 
                 } catch (e) {
                     console.error("Error saving settings to localStorage:", e);
@@ -3020,13 +3026,78 @@
                 }
             }
 
+            /**
+             * Loads settings from currentSettings into the settings form.
+             * Applies desensitization for specified fields for SETTINGS DISPLAY ONLY.
+             */
+             function loadSettingsIntoForm(settings) {
+                 if (!settingsForm) return;
+
+                 // Populate basic inputs with masked/full loaded settings
+                 // Apply masking here before setting the value for display in settings
+                 if (nameInput) nameInput.value = maskNameForSettings(settings.name || ''); // Masked name
+                 if (jobTitleInput) jobTitleInput.value = settings.jobTitle || ''; // Full
+                 if (ageInput) ageInput.value = settings.age || ''; // Full
+                 if (educationLevelInput) educationLevelInput.value = settings.educationLevel || ''; // Full
+                 if (locationInput) locationInput.value = maskLocation(settings.location || ''); // Masked location
+                 if (statusInput) statusInput.value = settings.status || ''; // Full
+                 if (phoneInput) phoneInput.value = maskPhoneForSettings(settings.contact?.phone || ''); // Masked phone
+                 if (emailInput) emailInput.value = settings.contact?.email || ''; // Full email (not masked usually)
+                 if (wechatInput) wechatInput.value = maskWechatForSettings(settings.contact?.wechat || ''); // Masked wechat
+                 if (githubInput) githubInput.value = settings.contact?.github || ''; // Full GitHub (not masked)
+                 if (welcomeMessageInput) welcomeMessageInput.value = settings.welcomeMessage || ''; // Full
+                 if (aboutMeInput) aboutMeInput.value = settings.aboutMe || ''; // Full
+                 if (markdownInput) markdownInput.value = settings.markdownContent || ''; // Full Markdown
+
+                 // Populate avatar preview (already handled by populateSettingsForm when page opens)
+                 // updateAvatarPreview(settings.profilePic || defaultSettings.profilePic, avatarPreviewContainer, '头像预览');
+
+                 // Clear dynamic containers before populating from saved data
+                 if (skillsContainerEdit) skillsContainerEdit.innerHTML = '';
+                 if (projectsContainerEdit) projectsContainerEdit.innerHTML = '';
+                 if (educationContainerEdit) educationContainerEdit.innerHTML = '';
+                 if (certificatesContainerEdit) certificatesContainerEdit.innerHTML = '';
+                 if (otherContactsContainer) otherContactsContainer.innerHTML = '';
+
+
+                 // Populate dynamic lists from loaded settings
+                 // Pass true flag to indicate this is a load/populate operation, not a new item add
+                 (settings.skills || []).forEach(skillCat => addSkillCategory(skillCat, false, true)); // addSkillCategory itself doesn't need masking inside unless default tags are provided
+
+                 (settings.experience || []).forEach(exp => addExperienceEntry(exp, false, true)); // addExperienceEntry doesn't need masking inside
+
+                 (settings.education || []).forEach(edu => addEducationEntry(edu, false, true)); // Pass true flag to addEducationEntry to indicate population mode
+
+                 (settings.certificates || []).forEach(cert => addCertEntry(cert, false, true)); // addCertEntry doesn't need masking
+
+                 (settings.contact?.others || []).forEach(other => addOtherContactEntry(other, false, true)); // Pass true flag to addOtherContactEntry for population mode
+
+
+                 // Set markdown checkbox state and trigger update
+                 if (useMarkdownCheckbox) {
+                     useMarkdownCheckbox.checked = settings.useMarkdown === true;
+                     // Use a slight delay to ensure the element is visible before dispatching event
+                     setTimeout(() => {
+                          useMarkdownCheckbox.dispatchEvent(new Event('change'));
+                     }, 0);
+                 }
+
+                  console.log('Settings loaded into form for editing.');
+             }
+
+
             // --- Dynamic Entry Creation Functions ---
 
-             function addSkillCategory(category = {}, save = true) {
+            // Added default value save = false and isPopulating flag
+             function addSkillCategory(category = {}, save = false, isPopulating = false) {
                  const categoryId = category.id || Date.now() + '_skillcat' + Math.random();
                  const newCategoryDiv = document.createElement('div');
                  newCategoryDiv.classList.add('skill-category');
                  newCategoryDiv.dataset.id = categoryId;
+
+                 // Display the name from the loaded category or default '新的技能类别'
+                 const displayCategoryName = category.name || '新的技能类别';
+
                  newCategoryDiv.innerHTML = `
                     <div class="skill-category-header">
                         <input type="text" class="skill-category-name" value="${category.name || ''}" placeholder="技能类别名称">
@@ -3043,18 +3114,22 @@
                     </div>
                  `;
                   skillsContainerEdit.appendChild(newCategoryDiv);
-                 // Note: We don't save automatically on adding/removing dynamic items anymore. Save is triggered by the header button.
-                 // if (save) { saveSettings(); }
+                 // Save is handled ONLY by the Save button now.
              }
 
-            function addExperienceEntry(exp = {}, save = true) {
+            // Added default value save = false and isPopulating flag
+            function addExperienceEntry(exp = {}, save = false, isPopulating = false) {
                 const entryId = exp.id || Date.now() + '_exp' + Math.random();
                 const newEntry = document.createElement('div');
                 newEntry.classList.add('dynamic-item', 'project-item');
                 newEntry.dataset.id = entryId;
+
+                // Display title based on whether description exists
+                const displayTitle = exp.desc ? '项目/经历' : '新的项目/经历';
+
                 newEntry.innerHTML = `
                     <button type="button" class="remove-btn" aria-label="移除项目"><i class="fas fa-times"></i></button>
-                    <h4>新项目/经历</h4>
+                    <h4>${displayTitle}</h4>
                      <div class="form-group">
                          <label>项目图片 (可选)</label>
                          <div class="avatar-upload">
@@ -3088,81 +3163,118 @@
                       updateAvatarPreview(exp.image, previewContainer, '图片预览');
                  }
 
-                // if (save) { saveSettings(); }
+                // Save is handled ONLY by the Save button now.
             }
 
-             function addEducationEntry(edu = {}, save = true) {
+             // Added default value save = false and isPopulating flag
+             function addEducationEntry(edu = {}, save = false, isPopulating = false) {
                  const entryId = edu.id || Date.now() + '_edu' + Math.random();
                  const newEntry = document.createElement('div');
                  newEntry.classList.add('dynamic-item', 'education-item');
                  newEntry.dataset.id = entryId;
+
+                 // Apply masking only for settings display when loading existing data
+                 const displaySchool = isPopulating ? maskSchoolNameForSettings(edu.school || '') : (edu.school || '');
+                 const displayMajor = edu.major || ''; // Not masked
+                 const displayDegree = edu.degree || ''; // Not masked
+                 const displayTime = edu.time || ''; // Not masked
+
+                 // Display title based on whether school name exists
+                 const displayTitle = displaySchool ? displaySchool : '新的教育经历';
+
+
                  newEntry.innerHTML = `
                      <button type="button" class="remove-btn" aria-label="移除教育经历"><i class="fas fa-times"></i></button>
-                      <h4>新的教育经历</h4>
+                      <h4>${displayTitle}</h4>
                      <div class="form-group">
                          <label>学校名称</label>
-                         <input type="text" placeholder="请输入学校名称" value="${edu.school || ''}">
+                         <input type="text" placeholder="请输入学校名称" value="${displaySchool}">
                      </div>
                      <div class="form-group">
                          <label>专业</label>
-                         <input type="text" placeholder="请输入专业名称" value="${edu.major || ''}">
+                         <input type="text" placeholder="请输入专业名称" value="${displayMajor}">
                      </div>
                      <div class="form-group">
                          <label>学历</label>
-                         <input type="text" placeholder="请输入学历" value="${edu.degree || ''}">
+                         <input type="text" placeholder="请输入学历" value="${displayDegree}">
                      </div>
                      <div class="form-group">
                          <label>在校时间</label>
-                         <input type="text" placeholder="例如：2021.09 - 2024.06" value="${edu.time || ''}">
+                         <input type="text" placeholder="例如：2021.09 - 2024.06" value="${displayTime}">
                      </div>
                  `;
                  educationContainerEdit.appendChild(newEntry);
-                 // if (save) { saveSettings(); }
+                 // Save is handled ONLY by the Save button now.
              }
 
-             function addCertEntry(cert = {}, save = true) {
+            // Added default value save = false and isPopulating flag
+             function addCertEntry(cert = {}, save = false, isPopulating = false) {
                  const entryId = cert.id || Date.now() + '_cert' + Math.random();
                  const newEntry = document.createElement('div');
                  newEntry.classList.add('dynamic-item', 'certificate-item');
                  newEntry.dataset.id = entryId;
+
+                 // Display title based on whether name exists
+                 const displayTitle = cert.name ? cert.name : '新的证书';
+
                  newEntry.innerHTML = `
                     <button type="button" class="remove-btn" aria-label="移除证书"><i class="fas fa-times"></i></button>
-                     <h4>新的证书</h4>
+                     <h4>${displayTitle}</h4>
                      <div class="form-group">
                          <label>证书名称</label>
                          <input type="text" placeholder="请输入证书名称" value="${cert.name || ''}">
                      </div>
                  `;
                  certificatesContainerEdit.appendChild(newEntry);
-                 // if (save) { saveSettings(); }
+                 // Save is handled ONLY by the Save button now.
              }
 
-             // addOtherContactEntry function is kept
-             function addOtherContactEntry(other = {}, save = true) {
+             // Added default value save = false and isPopulating flag
+             function addOtherContactEntry(other = {}, save = false, isPopulating = false) {
                  const entryId = other.id || Date.now() + '_con' + Math.random();
                  const newEntry = document.createElement('div');
                  newEntry.classList.add('dynamic-item');
                  newEntry.dataset.id = entryId; // Add dataset.id here
+
+                 let displayValue = other.value || '';
+                 // Apply masking based on icon or type, only when populating
+                 if (isPopulating) {
+                     if (other.icon === 'fas fa-phone' || (other.type || '').toLowerCase() === '电话') {
+                         displayValue = maskPhoneForSettings(other.value || '');
+                     } else if (other.icon === 'fab fa-weixin' || (other.type || '').toLowerCase() === '微信') {
+                         displayValue = maskWechatForSettings(other.value || '');
+                     }
+                     // Note: Other types of values (like URLs) are not masked
+                 }
+
+                 const displayType = other.type || '';
+                 const displayIcon = other.icon || '';
+
+                 // Display title based on whether type exists
+                 const displayTitle = displayType || '其他联系方式';
+
+
                  newEntry.innerHTML = `
                     <button type="button" class="remove-btn" aria-label="移除联系方式"><i class="fas fa-times"></i></button>
-                     <h4>其他联系方式</h4>
+                     <h4>${displayTitle}</h4>
                      <div class="form-group">
                          <label>方式类型 (例如：QQ, Telegram, 链接)</label>
-                         <input type="text" placeholder="例如：QQ" value="${other.type || ''}">
+                         <input type="text" placeholder="例如：QQ" value="${displayType}">
                      </div>
                      <div class="form-group">
                          <label>内容/链接</label>
-                         <input type="text" placeholder="例如：123456789 或 https://example.com" value="${other.value || ''}">
+                         <input type="text" placeholder="例如：123456789 或 https://example.com" value="${displayValue}">
                      </div>
                      <div class="form-group">
                          <label>Font Awesome 图标类 (可选)</label>
-                         <input type="text" placeholder="例如：fab fa-qq 或 fas fa-globe" value="${other.icon || ''}">
+                         <input type="text" placeholder="例如：fab fa-qq 或 fas fa-globe" value="${displayIcon}">
                           <div class="hint">参考: <a href="https://fontawesome.com/icons" target="_blank">fontawesome.com/icons</a> (使用 v6 版本)</div>
                      </div>
                  `;
                  otherContactsContainer.appendChild(newEntry);
-                 // if (save) { saveSettings(); }
+                 // Save is handled ONLY by the Save button now.
              }
+
 
              /**
               * Handle file upload for images (used for Project images).
@@ -3206,16 +3318,23 @@
                       // We just confirm a file was selected and proceed.
 
                       // 1. Update the stored QR path to the fixed path
-                      currentSettings.contact.wechatQr = FIXED_WECHAT_QR_PATH;
+                      // This is already the default and should not change unless we added a feature
+                      // to allow changing the path. We are keeping the fixed path logic.
+                      // currentSettings.contact.wechatQr = FIXED_WECHAT_QR_PATH; // This line might be redundant but harmless
 
                       // 2. Update the main resume display (specifically the QR modal image)
-                      if (wechatQrImageModal) {
-                           wechatQrImageModal.src = currentSettings.contact.wechatQr;
-                      }
-                       // Other parts of updateResumeDisplay are triggered by saveSettings or initial load
+                      // We force reload the image by appending a timestamp to bypass cache
+                      // This is crucial so the user sees the *new* image after they manually replace it.
+                       const timestamp = new Date().getTime();
+                       if (wechatQrImageModal) {
+                            // Only append timestamp if the path is the fixed one and doesn't already have a query
+                           const separator = currentSettings.contact.wechatQr.includes('?') ? '&' : '?';
+                           wechatQrImageModal.src = `${currentSettings.contact.wechatQr}${separator}_=${timestamp}`;
+                       }
+
 
                       // 3. Show a notification with instructions
-                      showNotification('已选择二维码图片。请手动将图片重命名为 **WeChatQC.png** 并替换到项目文件夹的 **图片/二维码/** 路径下。然后点击 **保存设置**。', 'warning');
+                      showNotification('已选择二维码图片文件 (' + file.name + ')。请手动将图片重命名为 **WeChatQC.png** 并替换到项目文件夹的 **图片/二维码/** 路径下。然后点击 **保存设置**。', 'warning');
                        console.log(`User selected file: ${file.name}. Instructing user to manually replace ${FIXED_WECHAT_QR_PATH}.`);
 
                       // 4. Optional: Clear the file input value so selecting the same file again triggers change
@@ -3264,6 +3383,8 @@
                          // Update the avatar preview in the settings page
                          updateAvatarPreview(selectedAvatarPath, avatarPreviewContainer, '头像预览');
                          // Update the currentSettings object directly (this is NOT saved until button click)
+                         // This ensures the path is in currentSettings even if user navigates away without saving
+                         // and comes back. But saveSettings will ultimately read from the preview.
                          currentSettings.profilePic = selectedAvatarPath;
                          // Note: Settings will be saved when the user clicks the "保存设置" button.
                          closeModal(avatarSelectionModal);
@@ -3303,7 +3424,7 @@
 
 
                 if (isCopyTrigger) {
-                    // Apply masking if needed and make it a copy trigger
+                    // Apply masking if needed and make it a copy trigger (using main display mask)
                     if (typeForMaskingCopy === 'phone' || typeForMaskingCopy === 'wechat') {
                         displayedText = maskContact(rawValueOrText, typeForMaskingCopy);
                     }
@@ -3373,7 +3494,7 @@
                 if (isWechatModalTrigger) {
                     // Special case for the main wechat entry with tooltip/modal
                     li.classList.add('wechat-hover-trigger');
-                    // Displayed text should be masked
+                    // Displayed text should be masked (using the main display mask)
                     displayedText = maskContact(rawValueOrText, 'wechat');
 
                     // Create the copy trigger span for the masked text
@@ -3386,6 +3507,7 @@
                     // Create the tooltip div
                     const tooltipDiv = document.createElement('div');
                     tooltipDiv.classList.add('wechat-tooltip');
+                     // Use the fixed QR path for the image source
                     tooltipDiv.innerHTML = `
                         <img src="${currentSettings.contact?.wechatQr || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}" alt="微信二维码">
                         <span>微信扫码联系我</span>
@@ -3399,7 +3521,7 @@
 
                      return li; // Return the constructed LI directly
                 } else if (isCopyTrigger) {
-                    // Apply masking if needed and make it a copy trigger
+                    // Apply masking if needed and make it a copy trigger (using main display mask)
                      if (typeForMaskingCopy === 'phone' || typeForMaskingCopy === 'wechat') {
                         displayedText = maskContact(rawValueOrText, typeForMaskingCopy);
                     }
@@ -3522,7 +3644,9 @@
                     }
 
                     // Handle click on "更换二维码" button to open the warning modal
-                    if (event.target.closest('#change-wechat-qr-button')) {
+                    // This button triggers the modal, NOT the file input directly
+                    const changeWechatQrButton = event.target.closest('#change-wechat-qr-button'); // Re-select here or use outer scope var
+                    if (changeWechatQrButton) {
                          event.preventDefault();
                          openModal(wechatWarningModal);
                          return; // Stop propagation
@@ -3539,6 +3663,9 @@
                            // No need to call saveSettings here, it's done via the button
                       }
                        // Check if the changed element is the wechat QR upload input (triggered AFTER the warning modal)
+                       // Note: This listener is attached to settingsPageElement, but the input is hidden.
+                       // The click handler on confirmWechatQrChangeButton programmatically clicks the input.
+                       // So this 'change' event *will* fire when a file is selected via that programmatic click.
                       else if (event.target === wechatQrUploadInput) {
                            handleWechatQrFileSelect(event); // Call the specific handler for QR
                        }
@@ -3569,7 +3696,7 @@
                 if (settingsSaveButtonHeader) {
                     settingsSaveButtonHeader.addEventListener('click', (e) => {
                         e.preventDefault();
-                        saveSettings();
+                        saveSettings(); // This is the ONLY place saveSettings should be called
                     });
                 }
 
@@ -3577,16 +3704,19 @@
                  settingsForm.addEventListener('submit', (e) => {
                      e.preventDefault();
                      // For simplicity, let's rely only on the Save button click for now.
-                     console.log("Form submit event triggered, but saveSettings() is linked to the header button.");
+                     // If you want pressing Enter in a text field to save, link saveSettings() here.
+                     // But be careful, it might save partial data if not all fields are filled.
+                     console.log("Form submit event triggered, relying on header button for save.");
                  });
 
 
                 // "Add" Buttons (These don't need delegation, attach directly)
-                if (addSkillCategoryBtn) addSkillCategoryBtn.addEventListener('click', (e) => { e.preventDefault(); addSkillCategory(); });
-                if (addProjectBtn) addProjectBtn.addEventListener('click', (e) => { e.preventDefault(); addExperienceEntry(); });
-                if (addEducationBtn) addEducationBtn.addEventListener('click', (e) => { e.preventDefault(); addEducationEntry(); });
-                if (addCertificateBtn) addCertificateBtn.addEventListener('click', (e) => { e.preventDefault(); addCertEntry(); });
-                 if (addOtherContactBtn) addOtherContactBtn.addEventListener('click', (e) => { e.preventDefault(); addOtherContactEntry(); });
+                // *** IMPORTANT FIX: Ensure save=false is passed or default is false ***
+                if (addSkillCategoryBtn) addSkillCategoryBtn.addEventListener('click', (e) => { e.preventDefault(); addSkillCategory({}); }); // Pass empty object and default save=false
+                if (addProjectBtn) addProjectBtn.addEventListener('click', (e) => { e.preventDefault(); addExperienceEntry({}); }); // Pass empty object and default save=false
+                if (addEducationBtn) addEducationBtn.addEventListener('click', (e) => { e.preventDefault(); addEducationEntry({}); }); // Pass empty object and default save=false
+                if (addCertificateBtn) addCertificateBtn.addEventListener('click', (e) => { e.preventDefault(); addCertEntry({}); }); // Pass empty object and default save=false
+                 if (addOtherContactBtn) addOtherContactBtn.addEventListener('click', (e) => { e.preventDefault(); addOtherContactEntry({}); }); // Pass empty object and default save=false
 
 
                 // Placeholder Buttons (No change needed for these)
@@ -3616,6 +3746,9 @@
                           useMarkdownCheckbox.dispatchEvent(new Event('change'));
                      }, 50);
                 }
+
+                 // Call loadSettingsIntoForm after the settings page is shown and its elements are accessible
+                 // This is done within the modified showPage function triggered by the settings button click.
 
             } else {
                  console.error("Required settings elements (form or settings page div) not found!");
@@ -3676,6 +3809,28 @@
                  avatarCountSpan.textContent = AVATAR_COUNT;
              }
 
+             // --- Modify showPage function to load settings into form when opening settings page ---
+             // Re-declare showPage or modify it after its initial declaration
+             const originalShowPage = showPage;
+             showPage = function(pageIdToShow) {
+                 // When navigating *away* from settings, perform a soft clear if needed (currently commented out)
+                 // if (currentPageId === 'settings-page' && pageIdToShow !== 'settings-page') {
+                 //    clearSettingsForm(); // Only clear when leaving settings
+                 // }
+
+                 originalShowPage(pageIdToShow); // Run original logic (handles displaying the correct page)
+
+                 if (pageIdToShow === 'settings-page') {
+                      // When opening settings:
+                      // Load settings into the form with desensitization
+                      loadSettingsIntoForm(currentSettings);
+                 }
+                 // Update currentPageId after the page switch is complete
+                 // currentPageId = pageIdToShow;
+             };
+
+             // Initial population of settings form is now handled *inside* the modified showPage function
+             // triggered by the click on the settings button.
 
         }); // End DOMContentLoaded
     </script>
