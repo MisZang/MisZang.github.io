@@ -357,10 +357,18 @@
               margin-bottom: 15px;
           }
 
+        /* Style for the actual project image */
+         .project img {
+             max-width: 100%;
+             height: auto;
+             display: block;
+             margin-top: 15px; /* Match placeholder margin */
+             border-radius: 5px;
+         }
 
         .project-image-placeholder {
             width: 100%;
-            height: 150px;
+            height: 150px; /* Keep a fixed height for placeholder */
             background-color: var(--tag-bg);
             border-radius: 5px;
             display: flex;
@@ -370,12 +378,10 @@
             font-style: italic;
             margin-top: 15px;
             overflow: hidden;
+            flex-shrink: 0; /* Prevent shrinking in flex layout */
         }
-         .project-image-placeholder img {
-             width: 100%;
-             height: 100%;
-             object-fit: cover;
-         }
+        /* If project has an image, hide the placeholder or ensure it's replaced */
+        /* We will handle replacement in JS by checking for image source */
 
 
         .certifications ul li, .online-presence ul li {
@@ -810,6 +816,7 @@
             display: flex;
             align-items: center;
             margin-bottom: 20px;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
         }
 
         .avatar-preview {
@@ -828,6 +835,19 @@
              text-align: center;
              flex-shrink: 0;
         }
+        /* Style for project image preview */
+        .project-image-settings-preview {
+             width: 150px; /* Slightly larger preview for project image */
+             height: 100px;
+             border-radius: 5px; /* Rectangle corners */
+             margin-bottom: 15px; /* Add margin below on smaller screens */
+             /* Overrides for project image preview */
+             border-radius: 5px;
+             border: 1px dashed var(--primary-color); /* Dashed border for project image */
+             margin-right: 20px;
+             flex-shrink: 0;
+        }
+
 
         .avatar-preview img {
             width: 100%;
@@ -837,7 +857,16 @@
 
         .avatar-controls {
             flex-grow: 1;
+             /* Allow controls to take full width on wrap */
+             width: 100%;
+             padding-top: 10px; /* Add padding when wrapped */
         }
+         /* Adjust controls when not wrapped */
+         .avatar-upload:not(.wrapped) .avatar-controls {
+              padding-top: 0;
+              width: auto;
+         }
+
 
         .file-input-wrapper {
             position: relative;
@@ -940,8 +969,6 @@
         .add-item-btn:hover {
             background-color: #27ae60;
         }
-
-        /* Removed the save-section style */
 
 
         .notification {
@@ -1113,12 +1140,10 @@
                  margin-top: 5px; /* Space below title */
               }
 
-
              /* Adjust padding for the form content in mobile */
              #settings-page form {
                   padding-top: 100px; /* Increase padding for mobile header height */
              }
-
 
              #settings-page .settings-section {
                  padding: 15px;
@@ -1132,6 +1157,33 @@
                  margin-bottom: 15px;
                  margin-right: 0;
              }
+             .project-image-settings-preview { /* Adjust project preview for mobile */
+                 margin-right: 0;
+                 margin-bottom: 15px;
+             }
+              .avatar-controls { /* Mobile controls take full width below preview */
+                 width: 100%;
+                  padding-top: 0;
+              }
+              .avatar-upload:not(.wrapped) .avatar-controls {
+                   padding-top: 0;
+                   width: auto; /* Reset if somehow applied */
+               }
+               /* Force controls below preview on mobile */
+              .avatar-upload {
+                   flex-direction: column;
+                   align-items: flex-start;
+               }
+              .avatar-upload .avatar-preview {
+                  margin-right: 0;
+                  margin-bottom: 15px;
+              }
+              .avatar-upload .avatar-controls {
+                  width: 100%;
+                  padding-top: 0;
+              }
+
+
              .skill-category-header {
                 flex-direction: column;
                  align-items: flex-start;
@@ -1172,6 +1224,10 @@
                 font-size: 1.8em;
                 padding: 15px 20px;
             }
+             /* Adjust project image/placeholder margin for mobile */
+             .project img, .project-image-placeholder {
+                 margin-top: 10px;
+             }
         }
 
         @media (max-width: 480px) {
@@ -1539,8 +1595,6 @@
                             <div class="hint">未来将支持添加自定义 CSS 样式。</div>
                         </div>
                     </div>
-
-                    <!-- Removed the save-section block -->
                 </form>
             </div>
         </div>
@@ -1568,9 +1622,6 @@
             const fireworksContainer = document.getElementById('fireworks-container');
             const welcomeMessageDisplay = document.getElementById('welcome-message');
 
-            // To ensure the welcome message is set *before* the overlay potentially shows,
-            // we will move the fireworks/overlay logic slightly to run after initial settings load and display update.
-            // For now, let's leave the initializer here, but the actual showing depends on updateResumeDisplay setting the text.
             let fireworks = null;
             if (fireworksContainer && typeof Fireworks !== 'undefined') {
                  fireworks = new Fireworks(fireworksContainer, {
@@ -1588,10 +1639,8 @@
                      brightness: { min: 50, max: 80 },
                      decay: { min: 0.015, max: 0.03 }
                  });
-                 // fireworks.start() will be called after updateResumeDisplay
             } else {
                 console.warn("无法初始化欢迎特效：元素或 Fireworks 库未找到。");
-                 // Ensure overlay is hidden if fireworks not initialized
                  if(overlay) overlay.style.display = 'none';
             }
 
@@ -1772,6 +1821,7 @@
             let currentSettings = {};
 
             // Selectors for Settings Page Elements
+            const settingsPageElement = document.getElementById('settings-page'); // Get the settings page div
             const settingsForm = document.getElementById('settings-form');
             const avatarUploadInput = document.getElementById('avatar-upload-input');
             const avatarPreviewContainer = document.getElementById('avatar-preview-container');
@@ -1804,7 +1854,6 @@
             const markdownEditorSection = document.getElementById('markdown-editor-section');
             const resumeParseBtn = document.getElementById('resume-parse-btn');
             const customCssBtn = document.getElementById('custom-css-btn');
-            // Removed saveSettingsBtn variable
 
             const notificationElement = document.getElementById('notification');
 
@@ -1812,7 +1861,6 @@
             const sidebarAvatar = document.querySelector('.sidebar .profile-pic-placeholder img');
             const sidebarNameSpan = document.querySelector('#profile-home-link span');
             const sidebarJobTitle = document.querySelector('.job-title-sidebar');
-            // Corrected selectors to point to the inner spans
             const sidebarAgeSpan = document.querySelector('.sidebar-info.basic-info .sidebar-age');
             const sidebarEducationSpan = document.querySelector('.sidebar-info.basic-info .sidebar-education');
             const sidebarLocationSpan = document.querySelector('.sidebar-info.basic-info .sidebar-location');
@@ -1857,7 +1905,7 @@
                      { id: 3, name: '其它能力', tags: ['逻辑思维', '问题解决', '快速学习', '文档撰写', '沟通协作', '数据分析基础'] }
                  ],
                 experience: [
-                    { id: 1, desc: `**独立开发类微信 IM 应用 (2023.09 - 2024.01)**
+                    { id: 1, image: null, desc: `**独立开发类微信 IM 应用 (2023.09 - 2024.01)**
 *   **技术栈:** Java (Spring Boot), Vue.js, Electron, WebSocket, MySQL
 *   **职责:** 独立完成需求分析、架构设计、前后端开发、数据库设计及部署。
 *   **成果:** 实现用户注册/登录、单聊/群聊、好友管理、消息实时推送、历史消息存储、文件传输等核心功能。熟练掌握了全栈开发流程及相关技术。
@@ -1892,12 +1940,18 @@
                     if (source.hasOwnProperty(key)) {
                         if (typeof source[key] === 'object' && source[key] !== null && key in target && typeof target[key] === 'object' && target[key] !== null) {
                              if (Array.isArray(source[key])) {
-                                 target[key] = source[key];
+                                 // For arrays, replace if source is present, otherwise keep target
+                                 if (source[key] !== undefined) {
+                                      target[key] = source[key];
+                                 }
                              } else {
                                 deepMerge(target[key], source[key]);
                              }
                         } else {
-                            target[key] = source[key];
+                            // For primitive types or null/undefined, replace if source is present
+                            if (source[key] !== undefined) {
+                                 target[key] = source[key];
+                            }
                         }
                     }
                 }
@@ -1912,8 +1966,12 @@
                 const storedSettings = localStorage.getItem(SETTINGS_STORAGE_KEY);
                 try {
                     const parsedSettings = storedSettings ? JSON.parse(storedSettings) : {};
-                    currentSettings = deepMerge(JSON.parse(JSON.stringify(defaultSettings)), parsedSettings);
+                    // Start with a fresh copy of defaults
+                    currentSettings = JSON.parse(JSON.stringify(defaultSettings));
+                    // Deep merge stored settings on top of defaults
+                    deepMerge(currentSettings, parsedSettings);
 
+                     // Ensure necessary nested structures exist if not loaded
                      if (!currentSettings.contact) currentSettings.contact = {};
                      if (!currentSettings.contact.others) currentSettings.contact.others = [];
                      if (!currentSettings.skills) currentSettings.skills = [];
@@ -1925,12 +1983,15 @@
 
                 } catch (e) {
                     console.error("Error parsing settings from localStorage:", e);
-                    currentSettings = JSON.parse(JSON.stringify(defaultSettings));
+                    currentSettings = JSON.parse(JSON.stringify(defaultSettings)); // Fallback to defaults
                 }
                 updateResumeDisplay(currentSettings);
 
                 // Start fireworks after settings are loaded and welcome message is set
-                if(fireworks && overlay && welcomeMessageDisplay && welcomeMessageDisplay.textContent) {
+                // Check if welcome message is not empty before starting fireworks
+                if(fireworks && overlay && welcomeMessageDisplay?.textContent) {
+                     // Hide overlay initially, show it only if there's a message and fireworks start
+                     overlay.style.display = 'none'; // Start hidden in case no message
                      fireworks.start();
                      overlay.style.display = 'block'; // Ensure overlay is visible before fading
                      overlay.style.opacity = '1';
@@ -1985,7 +2046,7 @@
 
                 if (projectsContainerEdit) {
                     projectsContainerEdit.innerHTML = '';
-                     [...(data.experience || [])].forEach(exp => addExperienceEntry(exp, false));
+                     [...(data.experience || [])].forEach(exp => addExperienceEntry(exp, false)); // Pass the whole experience object including image
                 }
 
                 if (educationContainerEdit) {
@@ -2035,7 +2096,7 @@
                     const hasGithub = !!contacts.github;
                     const hasOthers = contacts.others && contacts.others.length > 0;
 
-                    sidebarContactList.innerHTML = '';
+                    sidebarContactList.innerHTML = ''; // Clear existing list
 
                     if (hasPhone) sidebarContactList.appendChild(createSidebarContactLi('fas fa-phone', `tel:${contacts.phone}`, `<strong>电话:</strong> ${contacts.phone}`));
                     if (hasEmail) sidebarContactList.appendChild(createSidebarContactLi('fas fa-envelope', `mailto:${contacts.email}`, `<strong>邮箱:</strong> ${contacts.email}`));
@@ -2047,30 +2108,33 @@
                          let target = '_blank';
                          let rel = 'noopener noreferrer';
                           if (!other.value.startsWith('http://') && !other.value.startsWith('https://') && !other.value.startsWith('tel:') && !other.value.startsWith('mailto:') && other.icon !== 'fab fa-weixin') {
-                             href = 'javascript:void(0);';
-                             target = null;
+                             href = 'javascript:void(0);'; // If not a standard link/contact format, make it js:void
+                             target = null; // Don't open in new tab if it's not a valid link
                              rel = null;
-                             text = other.type ? `${other.type}: ${text}` : text;
-                          } else if (other.type) {
-                               text = other.type;
-                          }
+                             text = other.type ? `${other.type}: ${text}` : text; // Prepend type if available
+                          } else if (other.type && text === other.value) {
+                               // If type is provided and text is just the value, format as "Type: Value"
+                               text = `${other.type}: ${text}`;
+                          } else if (other.type && !text) {
+                               // If type is provided but no value, just show type? Or skip?
+                               text = other.type; // Show type name
+                           }
+
+
                         sidebarContactList.appendChild(createSidebarContactLi(other.icon || 'fas fa-link', href, text, target, rel));
                     });
 
                      if (sidebarContactList.children.length === 0) {
                           sidebarContactTrigger.style.display = 'none';
-                          sidebarContactContent.style.display = 'none';
+                          sidebarContactContent.style.display = 'none'; // Also hide content if list is empty
                      } else {
-                          sidebarContactTrigger.style.display = '';
-                          if (sidebarContactTrigger.classList.contains('active')) {
-                               sidebarContactContent.style.display = 'block';
-                           } else {
-                                sidebarContactContent.style.display = 'none';
-                           }
+                          sidebarContactTrigger.style.display = ''; // Show trigger
+                          // Keep content display based on active class, handled by collapsible logic
+                          // sidebarContactContent.style.display is handled by collapsible logic
                      }
                 }
                  if (wechatQrImageModal) {
-                      wechatQrImageModal.src = data.contact?.wechatQr || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                      wechatQrImageModal.src = data.contact?.wechatQr || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Use default transparent pixel if no image
                  }
 
                 // Main Content Updates (Resume Page)
@@ -2078,12 +2142,12 @@
 
                  if (mainAboutMeDiv && mainSkillsGrid && mainExperienceSection && mainEducationSection && mainCertsList && mainContactList && mainMarkdownDisplaySection) {
                     const sectionsToToggle = [
-                        mainAboutMeDiv.parentElement,
-                        mainSkillsGrid.parentElement,
-                        mainExperienceSection,
-                        mainEducationSection,
-                        mainCertsList.parentElement,
-                        mainContactList.parentElement
+                        mainAboutMeDiv.parentElement, // Parent .section of about me
+                        mainSkillsGrid.parentElement, // Parent .section of skills
+                        mainExperienceSection, // Experience section itself
+                        mainEducationSection, // Education section itself
+                        mainCertsList.parentElement, // Parent .section of certs
+                        mainContactList.parentElement // Parent .section of online presence
                     ];
 
                     sectionsToToggle.forEach(section => {
@@ -2128,11 +2192,19 @@
                                 projectDiv.className = 'project';
                                 projectDiv.innerHTML = htmlDesc;
 
-                                  // Add generic placeholder if no image provided/found
-                                   const placeholder = document.createElement('div');
-                                   placeholder.className = 'project-image-placeholder';
-                                   placeholder.textContent = '项目图片/占位符';
-                                   projectDiv.appendChild(placeholder);
+                                   // Add image or placeholder
+                                  if (exp.image) {
+                                       const img = document.createElement('img');
+                                       img.src = exp.image;
+                                       img.alt = (exp.desc ? exp.desc.substring(0, 20) : '项目图片') + '...'; // Simple alt text from description
+                                       projectDiv.appendChild(img); // Append the image
+                                  } else {
+                                       const placeholder = document.createElement('div');
+                                       placeholder.className = 'project-image-placeholder';
+                                       placeholder.textContent = '项目图片/占位符';
+                                       projectDiv.appendChild(placeholder); // Append the placeholder div
+                                  }
+
 
                                 mainExperienceSection.appendChild(projectDiv);
                                  // Add separator if not the last project
@@ -2203,9 +2275,11 @@
                                   target = null;
                                   rel = null;
                                   text = other.type ? `${other.type}: ${text}` : text;
-                              } else if (other.type) {
-                                   text = other.type ? `${other.type}: ${text}` : text;
-                              }
+                              } else if (other.type && text === other.value) {
+                                   text = `${other.type}: ${text}`;
+                              } else if (other.type && !text) {
+                                   text = other.type;
+                               }
                             mainContactList.appendChild(createMainContactLi(other.icon || 'fas fa-link', href, text, target, rel));
                         });
 
@@ -2270,18 +2344,22 @@
 
                 html = htmlLines.join('\n');
 
+                 // Wrap blocks that are not lists or headings into paragraphs
                  html = html.split(/\n\s*\n+/).map(block => {
                      const trimmedBlock = block.trim();
                      if (!trimmedBlock) return '';
 
-                     if (trimmedBlock.startsWith('<h') || trimmedBlock.startsWith('<ul') || trimmedBlock.startsWith('<p') || trimmedBlock.startsWith('<div')) { // Added div check for image placeholders
+                     // Check if the block already starts with a common HTML tag we handle
+                     if (/^<(h[1-6]|ul|ol|p|div|img)/i.test(trimmedBlock)) {
                           return block;
                      }
 
+                     // Convert remaining newlines within the block to <br>
                      const htmlBlock = trimmedBlock.replace(/\n/g, '<br>');
                      return `<p>${htmlBlock}</p>`;
                  }).join('');
 
+                 // Remove empty paragraphs that might result from split/join
                  html = html.replace(/<p>\s*<\/p>/g, '');
 
 
@@ -2345,10 +2423,14 @@
 
                  projectsContainerEdit?.querySelectorAll('.dynamic-item').forEach(entry => {
                      const descTextarea = entry.querySelector('textarea');
-                     if (descTextarea?.value.trim()) {
+                     // Get the image source from the preview img tag within this item
+                     const imageSrc = entry.querySelector('.project-image-settings-preview img')?.src || null;
+
+                     if (descTextarea?.value.trim() || imageSrc) { // Only save if description or image exists
                          newSettings.experience.push({
                              id: entry.dataset.id || Date.now() + '_exp' + Math.random(),
-                             desc: descTextarea.value.trim()
+                             desc: descTextarea?.value.trim() || '', // Ensure desc is saved even if only image
+                             image: imageSrc
                          });
                      }
                  });
@@ -2400,7 +2482,7 @@
                     localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(currentSettings));
                     showNotification('设置已成功保存！', 'success');
                     console.log('Settings saved:', currentSettings);
-                    updateResumeDisplay(currentSettings);
+                    updateResumeDisplay(currentSettings); // Update main display immediately after saving
                 } catch (e) {
                     console.error("Error saving settings to localStorage:", e);
                     showNotification('保存设置时出错，请检查浏览器是否支持或空间已满。', 'error');
@@ -2430,7 +2512,8 @@
                     </div>
                  `;
                   skillsContainerEdit.appendChild(newCategoryDiv);
-                 if (save) { /* saveSettings(); */ }
+                 // Note: We don't save automatically on adding/removing dynamic items anymore. Save is triggered by the header button.
+                 // if (save) { saveSettings(); }
              }
 
             function addExperienceEntry(exp = {}, save = true) {
@@ -2441,6 +2524,24 @@
                 newEntry.innerHTML = `
                     <button type="button" class="remove-btn" aria-label="移除项目"><i class="fas fa-times"></i></button>
                     <h4>新项目/经历</h4>
+                     <div class="form-group">
+                         <label>项目图片 (可选)</label>
+                         <div class="avatar-upload">
+                             <div class="avatar-preview project-image-settings-preview">
+                                  <span>图片预览</span>
+                             </div>
+                             <div class="avatar-controls">
+                                 <div class="form-group file-input-wrapper">
+                                     <div class="file-input-button">
+                                         <i class="fas fa-upload"></i> 上传图片
+                                     </div>
+                                     <!-- Added class for delegation -->
+                                     <input type="file" class="project-image-upload-input" accept="image/*">
+                                 </div>
+                                 <div class="hint">仅支持上传一张图片，旧图片将被替换。推荐比例 16:9 或 4:3</div>
+                             </div>
+                         </div>
+                     </div>
                     <div class="form-group">
                         <label>描述 (Markdown)</label>
                         <textarea placeholder="详细描述您的项目或实践经历...">${exp.desc || ''}</textarea>
@@ -2448,7 +2549,14 @@
                     </div>
                 `;
                 projectsContainerEdit.appendChild(newEntry);
-                if (save) { /* saveSettings(); */ }
+
+                // Update the image preview if image data exists in the loaded object
+                 const previewContainer = newEntry.querySelector('.project-image-settings-preview');
+                 if (previewContainer && exp.image) {
+                     updateAvatarPreview(exp.image, previewContainer, '图片预览');
+                 }
+
+                // if (save) { saveSettings(); }
             }
 
              function addEducationEntry(edu = {}, save = true) {
@@ -2477,7 +2585,7 @@
                      </div>
                  `;
                  educationContainerEdit.appendChild(newEntry);
-                 if (save) { /* saveSettings(); */ }
+                 // if (save) { saveSettings(); }
              }
 
              function addCertEntry(cert = {}, save = true) {
@@ -2494,7 +2602,7 @@
                      </div>
                  `;
                  certificatesContainerEdit.appendChild(newEntry);
-                 if (save) { /* saveSettings(); */ }
+                 // if (save) { saveSettings(); }
              }
 
              function addOtherContactEntry(other = {}, save = true) {
@@ -2520,37 +2628,50 @@
                      </div>
                  `;
                  otherContactsContainer.appendChild(newEntry);
-                 if (save) { /* saveSettings(); */ }
+                 // if (save) { saveSettings(); }
              }
 
 
             // --- Helper Functions ---
 
+            // Reusable file upload handler
             function handleFileUpload(event, previewContainer, placeholderText) {
                 const file = event.target.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        updateAvatarPreview(e.target.result, previewContainer, placeholderText);
+                if (file) {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            updateAvatarPreview(e.target.result, previewContainer, placeholderText);
+                        }
+                        reader.readAsDataURL(file);
+                    } else {
+                        showNotification('请选择一个图片文件。', 'error');
+                        // Clear the file input value so the same file can be selected again after error
+                        event.target.value = '';
+                         // Optionally clear the preview if a non-image was selected
+                         // updateAvatarPreview(null, previewContainer, placeholderText);
                     }
-                    reader.readAsDataURL(file);
-                } else if (file) {
-                    showNotification('请选择一个图片文件。', 'error');
+                } else {
+                    // If no file selected (e.g. user cancelled), potentially clear preview
+                    // updateAvatarPreview(null, previewContainer, placeholderText);
                 }
+                 // Clear the file input value after processing or error, allows re-selection
                  event.target.value = '';
             }
 
+            // Reusable image preview updater
             function updateAvatarPreview(src, previewContainer, placeholderText = '图片预览') {
                  if (previewContainer) {
-                     previewContainer.innerHTML = '';
+                     previewContainer.innerHTML = ''; // Clear existing content
 
                      if (src) {
                          const img = document.createElement('img');
                          img.src = src;
-                         img.alt = placeholderText;
+                         img.alt = placeholderText.replace('预览', '图片'); // Use "图片" for alt text
+                         // Handle potential errors loading data URL, although less common than external URLs
                          img.onerror = () => {
-                             console.warn(`Failed to load image: ${src}. Displaying placeholder.`);
-                              previewContainer.innerHTML = `<span>${placeholderText}</span>`;
+                             console.warn(`Failed to load image data for preview. Displaying placeholder.`);
+                             previewContainer.innerHTML = `<span>${placeholderText}</span>`;
                          };
                          previewContainer.appendChild(img);
                      } else {
@@ -2558,13 +2679,14 @@
                           span.textContent = placeholderText;
                           previewContainer.appendChild(span);
                      }
-                     previewContainer.dataset.currentSrc = src;
+                     // previewContainer.dataset.currentSrc = src; // Removed this, img src is sufficient
                  }
             }
 
              function wrapInParagraphs(text) {
                  if (!text) return '';
-                 return text.split(/\n\s*\n/).map(p => p.trim()).filter(p => p.length > 0).map(p => `<p>${p}</p>`).join('');
+                 // Split by one or more newlines, trim resulting paragraphs, filter empty ones
+                 return text.split(/\n\s*\n+/).map(p => p.trim()).filter(p => p.length > 0).map(p => `<p>${p}</p>`).join('');
              }
 
 
@@ -2572,21 +2694,26 @@
                 const li = document.createElement('li');
                  if (id === 'wechat-trigger-sidebar') {
                      li.classList.add('sidebar-wechat-trigger');
-                 } else {
-                     li.id = id || '';
+                 } else if (id) {
+                      li.id = id; // Set custom ID if provided and not the wechat trigger
                  }
 
                 const i = document.createElement('i');
                 i.className = iconClass;
                 li.appendChild(i);
 
+                // Use <a> for links, <span> for static text
                 const contentElement = (href && href !== 'javascript:void(0);') ? document.createElement('a') : document.createElement('span');
-                contentElement.innerHTML = innerHTML;
+                contentElement.innerHTML = innerHTML; // Use innerHTML to include strong tags
 
                 if (contentElement.tagName === 'A') {
                     contentElement.href = href;
                     if (target) contentElement.target = target;
                     if (rel) contentElement.rel = rel;
+                     // Add default rel for external links for security
+                    if (contentElement.tagName === 'A' && contentElement.target === '_blank' && !contentElement.rel) {
+                        contentElement.rel = 'noopener noreferrer';
+                    }
                 }
                 li.appendChild(contentElement);
 
@@ -2600,6 +2727,7 @@
 
                 if (isWechat) {
                     li.classList.add('wechat-hover-trigger');
+                    // The wechat tooltip structure is specific
                     li.innerHTML = `
                         <i class="${iconClass}"></i>
                         <span>${text}</span>
@@ -2609,14 +2737,20 @@
                         </div>
                     `;
                  } else if (href && href !== 'javascript:void(0);') {
+                     // Standard link item
                      const a = document.createElement('a');
                      a.href = href;
                      a.textContent = text;
                      if (target) a.target = target;
                      if (rel) a.rel = rel;
+                     // Add default rel for external links for security
+                     if (a.target === '_blank' && !a.rel) {
+                         a.rel = 'noopener noreferrer';
+                     }
                      li.appendChild(i);
                      li.appendChild(a);
                  } else {
+                     // Static text item
                      const span = document.createElement('span');
                      span.textContent = text;
                      li.appendChild(i);
@@ -2625,22 +2759,26 @@
                 return li;
             }
 
+
              function showNotification(message, type = 'success') {
                  if (notificationElement) {
+                     // Clear any existing timeout
                      if (notificationElement.dataset.timeoutId) {
                          clearTimeout(parseInt(notificationElement.dataset.timeoutId));
                      }
 
                      notificationElement.textContent = message;
-                     notificationElement.className = `notification ${type}`;
-                     notificationElement.style.display = 'block';
+                     notificationElement.className = `notification ${type}`; // Apply base class and type class
+                     notificationElement.style.display = 'block'; // Make visible
 
+                     // Set a timeout to hide it
                      const timeoutId = setTimeout(() => {
                          notificationElement.style.display = 'none';
-                         notificationElement.dataset.timeoutId = '';
-                     }, 3000);
-                      notificationElement.dataset.timeoutId = timeoutId.toString();
+                         notificationElement.dataset.timeoutId = ''; // Clear the stored ID
+                     }, 3000); // Hide after 3 seconds
+                      notificationElement.dataset.timeoutId = timeoutId.toString(); // Store the timeout ID
                  } else {
+                      // Fallback for environments without the notification element
                       alert(message);
                  }
              }
@@ -2651,12 +2789,13 @@
             // Initial Load - Load settings and update display
             loadSettings(); // Load settings and update display first
 
+
             // Get the settings page element for delegation
-            const settingsPageElement = document.getElementById('settings-page');
+            // const settingsPageElement = document.getElementById('settings-page'); // Already declared above
 
             if (settingsForm && settingsPageElement) {
 
-                // --- Event Delegation for REMOVE buttons and TAG INPUTS on settings page ---
+                // --- Event Delegation for REMOVE buttons, TAG INPUTS, and PROJECT IMAGE UPLOADS on settings page ---
                 settingsPageElement.addEventListener('click', function(event) {
                     const removeBtn = event.target.closest('.remove-btn');
                     if (removeBtn) {
@@ -2664,7 +2803,7 @@
                         const itemToRemove = removeBtn.closest('.dynamic-item');
                         if (itemToRemove && confirm('确定要移除此项吗？')) {
                              itemToRemove.remove();
-                             // Note: Changes are saved only on form submit or header save button click
+                             // Save is now only via the header button, so no saveSettings() here
                         }
                         return;
                     }
@@ -2690,8 +2829,36 @@
                     }
                 });
 
+                 // Delegate file input change event for project images
+                 settingsPageElement.addEventListener('change', function(event) {
+                      // Check if the changed element is a project image upload input
+                      if (event.target.classList.contains('project-image-upload-input')) {
+                          const fileInput = event.target;
+                          // Find the associated preview container within the same dynamic item
+                          const projectItem = fileInput.closest('.dynamic-item');
+                          const previewContainer = projectItem?.querySelector('.project-image-settings-preview');
+                          if (previewContainer) {
+                               // Use the reusable handleFileUpload function
+                               handleFileUpload(event, previewContainer, '图片预览');
+                           } else {
+                                console.warn("Could not find project image preview container for uploaded file.");
+                           }
+                           // No need to call saveSettings here, it's done via the button
+                      }
+                     // Check if the changed element is the main avatar upload input
+                      else if (event.target === avatarUploadInput) {
+                          handleFileUpload(event, avatarPreviewContainer, '头像预览');
+                      }
+                       // Check if the changed element is the wechat QR upload input
+                      else if (event.target === wechatQrUploadInput) {
+                           handleFileUpload(event, wechatQrPreviewContainer, '二维码预览');
+                       }
+                 });
+
+
                  settingsPageElement.addEventListener('keypress', function(e) {
                      const target = e.target;
+                     // Handle tag input on Enter key press
                      if (target.tagName === 'INPUT' && target.classList.contains('tag-input') && e.key === 'Enter' && target.value.trim() !== '') {
                          e.preventDefault();
                          const tagText = target.value.trim();
@@ -2703,10 +2870,10 @@
 
                          tagContainer.insertBefore(newTag, target);
 
-                         target.value = '';
+                         target.value = ''; // Clear the input field
+                         // No need to call saveSettings here, save is via button
                      }
                  });
-                // --- End of Event Delegation ---
 
 
                 // Header Save Button Listener
@@ -2717,27 +2884,17 @@
                     });
                 }
 
-                 // Listen for form submission on the form itself - this might be triggered by Enter key in certain inputs
-                 // If you want Enter key to submit, ensure your save button is the default submit button or handle it explicitly.
-                 // Since we removed the bottom submit button, Enter might not trigger save automatically unless linked.
-                 // Keeping form submit handler just in case, but the header button is the primary save action.
+                 // Listen for form submission on the form itself
+                 // This will trigger if user presses Enter while *not* in a tag input,
+                 // or if there were a submit button (which we removed the bottom one).
+                 // Since header button is type="button", form submit is less critical but good to handle.
                  settingsForm.addEventListener('submit', (e) => {
                      e.preventDefault();
-                     // Optionally call saveSettings() here if you want any submit action to save.
-                     // Or do nothing if only the header button should save.
-                     // saveSettings(); // Uncomment if you want Enter key to save
-                     console.log("Form submitted, but saveSettings not called automatically by submit handler.");
+                     // Decide if you want pressing Enter in other fields to save.
+                     // For simplicity, let's rely only on the Save button click for now.
+                     console.log("Form submit event triggered, but saveSettings() is linked to the header button.");
                  });
 
-
-                // Avatar Upload
-                if (avatarUploadInput) {
-                    avatarUploadInput.addEventListener('change', (e) => handleFileUpload(e, avatarPreviewContainer, '头像预览'));
-                }
-                 // WeChat QR Upload
-                if (wechatQrUploadInput) {
-                    wechatQrUploadInput.addEventListener('change', (e) => handleFileUpload(e, wechatQrPreviewContainer, '二维码预览'));
-                 }
 
                 // "Add" Buttons (These don't need delegation, attach directly)
                 if (addSkillCategoryBtn) addSkillCategoryBtn.addEventListener('click', (e) => { e.preventDefault(); addSkillCategory(); });
@@ -2747,7 +2904,7 @@
                  if (addOtherContactBtn) addOtherContactBtn.addEventListener('click', (e) => { e.preventDefault(); addOtherContactEntry(); });
 
 
-                // Placeholder Buttons
+                // Placeholder Buttons (No change needed for these)
                 if (resumeParseBtn) {
                     resumeParseBtn.addEventListener('click', (e) => {
                         e.preventDefault();
@@ -2761,19 +2918,19 @@
                     });
                  }
 
-                // "不使用模板" checkbox logic
+                // "不使用模板" checkbox logic (No change needed)
                 if (useMarkdownCheckbox && markdownEditorSection) {
                      useMarkdownCheckbox.addEventListener('change', function() {
                          const isChecked = this.checked;
                          markdownEditorSection.style.display = isChecked ? 'block' : 'none';
                          // You might want to disable/enable other form sections here too
+                          // (Implementation left as exercise)
                      });
                       // Initialize state on load with a slight delay
                      setTimeout(() => {
                           useMarkdownCheckbox.dispatchEvent(new Event('change'));
                      }, 50);
                 }
-
 
             } else {
                  console.error("Required settings elements (form or settings page div) not found!");
