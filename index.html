@@ -318,7 +318,7 @@
         }
          .tag .remove-tag:hover {
              color: var(--error-color);
-         }
+        }
          .tag-input {
              flex-grow: 1;
              border: none;
@@ -377,7 +377,7 @@
             width: 100%;
             height: 150px; /* Keep a fixed height for placeholder */
             background-color: var(--tag-bg);
-            border-radius: 5倍px;
+            border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -549,6 +549,13 @@
              color: #777;
              margin-top: 10px;
          }
+         /* Style for QR error message */
+         .qr-error-message {
+             color: var(--error-color);
+             font-size: 0.9em;
+             margin-top: 10px;
+         }
+
 
         /* Avatar Selection Modal Specific Styles */
         #avatar-selection-modal .modal-content {
@@ -1220,7 +1227,7 @@
                  padding-top: 10px;
                  margin-bottom: 0;
                   flex-grow: 0;
-                  padding-right: 0;
+                   padding-right: 0;
                    overflow-y: visible;
              }
               .sidebar-collapsible-container::-webkit-scrollbar {
@@ -1727,6 +1734,8 @@
             <!-- QR code image uses the fixed path -->
             <img src="图片/二维码/WeChatQC.png" alt="微信二维码" id="wechat-qr-image-modal">
              <div class="hint" style="margin-top: 10px;">请勿将本页面二维码直接分享，此二维码可能随更新而变化。</div>
+             <!-- Placeholder for QR image loading error message -->
+             <p class="qr-error-message" style="display: none;"></p>
         </div>
     </div>
 
@@ -1802,6 +1811,8 @@
             const wechatModal = document.getElementById("wechat-modal");
             const wechatModalClose = wechatModal?.querySelector(".modal-close");
             const wechatQrImageModal = document.getElementById('wechat-qr-image-modal'); // Image element inside the WeChat display modal
+            const qrErrorMessageElement = wechatModal?.querySelector('.qr-error-message'); // Added error message element
+
 
             const avatarSelectionModal = document.getElementById("avatar-selection-modal");
             const avatarModalClose = avatarSelectionModal?.querySelector(".avatar-modal-close");
@@ -2373,32 +2384,40 @@
              */
             function loadSettings() {
                 const storedSettings = localStorage.getItem(SETTINGS_STORAGE_KEY);
+                let parsedSettings = {};
                 try {
-                    const parsedSettings = storedSettings ? JSON.parse(storedSettings) : {};
-                    // Start with a fresh copy of defaults
-                    currentSettings = JSON.parse(JSON.stringify(defaultSettings));
-                    // Deep merge stored settings on top of defaults
-                    deepMerge(currentSettings, parsedSettings);
-
-                     // Ensure necessary nested structures exist if not loaded
-                     if (!currentSettings.contact) currentSettings.contact = {};
-                     if (!currentSettings.contact.others) currentSettings.contact.others = [];
-                     if (!currentSettings.skills) currentSettings.skills = [];
-                     if (!currentSettings.experience) currentSettings.experience = [];
-                     if (!currentSettings.education) currentSettings.education = [];
-                     if (!currentSettings.certificates) currentSettings.certificates = [];
-
-                     // Ensure wechatQr is always the fixed path after loading
-                     currentSettings.contact.wechatQr = FIXED_WECHAT_QR_PATH;
-
-                     console.log('Loaded settings:', currentSettings); // Log loaded settings
-
+                    parsedSettings = storedSettings ? JSON.parse(storedSettings) : {};
                 } catch (e) {
                     console.error("Error parsing settings from localStorage:", e);
-                    currentSettings = JSON.parse(JSON.stringify(defaultSettings)); // Fallback to defaults
-                     // Ensure wechatQr is always the fixed path after fallback
-                    currentSettings.contact.wechatQr = FIXED_WECHAT_QR_PATH;
+                    // If parsing fails, start with an empty object, defaults will be used
+                    parsedSettings = {};
+                    showNotification('加载设置失败，使用了默认设置。', 'error');
                 }
+
+
+                // Start with a fresh copy of defaults
+                currentSettings = JSON.parse(JSON.stringify(defaultSettings));
+                // Deep merge stored settings on top of defaults
+                deepMerge(currentSettings, parsedSettings);
+
+                 // --- *** CRITICAL FIX: Ensure array properties are arrays after merge *** ---
+                 // This prevents TypeError if localStorage contained non-array values for these keys
+                 if (!Array.isArray(currentSettings.skills)) currentSettings.skills = [];
+                 if (!Array.isArray(currentSettings.experience)) currentSettings.experience = [];
+                 if (!Array.isArray(currentSettings.education)) currentSettings.education = [];
+                 if (!Array.isArray(currentSettings.certificates)) currentSettings.certificates = [];
+
+                 // Ensure contact structure exists and others is an array
+                 if (!currentSettings.contact) currentSettings.contact = {};
+                 if (!Array.isArray(currentSettings.contact.others)) currentSettings.contact.others = [];
+
+                 // Ensure wechatQr is always the fixed path after loading/fallback
+                 // This will overwrite any potentially corrupted QR path from localStorage
+                 currentSettings.contact.wechatQr = FIXED_WECHAT_QR_PATH;
+
+                 console.log('Loaded settings:', currentSettings); // Log loaded settings
+
+
                 updateResumeDisplay(currentSettings);
 
                 // Start fireworks after settings are loaded and welcome message is set
@@ -2478,7 +2497,7 @@
                 if (sidebarNameSpan) sidebarNameSpan.textContent = maskName(data.name || '');
                 if (sidebarJobTitle) sidebarJobTitle.textContent = data.jobTitle || '';
 
-                // FIX: Only update the text content of the inner spans
+                // Only update the text content of the inner spans
                 if (sidebarAgeSpan) sidebarAgeSpan.textContent = data.age || '';
                 if (sidebarEducationSpan) sidebarEducationSpan.textContent = data.educationLevel || '';
 
@@ -2497,7 +2516,9 @@
                     const hasPhone = !!contacts.phone;
                     const hasWechat = !!contacts.wechat;
                     const hasGithub = !!contacts.github;
-                    const hasOthers = contacts.others && contacts.others.length > 0;
+                    // Check if contacts.others is an array before checking length
+                    const hasOthers = Array.isArray(contacts.others) && contacts.others.length > 0;
+
 
                     sidebarContactList.innerHTML = ''; // Clear existing list
 
@@ -2513,45 +2534,48 @@
                          sidebarContactList.appendChild(wechatLi);
                     }
                     if (hasGithub) sidebarContactList.appendChild(createSidebarContactLi('fab fa-github', contacts.github, 'GitHub', 'GitHub:', null, '_blank', 'noopener noreferrer')); // Github is just a link
-                    (contacts.others || []).forEach(other => {
-                         let linkHref = other.value || 'javascript:void(0);'; // Default to js:void if no value
-                         let displayLabel = other.type || ''; // Use type as label
-                         if (displayLabel) displayLabel += ':';
 
-                         let typeForMaskingCopy = null;
-                         // Check if icon implies phone/wechat/copy for copyability
-                         if (other.icon === 'fas fa-phone' || (other.type || '').toLowerCase() === '电话') {
-                             typeForMaskingCopy = 'phone';
-                              // Also update href to tel: if it's a phone icon but href isn't tel:
-                             if (other.value && !other.value.startsWith('tel:')) linkHref = `tel:${other.value}`;
-                         } else if (other.icon === 'fab fa-weixin' || (other.type || '').toLowerCase() === '微信') {
-                             typeForMaskingCopy = 'wechat';
-                              linkHref = 'javascript:void(0);'; // Ensure wechat icon in others is not a clickable link by default, unless value is a real link
-                         } else if (other.icon && (other.icon.includes('copy') || other.icon.includes('paste') || other.icon.includes('clipboard'))) { // Added 'clipboard'
-                              // Optional: Add a specific icon to mark as copyable text (not masked)
-                             typeForMaskingCopy = 'copy-only';
-                             linkHref = 'javascript:void(0)'; // Make it non-clickable as a link
-                         }
+                    // Iterate through contacts.others only if it's an array
+                    if (Array.isArray(contacts.others)) {
+                        contacts.others.forEach(other => {
+                             let linkHref = other.value || 'javascript:void(0);'; // Default to js:void if no value
+                             let displayLabel = other.type || ''; // Use type as label
+                             if (displayLabel) displayLabel += ':';
+
+                             let typeForMaskingCopy = null;
+                             // Check if icon implies phone/wechat/copy for copyability
+                             if (other.icon === 'fas fa-phone' || (other.type || '').toLowerCase() === '电话') {
+                                 typeForMaskingCopy = 'phone';
+                                  // Also update href to tel: if it's a phone icon but href isn't tel:
+                                 if (other.value && !other.value.startsWith('tel:')) linkHref = `tel:${other.value}`;
+                             } else if (other.icon === 'fab fa-weixin' || (other.type || '').toLowerCase() === '微信') {
+                                 typeForMaskingCopy = 'wechat';
+                                  linkHref = 'javascript:void(0);'; // Ensure wechat icon in others is not a clickable link by default, unless value is a real link
+                             } else if (other.icon && (other.icon.includes('copy') || other.icon.includes('paste') || other.icon.includes('clipboard'))) { // Added 'clipboard'
+                                  // Optional: Add a specific icon to mark as copyable text (not masked)
+                                 typeForMaskingCopy = 'copy-only';
+                                 linkHref = 'javascript:void(0)'; // Make it non-clickable as a link
+                             }
+
+                              // If none of the above, and value exists, treat as copyable text by default UNLESS type suggests otherwise.
+                               if (typeForMaskingCopy === null && other.value && other.value !== '#' &&
+                                   !other.value.startsWith('http://') && !other.value.startsWith('https://') && !other.value.startsWith('tel:') && !other.value.startsWith('mailto:') &&
+                                   !(other.type && (other.type.toLowerCase() === 'website' || other.type.toLowerCase() === 'blog' || other.type.toLowerCase() === 'portfolio')) ) {
+                                    typeForMaskingCopy = 'copy-only';
+                                    linkHref = 'javascript:void(0)'; // Ensure non-link behavior
+                                }
 
 
-                         // Default to copy-only if a value exists and it's not a standard link type
-                         if (typeForMaskingCopy === null && other.value && other.value !== '#' &&
-                             !other.value.startsWith('http://') && !other.value.startsWith('https://') && !other.value.startsWith('tel:') && !other.value.startsWith('mailto:') &&
-                              !(other.type && (other.type.toLowerCase() === 'website' || other.type.toLowerCase() === 'blog' || other.type.toLowerCase() === 'portfolio')) ) {
-                             typeForMaskingCopy = 'copy-only';
-                             linkHref = 'javascript:void(0)'; // Ensure non-link behavior
-                         }
-
-
-                        sidebarContactList.appendChild(createSidebarContactLi(
-                             other.icon || 'fas fa-link', // Use icon from settings, default to link icon
-                             linkHref,                   // Href
-                             other.value,                // Raw value
-                             displayLabel,               // Display label (e.g. "QQ:", "Telegram:")
-                             typeForMaskingCopy, // Type for masking/copy ('phone', 'wechat', 'copy-only', or null)
-                             '_blank', 'noopener noreferrer', null // Default target/rel for 'others' unless overridden
-                         ));
-                 });
+                            sidebarContactList.appendChild(createSidebarContactLi(
+                                 other.icon || 'fas fa-link', // Use icon from settings, default to link icon
+                                 linkHref,                   // Href
+                                 other.value,                // Raw value
+                                 displayLabel,               // Display label (e.g. "QQ:", "Telegram:")
+                                 typeForMaskingCopy, // Type for masking/copy ('phone', 'wechat', 'copy-only', or null)
+                                 '_blank', 'noopener noreferrer', null // Default target/rel for 'others' unless overridden
+                             ));
+                        });
+                    }
 
 
                      if (sidebarContactList.children.length === 0) {
@@ -2563,10 +2587,59 @@
                           // sidebarContactContent.style.display is handled by collapsible logic
                      }
                 }
-                 // Update the QR image source in the *display modal* using the fixed path
+
+                 // --- Handle QR image loading and error ---
                  if (wechatQrImageModal) {
-                      wechatQrImageModal.src = currentSettings.contact?.wechatQr || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Use default transparent pixel if no image
+                      const timestamp = new Date().getTime();
+                      const separator = currentSettings.contact.wechatQr.includes('?') ? '&' : '?';
+                      const qrSrc = `${currentSettings.contact.wechatQr}${separator}_=${timestamp}`;
+
+                      // Clear previous error message on potential successful load
+                      if (qrErrorMessageElement) qrErrorMessageElement.style.display = 'none';
+                      wechatQrImageModal.style.display = 'none'; // Hide image initially
+
+                      // Add error handler
+                      wechatQrImageModal.onerror = (e) => {
+                           console.error('WeChat QR image failed to load:', qrSrc, e);
+                           wechatQrImageModal.alt = '二维码加载失败';
+                           wechatQrImageModal.style.display = 'none'; // Ensure hidden on error
+                           // Show error message in the modal
+                           if (qrErrorMessageElement) {
+                               qrErrorMessageElement.textContent = '二维码图片加载失败。请检查图片文件是否存在。';
+                               qrErrorMessageElement.style.display = 'block';
+                               // Ensure modal content is visible even if image is hidden
+                               if (wechatModal && wechatModal.style.display === 'flex' && wechatModal.querySelector('.modal-content')) {
+                                   wechatModal.querySelector('.modal-content').style.display = 'block'; // Just a safety check
+                               }
+                           }
+                      };
+                      // Add load handler to show image and hide error message
+                      wechatQrImageModal.onload = () => {
+                           console.log('WeChat QR image loaded successfully:', qrSrc);
+                           wechatQrImageModal.style.display = 'block'; // Show image on success
+                           if (qrErrorMessageElement) qrErrorMessageElement.style.display = 'none'; // Hide error message
+                           wechatQrImageModal.alt = '微信二维码'; // Restore default alt text
+                      };
+
+                      // Set the source to trigger loading
+                      wechatQrImageModal.src = qrSrc;
+
+                      // If the modal is already open, manually trigger the load process check
+                      // This handles the case where the page is loaded and the modal is *already* open from a previous session (unlikely but robust)
+                       if (wechatModal && wechatModal.style.display === 'flex') {
+                           // A timeout might be needed to ensure the img element is fully ready
+                            setTimeout(() => {
+                                 if (wechatQrImageModal.complete) {
+                                     wechatQrImageModal.onload(); // Trigger onload if already complete (cached)
+                                 } else if (wechatQrImageModal.error) {
+                                     wechatQrImageModal.onerror(); // Trigger onerror if it failed immediately (broken link)
+                                 }
+                            }, 50); // Small delay
+                       }
+
+
                  }
+
 
                 // Main Content Updates (Resume Page)
                 const useMarkdown = data.useMarkdown === true;
@@ -2595,26 +2668,29 @@
                         mainAboutMeDiv.innerHTML = wrapInParagraphs(data.aboutMe || '');
 
                         mainSkillsGrid.innerHTML = '';
-                        if (data.skills && data.skills.length > 0) {
+                         // Check if skills is an array before iterating
+                         if (Array.isArray(data.skills) && data.skills.length > 0) {
                             data.skills.forEach(category => {
                                 const categoryDiv = document.createElement('div');
                                 categoryDiv.className = 'skill-category';
                                 categoryDiv.innerHTML = `<h4>${category.name || '无类别名称'}</h4><div class="tags-list"></div>`;
                                 const tagsListDiv = categoryDiv.querySelector('.tags-list');
-                                category.tags?.forEach(tagText => {
-                                    const tagSpan = document.createElement('span');
-                                    tagSpan.className = 'tag';
-                                    tagSpan.textContent = tagText;
+                                 // Check if tags is an array before iterating
+                                 if (Array.isArray(category.tags)) {
+                                    category.tags.forEach(tagText => {
+                                        const tagSpan = document.createElement('span');
+                                        tagSpan.className = 'tag';
+                                        tagSpan.textContent = tagText;
 
-                                    // --- Apply Random Color and Set Text Color Based on Lightness ---
-                                    const { colorString, lightness } = getRandomHslColor();
-                                    tagSpan.style.backgroundColor = colorString;
-                                    // Choose text color: dark-grey if lightness >= 50, white if lightness < 50
-                                    tagSpan.style.color = lightness >= 50 ? 'var(--dark-grey)' : 'white';
+                                        // --- Apply Random Color and Set Text Color Based on Lightness ---
+                                        const { colorString, lightness } = getRandomHslColor();
+                                        tagSpan.style.backgroundColor = colorString;
+                                        // Choose text color: dark-grey if lightness >= 50, white if lightness < 50
+                                        tagSpan.style.color = lightness >= 50 ? 'var(--dark-grey)' : 'white';
 
-
-                                    tagsListDiv.appendChild(tagSpan);
-                                });
+                                        tagsListDiv.appendChild(tagSpan);
+                                    });
+                                 }
                                 mainSkillsGrid.appendChild(categoryDiv);
                             });
                         } else {
@@ -2622,7 +2698,8 @@
                         }
 
                          mainExperienceSection.innerHTML = `<h2><i class="fas fa-briefcase"></i>项目与实践经历</h2>`;
-                         if (data.experience && data.experience.length > 0) {
+                         // Check if experience is an array before iterating
+                         if (Array.isArray(data.experience) && data.experience.length > 0) {
                             data.experience.forEach((exp, index) => {
                                 const htmlDesc = convertMarkdownToHtml(exp.desc || '');
                                 const projectDiv = document.createElement('div');
@@ -2659,7 +2736,8 @@
                          mainEducationSection.innerHTML = `<h2><i class="fas fa-university"></i>教育背景</h2>`;
                          // Add a ul element for cleaner list structure
                          const educationUl = document.createElement('ul');
-                         if (data.education && data.education.length > 0) {
+                         // Check if education is an array before iterating
+                         if (Array.isArray(data.education) && data.education.length > 0) {
                              data.education.forEach(edu => {
                                   // Apply school name masking here for main display
                                  const maskedSchool = maskSchoolName(edu.school);
@@ -2682,7 +2760,8 @@
 
 
                          mainCertsList.innerHTML = '';
-                         if (data.certificates && data.certificates.length > 0) {
+                         // Check if certificates is an array before iterating
+                         if (Array.isArray(data.certificates) && data.certificates.length > 0) {
                              data.certificates.forEach(cert => {
                                  const li = document.createElement('li');
                                  li.innerHTML = `<i class="fas fa-award"></i>${cert.name || ''}`;
@@ -2700,7 +2779,9 @@
                          const hasPhone = !!contacts.phone;
                          const hasWechat = !!contacts.wechat;
                          const hasGithub = !!contacts.github;
-                         const hasOthers = contacts.others && contacts.others.length > 0;
+                         // Check if contacts.others is an array before checking length
+                         const hasOthers = Array.isArray(contacts.others) && contacts.others.length > 0;
+
 
                         // Using the revised createMainContactLi
                          if (hasPhone) mainContactList.appendChild(createMainContactLi('fas fa-phone', `tel:${contacts.phone}`, contacts.phone, 'phone'));
@@ -2709,51 +2790,54 @@
                          if (hasWechat) mainContactList.appendChild(createMainContactLi('fab fa-weixin', 'javascript:void(0);', contacts.wechat, 'wechat', null, null, true));
                           if (hasGithub) mainContactList.appendChild(createMainContactLi('fab fa-github', contacts.github, 'GitHub', null, '_blank', 'noopener noreferrer')); // Github is just a link
 
-                         (contacts.others || []).forEach(other => {
-                             let linkHref = other.value || 'javascript:void(0);'; // Default to js:void if no value
-                             let rawValueOrText = other.value || '';
+                         // Iterate through contacts.others only if it's an array
+                         if (Array.isArray(contacts.others)) {
+                             contacts.others.forEach(other => {
+                                 let linkHref = other.value || 'javascript:void(0);'; // Default to js:void if no value
+                                 let rawValueOrText = other.value || '';
 
-                             let typeForMaskingCopy = null;
-                             // Check if icon implies phone/wechat/copy for copyability
-                             if (other.icon === 'fas fa-phone' || (other.type || '').toLowerCase() === '电话') {
-                                 typeForMaskingCopy = 'phone';
-                                  if (other.value && !other.value.startsWith('tel:')) linkHref = `tel:${other.value}`;
-                             } else if (other.icon === 'fab fa-weixin' || (other.type || '').toLowerCase() === '微信') {
-                                 typeForMaskingCopy = 'wechat';
-                                 linkHref = 'javascript:void(0);'; // Explicitly make wechat icon in others not a link by default
-                             } else if (other.icon && (other.icon.includes('copy') || other.icon.includes('paste') || other.icon.includes('clipboard'))) { // Added 'clipboard'
-                                  // Add a specific icon to mark as copyable text (not masked)
-                                 typeForMaskingCopy = 'copy-only';
-                                 linkHref = 'javascript:void(0)'; // Make it non-clickable as a link
-                              } else if (other.value && (other.value.startsWith('http://') || other.value.startsWith('https://'))) {
-                                  // If it's a standard URL, it's a link, not copyable text by default
-                                   typeForMaskingCopy = null; // Ensure it's treated as a link
-                              } else if (other.value && (other.value.startsWith('tel:'))) {
-                                   // If it's a tel: link, it's clickable, not copied text by default
-                                   typeForMaskingCopy = null;
-                              } else if (other.value && (other.value.startsWith('mailto:'))) {
-                                   // If it's a mailto: link, it's clickable, not copied text by default
-                                   typeForMaskingCopy = null;
-                              }
-                               // If none of the above, and value exists, treat as copyable text by default UNLESS type suggests otherwise.
-                               // Refined rule: If typeForMaskingCopy is explicitly set by icon check above, use it. Otherwise, if rawValueOrText exists AND it's NOT a standard URL/tel/mailto, AND it's NOT just a placeholder '#' or similar, AND other.type doesn't imply a link (like 'Website', 'Blog'), then make it 'copy-only'.
+                                 let typeForMaskingCopy = null;
+                                 // Check if icon implies phone/wechat/copy for copyability
+                                 if (other.icon === 'fas fa-phone' || (other.type || '').toLowerCase() === '电话') {
+                                     typeForMaskingCopy = 'phone';
+                                      if (other.value && !other.value.startsWith('tel:')) linkHref = `tel:${other.value}`;
+                                 } else if (other.icon === 'fab fa-weixin' || (other.type || '').toLowerCase() === '微信') {
+                                     typeForMaskingCopy = 'wechat';
+                                     linkHref = 'javascript:void(0);'; // Explicitly make wechat icon in others not a link by default
+                                 } else if (other.icon && (other.icon.includes('copy') || other.icon.includes('paste') || other.icon.includes('clipboard'))) { // Added 'clipboard'
+                                      // Add a specific icon to mark as copyable text (not masked)
+                                     typeForMaskingCopy = 'copy-only';
+                                     linkHref = 'javascript:void(0)'; // Make it non-clickable as a link
+                                  } else if (other.value && (other.value.startsWith('http://') || other.value.startsWith('https://'))) {
+                                      // If it's a standard URL, it's a link, not copyable text by default
+                                       typeForMaskingCopy = null; // Ensure it's treated as a link
+                                  } else if (other.value && (other.value.startsWith('tel:'))) {
+                                       // If it's a tel: link, it's clickable, not copied text by default
+                                       typeForMaskingCopy = null;
+                                  } else if (other.value && (other.value.startsWith('mailto:'))) {
+                                       // If it's a mailto: link, it's clickable, not copied text by default
+                                       typeForMaskingCopy = null;
+                                  }
+                                   // If none of the above, and value exists, treat as copyable text by default UNLESS type suggests otherwise.
+                                   // Refined rule: If typeForMaskingCopy is explicitly set by icon check above, use it. Otherwise, if rawValueOrText exists AND it's NOT a standard URL/tel/mailto, AND it's NOT just a placeholder '#' or similar, AND other.type doesn't imply a link (like 'Website', 'Blog'), then make it 'copy-only'.
 
-                               if (typeForMaskingCopy === null && rawValueOrText && rawValueOrText !== '#' &&
-                                   !rawValueOrText.startsWith('http://') && !rawValueOrText.startsWith('https://') && !rawValueOrText.startsWith('tel:') && !rawValueOrText.startsWith('mailto:') &&
-                                   !(other.type && (other.type.toLowerCase() === 'website' || other.type.toLowerCase() === 'blog' || other.type.toLowerCase() === 'portfolio')) ) {
-                                    typeForMaskingCopy = 'copy-only';
-                                    linkHref = 'javascript:void(0)'; // Ensure non-link behavior
-                                }
+                                   if (typeForMaskingCopy === null && rawValueOrText && rawValueOrText !== '#' &&
+                                       !rawValueOrText.startsWith('http://') && !rawValueOrText.startsWith('https://') && !rawValueOrText.startsWith('tel:') && !rawValueOrText.startsWith('mailto:') &&
+                                       !(other.type && (other.type.toLowerCase() === 'website' || other.type.toLowerCase() === 'blog' || other.type.toLowerCase() === 'portfolio')) ) {
+                                        typeForMaskingCopy = 'copy-only';
+                                        linkHref = 'javascript:void(0)'; // Ensure non-link behavior
+                                    }
 
 
-                            mainContactList.appendChild(createMainContactLi(
-                                 other.icon || 'fas fa-link', // Use icon from settings, default to link icon
-                                 linkHref,                   // Href
-                                 rawValueOrText,                // Raw value
-                                 typeForMaskingCopy, // Type for masking/copy ('phone', 'wechat', 'copy-only', or null)
-                                 '_blank', 'noopener noreferrer' // Default target/rel for 'others' unless overridden
-                             ));
-                        });
+                                mainContactList.appendChild(createMainContactLi(
+                                     other.icon || 'fas fa-link', // Use icon from settings, default to link icon
+                                     linkHref,                   // Href
+                                     rawValueOrText,                // Raw value
+                                     typeForMaskingCopy, // Type for masking/copy ('phone', 'wechat', 'copy-only', or null)
+                                     '_blank', 'noopener noreferrer' // Default target/rel for 'others' unless overridden
+                                 ));
+                            });
+                         }
 
 
                          if (!hasEmail && !hasPhone && !hasWechat && !hasGithub && !hasOthers) {
@@ -2905,7 +2989,7 @@
 
 
                  // Markdown content always saves whatever is in the textarea
-                 tempSettings.useMarkdown = useMarkdownCheckbox?.checked || false;
+                 tempSettings.useMarkdown = useMarkdownCheckbox?.checked === true; // Ensure boolean
                  tempSettings.markdownContent = markdownInput?.value.trim() || '';
 
 
@@ -3062,15 +3146,12 @@
 
                  // Populate dynamic lists from loaded settings
                  // Pass true flag to indicate this is a load/populate operation, not a new item add
-                 (settings.skills || []).forEach(skillCat => addSkillCategory(skillCat, false, true)); // addSkillCategory itself doesn't need masking inside unless default tags are provided
-
-                 (settings.experience || []).forEach(exp => addExperienceEntry(exp, false, true)); // addExperienceEntry doesn't need masking inside
-
-                 (settings.education || []).forEach(edu => addEducationEntry(edu, false, true)); // Pass true flag to addEducationEntry to indicate population mode
-
-                 (settings.certificates || []).forEach(cert => addCertEntry(cert, false, true)); // addCertEntry doesn't need masking
-
-                 (settings.contact?.others || []).forEach(other => addOtherContactEntry(other, false, true)); // Pass true flag to addOtherContactEntry for population mode
+                 // Check if arrays exist before iterating (safety first, although loadSettings should ensure this)
+                 if (Array.isArray(settings.skills)) settings.skills.forEach(skillCat => addSkillCategory(skillCat, false, true)); // addSkillCategory itself doesn't need masking inside unless default tags are provided
+                 if (Array.isArray(settings.experience)) settings.experience.forEach(exp => addExperienceEntry(exp, false, true)); // addExperienceEntry doesn't need masking inside
+                 if (Array.isArray(settings.education)) settings.education.forEach(edu => addEducationEntry(edu, false, true)); // Pass true flag to addEducationEntry to indicate population mode
+                 if (Array.isArray(settings.certificates)) settings.certificates.forEach(cert => addCertEntry(cert, false, true)); // addCertEntry doesn't need masking
+                 if (settings.contact && Array.isArray(settings.contact.others)) settings.contact.others.forEach(other => addOtherContactEntry(other, false, true)); // Pass true flag to addOtherContactEntry for population mode
 
 
                  // Set markdown checkbox state and trigger update
@@ -3079,7 +3160,7 @@
                      // Use a slight delay to ensure the element is visible before dispatching event
                      setTimeout(() => {
                           useMarkdownCheckbox.dispatchEvent(new Event('change'));
-                     }, 0);
+                     }, 50);
                  }
 
                   console.log('Settings loaded into form for editing.');
@@ -3108,7 +3189,7 @@
                     <div class="form-group">
                         <label>技能标签</label>
                         <div class="tag-input-container">
-                             ${category.tags?.map(tag => `<div class="tag">${tag} <span class="remove-tag" aria-label="移除标签">&times;</span></div>`).join('') || ''}
+                             ${Array.isArray(category.tags) ? category.tags.map(tag => `<div class="tag">${tag} <span class="remove-tag" aria-label="移除标签">&times;</span></div>`).join('') : ''}
                             <input type="text" class="tag-input" placeholder="输入技能后按回车添加">
                         </div>
                     </div>
@@ -3831,6 +3912,18 @@
 
              // Initial population of settings form is now handled *inside* the modified showPage function
              // triggered by the click on the settings button.
+
+             // Helper function to get a random HSL color string and its lightness
+             function getRandomHslColor() {
+                 const hue = Math.floor(Math.random() * 360); // 0-359
+                 const saturation = '70%'; // Keep saturation relatively high for visible color
+                 const lightness = '60%'; // Keep lightness in mid-range for good contrast
+                 return {
+                     colorString: `hsl(${hue}, ${saturation}, ${lightness})`,
+                     lightness: parseInt(lightness) // Return lightness as number for comparison
+                 };
+             }
+
 
         }); // End DOMContentLoaded
     </script>
