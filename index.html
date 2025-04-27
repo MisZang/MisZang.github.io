@@ -1239,6 +1239,16 @@
                  font-size: 1.4em;
              }
         }
+        .tag {
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    font-weight: 500;
+    display: inline-block;
+    text-align: center;
+    margin: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
     </style>
 </head>
 <body>
@@ -2937,6 +2947,30 @@
             }
 
         }); // End DOMContentLoaded
+
+        document.addEventListener('DOMContentLoaded', () => {
+    // 定义技能数组
+    const skills = ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'Python', 'Django', 'Git', 'SQL'];
+
+    // 获取技能容器
+    const skillsGrid = document.getElementById('main-skills-grid');
+
+    // 动态生成技能标签
+    skills.forEach(skill => {
+        // 创建技能标签元素
+        const skillTag = document.createElement('div');
+        skillTag.className = 'tag';
+        skillTag.textContent = skill;
+
+        // 随机生成颜色
+        const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+        skillTag.style.backgroundColor = randomColor;
+        skillTag.style.color = '#fff'; // 确保文字颜色对比度足够
+
+        // 将技能标签添加到容器中
+        skillsGrid.appendChild(skillTag);
+    });
+});
     </script>
 
 </body>
