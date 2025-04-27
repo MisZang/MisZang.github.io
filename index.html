@@ -13,14 +13,14 @@
             --primary-color: #4a90e2;
             --secondary-color: #50e3c2;
             --background-color: #f4f7f6;
-            --text-color: #333;
+            --text-color: #333; /* Default text color */
             --light-grey: #bdc3c7;
-            --dark-grey: #2c3e50;
+            --dark-grey: #2c3e50; /* Used for darker text like headings */
             --card-bg: #ffffff;
             --sidebar-bg: #2c3e50;
             --sidebar-text: #ecf0f1;
-            --tag-bg: #e0e0e0;
-            --tag-text: #555;
+            --tag-bg: #e0e0e0; /* Default grey tag background */
+            --tag-text: #555; /* Default grey tag text color */
             --header-height: 60px; /* Base header height */
             --sidebar-width: 280px;
             --error-color: #e74c3c;
@@ -195,10 +195,15 @@
             text-align: center;
             color: var(--secondary-color);
         }
-         .sidebar-info li span,
-         .sidebar-info li a {
+         /* Styles for copy trigger elements in sidebar */
+         .sidebar-info li span.copy-trigger,
+         .sidebar-info li a { /* Keep links styled as before */
              color: #bdc3c7;
              word-break: break-all;
+             cursor: pointer; /* Indicate copyable items */
+         }
+         .sidebar-info li span.copy-trigger:hover {
+             color: var(--secondary-color); /* Hover effect for copyable items */
          }
          .sidebar-info li a:hover {
              color: var(--secondary-color);
@@ -207,12 +212,6 @@
          .sidebar-info strong {
              font-weight: 500;
              color: var(--sidebar-text);
-         }
-         .sidebar-wechat-trigger {
-            cursor: pointer;
-         }
-         .sidebar-wechat-trigger:hover span {
-             color: var(--secondary-color);
          }
 
 
@@ -262,7 +261,7 @@
         }
 
         .skill-category {
-            background-color: var(--background-color);
+            background-color: var(--background-color); /* Base background for category block */
             padding: 15px;
             border-radius: 5px;
         }
@@ -282,31 +281,19 @@
         }
 
         .tag {
-            background-color: var(--tag-bg);
-            color: var(--tag-text);
             padding: 5px 12px;
             border-radius: 15px;
             font-size: 0.9em;
             font-weight: 500;
-            transition: background-color 0.3s, color 0.3s;
+            transition: none; /* Ensure no transition on style change */
         }
-        .tag.highlight {
-             background-color: var(--primary-color);
-             color: white;
-        }
-        .tag.engine {
-             background-color: var(--secondary-color);
-             color: var(--dark-grey);
-        }
-         .tag.tool {
-             background-color: #f39c12;
-             color: white;
-         }
+        /* Removed specific color classes as we use random colors */
+
          .tag .remove-tag {
             margin-left: 5px;
             cursor: pointer;
             font-size: 0.8em;
-            color: #777;
+            color: rgba(0,0,0,0.6); /* Fixed color for remove button regardless of tag color */
              transition: color 0.3s;
         }
          .tag .remove-tag:hover {
@@ -395,6 +382,18 @@
             width: 20px;
             text-align: center;
         }
+         /* Added style for education list items */
+         .education ul li {
+            margin-bottom: 12px;
+             line-height: 1.5;
+         }
+          .education ul li i {
+              margin-right: 10px;
+              color: var(--primary-color);
+              width: 20px;
+              text-align: center;
+          }
+
 
          .online-presence ul {
              display: flex;
@@ -410,17 +409,39 @@
           .online-presence ul li i.fab, .online-presence ul li i.fas {
              font-size: 1.2em;
           }
+
+         /* Styles for copy trigger elements in main content */
+         .online-presence ul li span.copy-trigger {
+             display: flex; /* Use flex to align with icon */
+             align-items: center;
+             font-weight: 500;
+             color: var(--text-color);
+             cursor: pointer; /* Indicate copyable items */
+             transition: color 0.3s;
+         }
+          .online-presence ul li span.copy-trigger:hover {
+             color: var(--primary-color); /* Hover effect for copyable items */
+         }
+
+
          .wechat-hover-trigger {
              position: relative;
-             cursor: default;
+             cursor: pointer; /* Make the li clickable for modal */
              display: flex;
              align-items: center;
              font-weight: 500;
          }
-         .wechat-hover-trigger span {
+          /* Style the span inside wechat-hover-trigger as copy trigger */
+         .wechat-hover-trigger > span {
              margin-left: 5px;
-             color: var(--text-color);
+             color: var(--text-color); /* Default color */
+             cursor: pointer; /* Indicate copyable */
+             transition: color 0.3s;
          }
+          .wechat-hover-trigger > span:hover {
+              color: var(--primary-color); /* Hover color for the text */
+          }
+
 
          .wechat-tooltip {
              visibility: hidden;
@@ -439,7 +460,15 @@
              text-align: center;
              z-index: 101;
              transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+             pointer-events: none; /* Prevent tooltip from interfering with clicks */
          }
+         .wechat-hover-trigger:hover .wechat-tooltip {
+             visibility: visible;
+             opacity: 1;
+             transition: opacity 0.3s ease;
+             pointer-events: auto; /* Allow interaction inside tooltip if needed, though not typically for a QR */
+         }
+
          .wechat-tooltip img {
              max-width: 100%;
              height: auto;
@@ -453,11 +482,6 @@
             color: var(--dark-grey);
          }
 
-         .wechat-hover-trigger:hover .wechat-tooltip {
-             visibility: visible;
-             opacity: 1;
-             transition: opacity 0.3s ease;
-         }
 
         .modal {
             display: none;
@@ -509,7 +533,7 @@
          #wechat-modal .hint {
              font-size: 0.85em;
              color: #777;
-             margin-top: 5px;
+             margin-top: 10px;
          }
 
 
@@ -596,16 +620,18 @@
              margin-bottom: 10px;
         }
 
-        .collapsible-content .sidebar-info li a,
-        .collapsible-content .sidebar-info li span {
-            color: #bdc3c7;
-            display: inline-block;
-            width: calc(100% - 32px);
+         /* Style for copy triggers inside collapsible content */
+        .collapsible-content .sidebar-info li span.copy-trigger,
+        .collapsible-content .sidebar-info li a { /* Keep links styled as before */
+             color: #bdc3c7;
+             display: inline-block;
+             width: calc(100% - 32px);
         }
-        .collapsible-content .sidebar-info li a:hover,
-         .collapsible-content .sidebar-info li span:hover {
+         .collapsible-content .sidebar-info li span.copy-trigger:hover, /* Hover for copyable span */
+         .collapsible-content .sidebar-info li a:hover {
             color: var(--secondary-color);
         }
+
 
         .collapsible-content .sidebar-info {
             margin: 0;
@@ -1253,7 +1279,7 @@
              <img id="sidebar-avatar" src="图片/头像/20191001125343_shtxh.jpg" alt="姜同学头像">
         </div>
         <h1 id="profile-home-link">
-            <span id="sidebar-name">姜同学</span>
+            <span id="sidebar-name">姜同学</span> <!-- Name will be set by JS -->
             <span class="home-tooltip" id="home-tooltip">点击这里返回主页</span>
         </h1>
         <p class="job-title-sidebar" id="sidebar-job-title">
@@ -1277,12 +1303,7 @@
             <div class="collapsible-content" id="contact-info-content">
                 <nav class="sidebar-info">
                      <ul id="sidebar-contact-list">
-                        <!-- Contact list items will be dynamically populated -->
-                        <!-- Keeping default HTML here as a fallback, but will be replaced by JS -->
-                        <li><i class="fas fa-phone"></i><a href="tel:15526312845"><strong>电话:</strong>15526312845</a></li>
-                        <li><i class="fas fa-envelope"></i><a href="mailto:ucxx66@163.com"><strong>邮箱:</strong>ucxx66@163.com</a></li>
-                        <li id="wechat-trigger-sidebar" class="sidebar-wechat-trigger"><i class="fab fa-weixin"></i><span><strong>微信:</strong> G16689683054 (查看)</span></li>
-                        <li><i class="fab fa-github"></i><a href="https://github.com/MisZang/MisZang.github.io/tree/main" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                        <!-- Contact list items will be dynamically populated by JS -->
                     </ul>
                 </nav>
             </div>
@@ -1506,7 +1527,8 @@
                               <div id="other-contacts-container" class="dynamic-list">
                                    <!-- Dynamic items will be added here -->
                                </div>
-                                <button type="button" id="add-other-contact-btn" class="add-item-btn"><i class="fas fa-plus"></i> 添加其他联系方式</button>
+                               <!-- 已注释掉 "添加其他联系方式" 按钮 -->
+                               <!-- <button type="button" id="add-other-contact-btn" class="add-item-btn"><i class="fas fa-plus"></i> 添加其他联系方式</button> -->
                          </div>
 
                     </div>
@@ -1663,13 +1685,7 @@
                  }
             }
 
-            document.body.addEventListener('click', (event) => {
-                const trigger = event.target.closest('.sidebar-wechat-trigger');
-                if (trigger && typeof openModal === 'function') {
-                     event.preventDefault();
-                     openModal();
-                }
-            });
+            // WeChat modal trigger in sidebar is handled by click delegation on document.body now
 
             if (modalClose) {
                 modalClose.addEventListener("click", closeModal);
@@ -1838,7 +1854,7 @@
             const wechatQrPreviewContainer = document.getElementById('wechat-qr-preview-container');
             const githubInput = document.getElementById('github-input');
             const otherContactsContainer = document.getElementById('other-contacts-container');
-            const addOtherContactBtn = document.getElementById('add-other-contact-btn');
+            // const addOtherContactBtn = document.getElementById('add-other-contact-btn'); // Commented out
             const welcomeMessageInput = document.getElementById('welcome-message-input');
             const aboutMeInput = document.getElementById('about-me-input');
             const skillsContainerEdit = document.getElementById('skills-container');
@@ -1879,7 +1895,7 @@
             // --- Default Settings Structure ---
             const defaultSettings = {
                 profilePic: '图片/头像/20191001125343_shtxh.jpg',
-                name: '姜同学',
+                name: '姜同学', // Changed default to a Chinese name example
                 jobTitle: '游戏系统策划 / 游戏关卡策划 / 技术策划 /前端开发/ Java开发 / 全栈开发/IT驻场维护',
                 age: '21岁',
                 educationLevel: '大专 (软件技术)',
@@ -1958,6 +1974,105 @@
                 return target;
             }
 
+             /**
+              * Masks the name based on rules.
+              * Chinese: First char + "同学". Eg: "赵子龙" -> "赵同学".
+              * English/Other: First part before space, hyphen, or dot. Eg: "aileng·sbmith" -> "aileng".
+              */
+             function maskName(name) {
+                 if (!name) return '';
+                 name = String(name).trim();
+                 if (name.length === 0) return '';
+
+                 // Check for Chinese characters
+                 if (/[\u4e00-\u9fa5]/.test(name)) {
+                     return name[0] + '同学';
+                 } else {
+                     // Assume non-Chinese (English, etc.), split by common separators and take the first part
+                     const parts = name.split(/[\s\-\·]/); // Split by space, hyphen, or middle dot
+                     return parts[0] || name; // Return first part, fallback to original if split results in empty first part
+                 }
+             }
+
+
+            /**
+             * Mask phone numbers and WeChat IDs for display.
+             * Phone: 13812345678 -> 138****5678 (Mask middle 4 digits)
+             * WeChat: abc123456789 -> abc****789 (Mask middle if length > 7, show first 3 and last 4)
+             */
+            function maskContact(value, type) {
+                if (!value) return '';
+                value = String(value); // Ensure it's a string
+                if (type === 'phone' && value.length === 11 && value.startsWith('1')) {
+                    // Mask middle 4 digits for 11-digit phone
+                    return value.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2');
+                } else if (type === 'wechat') {
+                    // Mask for WeChat: show first 3, last 4, if length > 7
+                    if (value.length <= 7) {
+                        return value; // Don't mask if too short
+                    }
+                    return value.substring(0, 3) + '****' + value.substring(value.length - 4);
+                }
+                // For other types or unknown formats, just return the value
+                return value;
+            }
+
+             /**
+              * Mask school names for display.
+              * Keep first 2 and last 2 characters, replace middle with stars.
+              * Example: "广东工商职业技术大学" (10 chars) -> "广东****大学"
+              * Example: "北京大学" (4 chars) -> "北京大学" (no mask)
+              * Example: "清华" (2 chars) -> "清华" (no mask)
+              * Example: "武汉大学" (4 chars) -> "武汉大学" (no mask)
+              */
+             function maskSchoolName(value) {
+                 if (!value) return '';
+                 value = String(value); // Ensure it's a string
+                 if (value.length <= 4) {
+                     return value; // Don't mask if length is 4 or less
+                 }
+                 // Keep first 2, last 2, mask the rest with stars
+                 const start = value.substring(0, 2);
+                 const end = value.substring(value.length - 2);
+                 const maskedLength = value.length - 4;
+                 // Ensure maskedLength is not negative
+                 const stars = maskedLength > 0 ? '*'.repeat(maskedLength) : '';
+                 return start + stars + end;
+             }
+
+             /**
+              * Generates a random HSL color string and its lightness value.
+              * Adjusts saturation and lightness range for better visual appeal and contrast calculation.
+              * Returns { colorString: 'hsl(...)', lightness: number }
+              */
+             function getRandomHslColor() {
+                 const hue = Math.floor(Math.random() * 360); // Random hue (0-359)
+                 const saturation = Math.floor(Math.random() * (90 - 70) + 70); // Saturation between 70% and 90% for vividness
+                 const lightness = Math.floor(Math.random() * (75 - 35) + 35);  // Lightness between 35% and 75% to avoid pure black/white and very dark/light shades
+                 const colorString = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+                 return { colorString: colorString, lightness: lightness };
+             }
+
+
+            /**
+             * Copies text to the clipboard.
+             */
+            function copyToClipboard(text) {
+                if (!navigator.clipboard) {
+                    // Fallback for older browsers (e.g., using document.execCommand)
+                    // Could implement a fallback here if needed for wider compatibility
+                    showNotification('您的浏览器不支持自动复制，请手动复制。', 'error');
+                    console.warn("Clipboard API not available.");
+                    return;
+                }
+                navigator.clipboard.writeText(text).then(() => {
+                    showNotification('已复制到剪贴板！', 'success');
+                }).catch(err => {
+                    console.error('无法复制到剪贴板:', err);
+                    showNotification('复制失败，请手动复制。', 'error');
+                });
+            }
+
 
             /**
              * Loads settings from localStorage or uses defaults, then updates UI.
@@ -2002,8 +2117,8 @@
                                 fireworks.stop();
                              }
                             overlay.style.display = 'none';
-                        }, 500);
-                    }, 2000); // Duration of the welcome display
+                        }, 500); // Duration of the welcome display fade out
+                    }, 2000); // Delay before starting fade out
                 } else if (overlay) {
                      // Hide overlay immediately if no welcome message or fireworks not available
                       overlay.style.display = 'none';
@@ -2033,6 +2148,7 @@
 
                 if (otherContactsContainer) {
                     otherContactsContainer.innerHTML = '';
+                    // Note: The "Add Other Contact" button is commented out, but existing saved data will still be loaded.
                     [...(data.contact?.others || [])].forEach(other => addOtherContactEntry(other, false));
                 }
 
@@ -2075,7 +2191,8 @@
             function updateResumeDisplay(data) {
                 // Sidebar Updates
                 if (sidebarAvatar) sidebarAvatar.src = data.profilePic || defaultSettings.profilePic;
-                if (sidebarNameSpan) sidebarNameSpan.textContent = data.name || '';
+                // Apply name masking to the sidebar name display
+                if (sidebarNameSpan) sidebarNameSpan.textContent = maskName(data.name || '');
                 if (sidebarJobTitle) sidebarJobTitle.textContent = data.jobTitle || '';
 
                 // FIX: Only update the text content of the inner spans
@@ -2098,31 +2215,58 @@
 
                     sidebarContactList.innerHTML = ''; // Clear existing list
 
-                    if (hasPhone) sidebarContactList.appendChild(createSidebarContactLi('fas fa-phone', `tel:${contacts.phone}`, `<strong>电话:</strong> ${contacts.phone}`));
-                    if (hasEmail) sidebarContactList.appendChild(createSidebarContactLi('fas fa-envelope', `mailto:${contacts.email}`, `<strong>邮箱:</strong> ${contacts.email}`));
-                    if (hasWechat) sidebarContactList.appendChild(createSidebarContactLi('fab fa-weixin', 'javascript:void(0);', `<strong>微信:</strong> ${contacts.wechat} (查看)`, null, null, 'wechat-trigger-sidebar'));
-                    if (hasGithub) sidebarContactList.appendChild(createSidebarContactLi('fab fa-github', contacts.github, 'GitHub', '_blank', 'noopener noreferrer'));
+                    // Using the revised createSidebarContactLi
+                    if (hasPhone) sidebarContactList.appendChild(createSidebarContactLi('fas fa-phone', `tel:${contacts.phone}`, contacts.phone, '电话:', 'phone'));
+                    if (hasEmail) sidebarContactList.appendChild(createSidebarContactLi('fas fa-envelope', `mailto:${contacts.email}`, contacts.email, '邮箱:')); // Email is not masked/copied
+                    // For sidebar wechat, we need the LI to have the wechat-trigger-sidebar class to open the modal via delegation
+                    if (hasWechat) {
+                         const wechatLi = createSidebarContactLi('fab fa-weixin', 'javascript:void(0);', contacts.wechat, '微信:', 'wechat', null, null, 'wechat-trigger-sidebar'); // Add the ID here
+                         // Ensure the span inside also gets a class for click delegation
+                         const wechatSpan = wechatLi.querySelector('span');
+                         if(wechatSpan) wechatSpan.classList.add('sidebar-wechat-trigger-span');
+                         sidebarContactList.appendChild(wechatLi);
+                    }
+                    if (hasGithub) sidebarContactList.appendChild(createSidebarContactLi('fab fa-github', contacts.github, 'GitHub', 'GitHub:', null, '_blank', 'noopener noreferrer')); // Github is just a link
                     (contacts.others || []).forEach(other => {
-                         let href = other.value || 'javascript:void(0);';
-                         let text = other.value || '';
-                         let target = '_blank';
-                         let rel = 'noopener noreferrer';
-                          if (!other.value.startsWith('http://') && !other.value.startsWith('https://') && !other.value.startsWith('tel:') && !other.value.startsWith('mailto:') && other.icon !== 'fab fa-weixin') {
-                             href = 'javascript:void(0);'; // If not a standard link/contact format, make it js:void
-                             target = null; // Don't open in new tab if it's not a valid link
-                             rel = null;
-                             text = other.type ? `${other.type}: ${text}` : text; // Prepend type if available
-                          } else if (other.type && text === other.value) {
-                               // If type is provided and text is just the value, format as "Type: Value"
-                               text = `${other.type}: ${text}`;
-                          } else if (other.type && !text) {
-                               // If type is provided but no value, just show type? Or skip?
-                               text = other.type; // Show type name
-                           }
+                         let linkHref = other.value || 'javascript:void(0);'; // Default to js:void if no value
+                         let displayLabel = other.type || ''; // Use type as label
+                         if (displayLabel) displayLabel += ':';
+
+                         let typeForMaskingCopy = null;
+                         // Check if icon implies phone/wechat/copy for copyability
+                         if (other.icon === 'fas fa-phone') {
+                             typeForMaskingCopy = 'phone';
+                              // Also update href to tel: if it's a phone icon but href isn't tel:
+                             if (other.value && !other.value.startsWith('tel:')) linkHref = `tel:${other.value}`;
+                         } else if (other.icon === 'fab fa-weixin') {
+                             typeForMaskingCopy = 'wechat';
+                              linkHref = 'javascript:void(0);'; // Ensure wechat icon is not a clickable link by default, unless value is a real link
+                         } else if (other.icon && (other.icon.includes('copy') || other.icon.includes('paste') || other.icon.includes('clipboard'))) { // Added 'clipboard'
+                              // Optional: Add a specific icon to mark as copyable text (not masked)
+                             typeForMaskingCopy = 'copy-only';
+                             linkHref = 'javascript:void(0)'; // Make it non-clickable as a link
+                         }
 
 
-                        sidebarContactList.appendChild(createSidebarContactLi(other.icon || 'fas fa-link', href, text, target, rel));
-                    });
+                         // Default to copy-only if a value exists and it's not a standard link type
+                         if (typeForMaskingCopy === null && other.value && other.value !== '#' &&
+                             !other.value.startsWith('http://') && !other.value.startsWith('https://') && !other.value.startsWith('tel:') && !other.value.startsWith('mailto:') &&
+                              !(other.type && (other.type.toLowerCase() === 'website' || other.type.toLowerCase() === 'blog' || other.type.toLowerCase() === 'portfolio')) ) {
+                             typeForMaskingCopy = 'copy-only';
+                             linkHref = 'javascript:void(0)'; // Ensure non-link behavior
+                         }
+
+
+                        sidebarContactList.appendChild(createSidebarContactLi(
+                             other.icon || 'fas fa-link', // Use icon from settings, default to link icon
+                             linkHref,                   // Href
+                             other.value,                // Raw value
+                             displayLabel,               // Display label (e.g. "QQ:", "Telegram:")
+                             typeForMaskingCopy, // Type for masking/copy ('phone', 'wechat', 'copy-only', or null)
+                             '_blank', 'noopener noreferrer', null // Default target/rel for 'others' unless overridden
+                         ));
+                 });
+
 
                      if (sidebarContactList.children.length === 0) {
                           sidebarContactTrigger.style.display = 'none';
@@ -2160,6 +2304,7 @@
                     } else {
                         mainMarkdownDisplaySection.style.display = 'none';
 
+                        // Use the restored wrapInParagraphs function here
                         mainAboutMeDiv.innerHTML = wrapInParagraphs(data.aboutMe || '');
 
                         mainSkillsGrid.innerHTML = '';
@@ -2173,9 +2318,14 @@
                                     const tagSpan = document.createElement('span');
                                     tagSpan.className = 'tag';
                                     tagSpan.textContent = tagText;
-                                    if (tagText.toLowerCase().includes('java') || tagText.toLowerCase().includes('vue') || tagText.toLowerCase().includes('html') || tagText.toLowerCase().includes('css') || tagText.toLowerCase().includes('javascript') || tagText.toLowerCase().includes('mysql')) tagSpan.classList.add('highlight');
-                                    if (tagText.toLowerCase().includes('unreal') || tagText.toLowerCase().includes('unity')) tagSpan.classList.add('engine');
-                                    if (tagText.toLowerCase().includes('git') || tagText.toLowerCase().includes('excel') || tagText.toLowerCase().includes('python') || tagText.toLowerCase().includes('vs code')) tagSpan.classList.add('tool');
+
+                                    // --- Apply Random Color and Set Text Color Based on Lightness ---
+                                    const { colorString, lightness } = getRandomHslColor();
+                                    tagSpan.style.backgroundColor = colorString;
+                                    // Choose text color: dark-grey if lightness >= 50, white if lightness < 50
+                                    tagSpan.style.color = lightness >= 50 ? 'var(--dark-grey)' : 'white';
+
+
                                     tagsListDiv.appendChild(tagSpan);
                                 });
                                 mainSkillsGrid.appendChild(categoryDiv);
@@ -2219,26 +2369,23 @@
                         }
 
                          mainEducationSection.innerHTML = `<h2><i class="fas fa-university"></i>教育背景</h2>`;
+                         // Add a ul element for cleaner list structure
+                         const educationUl = document.createElement('ul');
                          if (data.education && data.education.length > 0) {
-                             data.education.forEach((edu, index) => {
-                                 const eduBlock = document.createElement('div');
-                                  eduBlock.classList.add('education-entry'); // Add class for potential future styling/selection
-                                 eduBlock.innerHTML = `
-                                     <p><strong>${edu.school || ''}</strong></p>
-                                     <p><strong>专业:</strong> ${edu.major || ''}</p>
-                                     <p><strong>学历:</strong> ${edu.degree || ''}</p>
-                                     <p><strong>时间:</strong> ${edu.time || ''}</p>
-                                 `;
-                                 mainEducationSection.appendChild(eduBlock);
-                                 if (data.education.length > 1 && index < data.education.length - 1) {
-                                      const separator = document.createElement('hr');
-                                      separator.style.cssText = 'margin: 20px 0; border: 0; border-top: 1px solid #eee;';
-                                       mainEducationSection.appendChild(separator);
-                                 }
+                             data.education.forEach(edu => {
+                                  // Apply school name masking here for display
+                                 const maskedSchool = maskSchoolName(edu.school);
+
+                                 const li = document.createElement('li');
+                                 li.innerHTML = `<i class="fas fa-graduation-cap"></i><strong>学校:</strong> ${maskedSchool || ''}, <strong>专业:</strong> ${edu.major || ''}, <strong>学历:</strong> ${edu.degree || ''}, <strong>时间:</strong> ${edu.time || ''}`;
+                                 educationUl.appendChild(li);
                              });
+                             mainEducationSection.appendChild(educationUl); // Append the list
                          } else {
+                              // Append directly if no list is created
                              mainEducationSection.innerHTML += '<p>暂无教育背景信息。</p>';
                          }
+
 
                          mainCertsList.innerHTML = '';
                          if (data.certificates && data.certificates.length > 0) {
@@ -2261,27 +2408,58 @@
                          const hasGithub = !!contacts.github;
                          const hasOthers = contacts.others && contacts.others.length > 0;
 
-                         if (hasPhone) mainContactList.appendChild(createMainContactLi('fas fa-phone', `tel:${contacts.phone}`, contacts.phone));
-                         if (hasEmail) mainContactList.appendChild(createMainContactLi('fas fa-envelope', `mailto:${contacts.email}`, contacts.email));
-                         if (hasWechat) mainContactList.appendChild(createMainContactLi('fab fa-weixin', 'javascript:void(0);', contacts.wechat, null, null, true));
-                          if (hasGithub) mainContactList.appendChild(createMainContactLi('fab fa-github', contacts.github, 'GitHub', '_blank', 'noopener noreferrer'));
+                        // Using the revised createMainContactLi
+                         if (hasPhone) mainContactList.appendChild(createMainContactLi('fas fa-phone', `tel:${contacts.phone}`, contacts.phone, 'phone'));
+                         if (hasEmail) mainContactList.appendChild(createMainContactLi('fas fa-envelope', `mailto:${contacts.email}`, contacts.email)); // Not masked/copied
+                         if (hasWechat) mainContactList.appendChild(createMainContactLi('fab fa-weixin', 'javascript:void(0);', contacts.wechat, 'wechat', null, null, true)); // This is the main wechat entry with tooltip
+                          if (hasGithub) mainContactList.appendChild(createMainContactLi('fab fa-github', contacts.github, 'GitHub', null, '_blank', 'noopener noreferrer')); // Github is just a link
+
                          (contacts.others || []).forEach(other => {
-                             let href = other.value || 'javascript:void(0);';
-                             let text = other.value || '';
-                             let target = '_blank';
-                             let rel = 'noopener noreferrer';
-                              if (!other.value.startsWith('http://') && !other.value.startsWith('https://') && !other.value.startsWith('tel:') && !other.value.startsWith('mailto:') && other.icon !== 'fab fa-weixin') {
-                                  href = 'javascript:void(0);';
-                                  target = null;
-                                  rel = null;
-                                  text = other.type ? `${other.type}: ${text}` : text;
-                              } else if (other.type && text === other.value) {
-                                   text = `${other.type}: ${text}`;
-                              } else if (other.type && !text) {
-                                   text = other.type;
-                               }
-                            mainContactList.appendChild(createMainContactLi(other.icon || 'fas fa-link', href, text, target, rel));
+                             let linkHref = other.value || 'javascript:void(0);'; // Default to js:void if no value
+                             let rawValueOrText = other.value || '';
+
+                             let typeForMaskingCopy = null;
+                             // Check if icon implies phone/wechat/copy for copyability
+                             if (other.icon === 'fas fa-phone') {
+                                 typeForMaskingCopy = 'phone';
+                                  if (other.value && !other.value.startsWith('tel:')) linkHref = `tel:${other.value}`;
+                             } else if (other.icon === 'fab fa-weixin') {
+                                 typeForMaskingCopy = 'wechat';
+                                 linkHref = 'javascript:void(0);'; // Explicitly make wechat icon in others not a link by default
+                             } else if (other.icon && (other.icon.includes('copy') || other.icon.includes('paste') || other.icon.includes('clipboard'))) { // Added 'clipboard'
+                                  // Add a specific icon to mark as copyable text (not masked)
+                                 typeForMaskingCopy = 'copy-only';
+                                 linkHref = 'javascript:void(0)'; // Make it non-clickable as a link
+                              } else if (other.value && (other.value.startsWith('http://') || other.value.startsWith('https://'))) {
+                                  // If it's a standard URL, it's a link, not copyable text by default
+                                   typeForMaskingCopy = null; // Ensure it's treated as a link
+                              } else if (other.value && (other.value.startsWith('tel:'))) {
+                                   // If it's a tel: link, it's clickable, not copied text by default
+                                   typeForMaskingCopy = null;
+                              } else if (other.value && (other.value.startsWith('mailto:'))) {
+                                   // If it's a mailto: link, it's clickable, not copied text by default
+                                   typeForMaskingCopy = null;
+                              }
+                               // If none of the above, and value exists, treat as copyable text by default UNLESS type suggests otherwise.
+                               // Refined rule: If typeForMaskingCopy is explicitly set by icon check above, use it. Otherwise, if rawValueOrText exists AND it's NOT a standard URL/tel/mailto, AND it's NOT just a placeholder '#' or similar, AND other.type doesn't imply a link (like 'Website', 'Blog'), then make it 'copy-only'.
+
+                               if (typeForMaskingCopy === null && rawValueOrText && rawValueOrText !== '#' &&
+                                   !rawValueOrText.startsWith('http://') && !rawValueOrText.startsWith('https://') && !rawValueOrText.startsWith('tel:') && !rawValueOrText.startsWith('mailto:') &&
+                                   !(other.type && (other.type.toLowerCase() === 'website' || other.type.toLowerCase() === 'blog' || other.type.toLowerCase() === 'portfolio')) ) {
+                                    typeForMaskingCopy = 'copy-only';
+                                    linkHref = 'javascript:void(0)'; // Ensure non-link behavior
+                                }
+
+
+                            mainContactList.appendChild(createMainContactLi(
+                                 other.icon || 'fas fa-link', // Use icon from settings, default to link icon
+                                 linkHref,                   // Href
+                                 rawValueOrText,                // Raw value
+                                 typeForMaskingCopy, // Type for masking/copy ('phone', 'wechat', 'copy-only', or null)
+                                 '_blank', 'noopener noreferrer' // Default target/rel for 'others' unless overridden
+                             ));
                         });
+
 
                          if (!hasEmail && !hasPhone && !hasWechat && !hasGithub && !hasOthers) {
                               const li = document.createElement('li');
@@ -2304,13 +2482,16 @@
                 if (!text) return '';
                 let html = text.trim();
 
+                // Headings (ensure they are at the start of a line)
                 html = html.replace(/^###\s+(.*)/gm, '<h3>$1</h3>');
                 html = html.replace(/^##\s+(.*)/gm, '<h2>$1</h2>');
                 html = html.replace(/^#\s+(.*)/gm, '<h1>$1</h1>');
 
+                // Bold and Italic
                 html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                 html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
+                // List Items (*)
                 let lines = html.split('\n');
                 let inList = false;
                 let htmlLines = [];
@@ -2322,18 +2503,24 @@
                             htmlLines.push('<ul>');
                             inList = true;
                         }
-                        htmlLines.push(`<li>${trimmedLine.substring(2)}</li>`);
+                        // Handle bold within list items
+                        let listItemContent = trimmedLine.substring(2);
+                        listItemContent = listItemContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        listItemContent = listItemContent.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+                        htmlLines.push(`<li>${listItemContent}</li>`);
                     } else if (trimmedLine === '') {
                         if (inList) {
                             htmlLines.push('</ul>');
                             inList = false;
                         }
-                        htmlLines.push('');
+                        htmlLines.push(''); // Preserve empty lines between blocks
                     } else {
                         if (inList) {
                             htmlLines.push('</ul>');
                             inList = false;
                         }
+                         // If it's not a list item or empty line, treat it as a paragraph candidate
                         htmlLines.push(line);
                     }
                 });
@@ -2344,65 +2531,85 @@
 
                 html = htmlLines.join('\n');
 
-                 // Wrap blocks that are not lists or headings into paragraphs
+                 // Wrap blocks that are not lists, headings, or already paragraphs in <p> tags
+                 // Split by two or more newlines (treat single newlines within a block as <br>)
                  html = html.split(/\n\s*\n+/).map(block => {
                      const trimmedBlock = block.trim();
                      if (!trimmedBlock) return '';
 
-                     // Check if the block already starts with a common HTML tag we handle
-                     if (/^<(h[1-6]|ul|ol|p|div|img)/i.test(trimmedBlock)) {
-                          return block;
+                     // Check if the block already starts with a known block HTML tag
+                     // Added <p> to the check
+                     if (/^<(h[1-6]|ul|ol|p|div|img|table|blockquote|pre)/i.test(trimmedBlock)) {
+                          return block; // Return block as is if it starts with a block tag
                      }
 
-                     // Convert remaining newlines within the block to <br>
+                     // Convert remaining single newlines within the block to <br>
                      const htmlBlock = trimmedBlock.replace(/\n/g, '<br>');
                      return `<p>${htmlBlock}</p>`;
-                 }).join('');
+                 }).join('\n\n'); // Join paragraphs with double newline for spacing
 
                  // Remove empty paragraphs that might result from split/join
                  html = html.replace(/<p>\s*<\/p>/g, '');
 
-
                 return html;
             }
+
+            /**
+             * Wraps lines separated by double newlines in <p> tags. Used for About Me section.
+             * This function was missing and is restored to fix the ReferenceError.
+             */
+             function wrapInParagraphs(text) {
+                 if (!text) return '';
+                 // Split by one or more newlines, trim resulting paragraphs, filter empty ones
+                 return text.split(/\n\s*\n+/).map(p => p.trim()).filter(p => p.length > 0).map(p => `<p>${p}</p>`).join('');
+             }
 
 
             /**
              * Saves the current settings from the form to localStorage and updates display.
              */
-            function saveSettings() {
+            /**
+             * Saves the current settings from the form to localStorage and updates display.
+             * MODIFIED: Now preserves data for sections not interacted with in the form.
+             */
+             function saveSettings() {
                  if (!settingsForm) {
                      console.error("Settings form element not found!");
                      showNotification('保存失败：设置表单元素未找到。', 'error');
                      return;
                  }
 
-                 const newSettings = {
-                     profilePic: avatarPreviewContainer?.querySelector('img')?.src || null,
-                     name: nameInput?.value.trim() || '',
-                     jobTitle: jobTitleInput?.value.trim() || '',
-                     age: ageInput?.value.trim() || '',
-                     educationLevel: educationLevelInput?.value.trim() || '',
-                     location: locationInput?.value.trim() || '',
-                     status: statusInput?.value.trim() || '',
-                     contact: {
-                         phone: phoneInput?.value.trim() || '',
-                         email: emailInput?.value.trim() || '',
-                         wechat: wechatInput?.value.trim() || '',
-                         wechatQr: wechatQrPreviewContainer?.querySelector('img')?.src || null,
-                         github: githubInput?.value.trim() || '',
-                         others: []
-                     },
-                     welcomeMessage: welcomeMessageInput?.value.trim() || '',
-                     aboutMe: aboutMeInput?.value.trim() || '',
-                     skills: [],
-                     experience: [],
-                     education: [],
-                     certificates: [],
-                     useMarkdown: useMarkdownCheckbox?.checked || false,
-                     markdownContent: markdownInput?.value.trim() || ''
-                 };
+                 // 1. Create a deep copy of the current settings to modify
+                 const tempSettings = JSON.parse(JSON.stringify(currentSettings)); // Start with the loaded data
 
+                 // 2. Update basic fields and contact info from the form
+                 tempSettings.profilePic = avatarPreviewContainer?.querySelector('img')?.src || null;
+                 tempSettings.name = nameInput?.value.trim() || '';
+                 tempSettings.jobTitle = jobTitleInput?.value.trim() || '';
+                 tempSettings.age = ageInput?.value.trim() || '';
+                 tempSettings.educationLevel = educationLevelInput?.value.trim() || '';
+                 tempSettings.location = locationInput?.value.trim() || '';
+                 tempSettings.status = statusInput?.value.trim() || '';
+
+                 // Ensure contact structure exists before assigning
+                 if (!tempSettings.contact) tempSettings.contact = {};
+                 tempSettings.contact.phone = phoneInput?.value.trim() || '';
+                 tempSettings.contact.email = emailInput?.value.trim() || '';
+                 tempSettings.contact.wechat = wechatInput?.value.trim() || '';
+                 tempSettings.contact.wechatQr = wechatQrPreviewContainer?.querySelector('img')?.src || null;
+                 tempSettings.contact.github = githubInput?.value.trim() || '';
+
+                 tempSettings.welcomeMessage = welcomeMessageInput?.value.trim() || '';
+                 tempSettings.aboutMe = aboutMeInput?.value.trim() || '';
+
+                 tempSettings.useMarkdown = useMarkdownCheckbox?.checked || false;
+                 tempSettings.markdownContent = markdownInput?.value.trim() || '';
+
+
+                 // 3. Rebuild dynamic lists based on current form elements
+
+                 // Skills
+                 tempSettings.skills = []; // Clear the array in the copy
                  skillsContainerEdit?.querySelectorAll('.skill-category').forEach(categoryDiv => {
                      const categoryNameInput = categoryDiv.querySelector('.skill-category-name');
                      const tagsListDiv = categoryDiv.querySelector('.tag-input-container');
@@ -2413,28 +2620,31 @@
                          tags.push(tagName.textContent.trim());
                      });
                      if (categoryNameInput?.value.trim() || tags.length > 0) {
-                         newSettings.skills.push({
-                             id: categoryDiv.dataset.id || Date.now() + '_skillcat' + Math.random(),
+                         tempSettings.skills.push({
+                             id: categoryDiv.dataset.id || Date.now() + '_skillcat' + Math.random(), // Reuse ID or create new
                              name: categoryNameInput?.value.trim() || '',
                              tags: tags
                          });
                      }
                  });
 
+                 // Experience (Projects)
+                 tempSettings.experience = []; // Clear the array in the copy
                  projectsContainerEdit?.querySelectorAll('.dynamic-item').forEach(entry => {
                      const descTextarea = entry.querySelector('textarea');
-                     // Get the image source from the preview img tag within this item
                      const imageSrc = entry.querySelector('.project-image-settings-preview img')?.src || null;
 
-                     if (descTextarea?.value.trim() || imageSrc) { // Only save if description or image exists
-                         newSettings.experience.push({
-                             id: entry.dataset.id || Date.now() + '_exp' + Math.random(),
-                             desc: descTextarea?.value.trim() || '', // Ensure desc is saved even if only image
+                     if (descTextarea?.value.trim() || imageSrc) {
+                         tempSettings.experience.push({
+                             id: entry.dataset.id || Date.now() + '_exp' + Math.random(), // Reuse ID or create new
+                             desc: descTextarea?.value.trim() || '',
                              image: imageSrc
                          });
                      }
                  });
 
+                 // Education
+                 tempSettings.education = []; // Clear the array in the copy
                  educationContainerEdit?.querySelectorAll('.dynamic-item').forEach(entry => {
                       const schoolInput = entry.querySelector('input[placeholder="请输入学校名称"]');
                       const majorInput = entry.querySelector('input[placeholder="请输入专业名称"]');
@@ -2442,8 +2652,8 @@
                       const timeInput = entry.querySelector('input[placeholder^="例如："]');
 
                       if (schoolInput?.value.trim() || majorInput?.value.trim() || degreeInput?.value.trim() || timeInput?.value.trim()) {
-                          newSettings.education.push({
-                              id: entry.dataset.id || Date.now() + '_edu' + Math.random(),
+                          tempSettings.education.push({
+                              id: entry.dataset.id || Date.now() + '_edu' + Math.random(), // Reuse ID or create new
                               school: schoolInput?.value.trim() || '',
                               major: majorInput?.value.trim() || '',
                               degree: degreeInput?.value.trim() || '',
@@ -2452,37 +2662,48 @@
                       }
                   });
 
+                 // Certificates
+                 tempSettings.certificates = []; // Clear the array in the copy
                  certificatesContainerEdit?.querySelectorAll('.dynamic-item').forEach(entry => {
                      const nameInput = entry.querySelector('input[placeholder="请输入证书名称"]');
                       if (nameInput?.value.trim()) {
-                         newSettings.certificates.push({
-                             id: entry.dataset.id || Date.now() + '_cert' + Math.random(),
+                         tempSettings.certificates.push({
+                             id: entry.dataset.id || Date.now() + '_cert' + Math.random(), // Reuse ID or create new
                              name: nameInput.value.trim()
                          });
                       }
                  });
 
+                 // Other Contacts (Keeping this part as it rebuilds based on the form)
+                 // Assuming populateSettingsForm correctly adds existing 'others' to the form.
+                 tempSettings.contact.others = []; // Clear the array in the copy
                  otherContactsContainer?.querySelectorAll('.dynamic-item').forEach(entry => {
-                      const typeInput = entry.querySelector('input[placeholder^="方式类型"]');
-                      const valueInput = entry.querySelector('input[placeholder^="内容/链接"]');
-                      const iconInput = entry.querySelector('input[placeholder^="Font Awesome 图标类"]');
+                     const typeInput = entry.querySelector('input[placeholder^="方式类型"]');
+                     const valueInput = entry.querySelector('input[placeholder^="内容/链接"]');
+                     const iconInput = entry.querySelector('input[placeholder^="Font Awesome 图标类"]');
 
-                      if (typeInput?.value.trim() || valueInput?.value.trim() || iconInput?.value.trim()) {
-                          newSettings.contact.others.push({
-                              id: entry.dataset.id || Date.now() + '_con' + Math.random(),
-                              type: typeInput?.value.trim() || '',
-                              value: valueInput?.value.trim() || '',
-                              icon: iconInput?.value.trim() || ''
-                          });
-                      }
-                  });
+                     // Save only if at least one field is filled
+                     if (typeInput?.value.trim() || valueInput?.value.trim() || iconInput?.value.trim()) {
+                         tempSettings.contact.others.push({
+                             id: entry.dataset.id || Date.now() + '_con' + Math.random(), // Reuse ID or create new
+                             type: typeInput?.value.trim() || '',
+                             value: valueInput?.value.trim() || '',
+                             icon: iconInput?.value.trim() || ''
+                         });
+                     }
+                 });
 
-                currentSettings = newSettings;
+
+                // 4. Update the current settings with the modified temporary settings
+                currentSettings = tempSettings;
+
+                // 5. Save the updated current settings to localStorage
                 try {
                     localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(currentSettings));
                     showNotification('设置已成功保存！', 'success');
                     console.log('Settings saved:', currentSettings);
-                    updateResumeDisplay(currentSettings); // Update main display immediately after saving
+                    // Update main display immediately after saving with the new settings
+                    updateResumeDisplay(currentSettings);
                 } catch (e) {
                     console.error("Error saving settings to localStorage:", e);
                     showNotification('保存设置时出错，请检查浏览器是否支持或空间已满。', 'error');
@@ -2605,25 +2826,26 @@
                  // if (save) { saveSettings(); }
              }
 
+             // addOtherContactEntry function is kept but the button to add them is removed
              function addOtherContactEntry(other = {}, save = true) {
                  const entryId = other.id || Date.now() + '_con' + Math.random();
                  const newEntry = document.createElement('div');
                  newEntry.classList.add('dynamic-item');
-                 newEntry.dataset.id = entryId;
+                 newEntry.dataset.id = entryId; // Add dataset.id here
                  newEntry.innerHTML = `
                     <button type="button" class="remove-btn" aria-label="移除联系方式"><i class="fas fa-times"></i></button>
-                     <h4>新的联系方式</h4>
+                     <h4>其他联系方式</h4>
                      <div class="form-group">
-                         <label>方式类型 (例如：微信, GitHub, 链接)</label>
-                         <input type="text" placeholder="例如：GitHub" value="${other.type || ''}">
+                         <label>方式类型 (例如：QQ, Telegram, 链接)</label>
+                         <input type="text" placeholder="例如：QQ" value="${other.type || ''}">
                      </div>
                      <div class="form-group">
                          <label>内容/链接</label>
-                         <input type="text" placeholder="例如：https://github.com/yourusername 或 your_wechat_id" value="${other.value || ''}">
+                         <input type="text" placeholder="例如：123456789 或 https://example.com" value="${other.value || ''}">
                      </div>
                      <div class="form-group">
                          <label>Font Awesome 图标类 (可选)</label>
-                         <input type="text" placeholder="例如：fab fa-github 或 fas fa-globe" value="${other.icon || ''}">
+                         <input type="text" placeholder="例如：fab fa-qq 或 fas fa-globe" value="${other.icon || ''}">
                           <div class="hint">参考: <a href="https://fontawesome.com/icons" target="_blank">fontawesome.com/icons</a> (使用 v6 版本)</div>
                      </div>
                  `;
@@ -2634,128 +2856,166 @@
 
             // --- Helper Functions ---
 
-            // Reusable file upload handler
-            function handleFileUpload(event, previewContainer, placeholderText) {
-                const file = event.target.files[0];
-                if (file) {
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            updateAvatarPreview(e.target.result, previewContainer, placeholderText);
-                        }
-                        reader.readAsDataURL(file);
-                    } else {
-                        showNotification('请选择一个图片文件。', 'error');
-                        // Clear the file input value so the same file can be selected again after error
-                        event.target.value = '';
-                         // Optionally clear the preview if a non-image was selected
-                         // updateAvatarPreview(null, previewContainer, placeholderText);
-                    }
-                } else {
-                    // If no file selected (e.g. user cancelled), potentially clear preview
-                    // updateAvatarPreview(null, previewContainer, placeholderText);
-                }
-                 // Clear the file input value after processing or error, allows re-selection
-                 event.target.value = '';
-            }
 
-            // Reusable image preview updater
-            function updateAvatarPreview(src, previewContainer, placeholderText = '图片预览') {
-                 if (previewContainer) {
-                     previewContainer.innerHTML = ''; // Clear existing content
-
-                     if (src) {
-                         const img = document.createElement('img');
-                         img.src = src;
-                         img.alt = placeholderText.replace('预览', '图片'); // Use "图片" for alt text
-                         // Handle potential errors loading data URL, although less common than external URLs
-                         img.onerror = () => {
-                             console.warn(`Failed to load image data for preview. Displaying placeholder.`);
-                             previewContainer.innerHTML = `<span>${placeholderText}</span>`;
-                         };
-                         previewContainer.appendChild(img);
-                     } else {
-                          const span = document.createElement('span');
-                          span.textContent = placeholderText;
-                          previewContainer.appendChild(span);
-                     }
-                     // previewContainer.dataset.currentSrc = src; // Removed this, img src is sufficient
-                 }
-            }
-
-             function wrapInParagraphs(text) {
-                 if (!text) return '';
-                 // Split by one or more newlines, trim resulting paragraphs, filter empty ones
-                 return text.split(/\n\s*\n+/).map(p => p.trim()).filter(p => p.length > 0).map(p => `<p>${p}</p>`).join('');
-             }
-
-
-            function createSidebarContactLi(iconClass, href, innerHTML, target = null, rel = null, id = null) {
+            /**
+             * Creates a sidebar contact list item.
+             * @param {string} iconClass - Font Awesome icon class.
+             * @param {string} href - The link URL or 'javascript:void(0)'.
+             * @param {string} rawValueOrText - The raw contact value (e.g., phone number, wechat ID) or link text.
+             * @param {string | null} displayLabel - Optional label to display before the value (e.g., "电话:", "邮箱:").
+             * @param {'phone' | 'wechat' | 'copy-only' | null} typeForMaskingCopy - 'phone' or 'wechat' to trigger masking and copy, 'copy-only' for copy without masking, null otherwise.
+             * @param {string | null} target - Link target attribute.
+             * @param {string | null} rel - Link rel attribute.
+             * @param {string | null} id - Optional ID for the li element.
+             * @returns {HTMLLIElement} The created list item element.
+             */
+            function createSidebarContactLi(iconClass, href, rawValueOrText, displayLabel = null, typeForMaskingCopy = null, target = null, rel = null, id = null) {
                 const li = document.createElement('li');
-                 if (id === 'wechat-trigger-sidebar') {
-                     li.classList.add('sidebar-wechat-trigger');
-                 } else if (id) {
-                      li.id = id; // Set custom ID if provided and not the wechat trigger
+                 if (id) {
+                     li.id = id;
                  }
 
                 const i = document.createElement('i');
                 i.className = iconClass;
                 li.appendChild(i);
 
-                // Use <a> for links, <span> for static text
-                const contentElement = (href && href !== 'javascript:void(0);') ? document.createElement('a') : document.createElement('span');
-                contentElement.innerHTML = innerHTML; // Use innerHTML to include strong tags
+                let displayedText = rawValueOrText;
+                let contentElement;
 
-                if (contentElement.tagName === 'A') {
-                    contentElement.href = href;
-                    if (target) contentElement.target = target;
-                    if (rel) contentElement.rel = rel;
-                     // Add default rel for external links for security
-                    if (contentElement.tagName === 'A' && contentElement.target === '_blank' && !contentElement.rel) {
-                        contentElement.rel = 'noopener noreferrer';
+                // Determine if it should be a copy trigger
+                const isCopyTrigger = typeForMaskingCopy === 'phone' || typeForMaskingCopy === 'wechat' || typeForMaskingCopy === 'copy-only';
+
+
+                if (isCopyTrigger) {
+                    // Apply masking if needed and make it a copy trigger
+                    if (typeForMaskingCopy === 'phone' || typeForMaskingCopy === 'wechat') {
+                        displayedText = maskContact(rawValueOrText, typeForMaskingCopy);
                     }
+                    // If type is 'copy-only', displayedText is the rawValueOrText
+
+                    contentElement = document.createElement('span');
+                    contentElement.classList.add('copy-trigger'); // Add class for event delegation
+                    contentElement.dataset.originalValue = rawValueOrText; // Store original value
+                    contentElement.style.cursor = 'pointer'; // Indicate clickable
+                     // Add specific class for sidebar wechat trigger span inside LI for modal delegation
+                    if (id === 'wechat-trigger-sidebar') {
+                         contentElement.classList.add('sidebar-wechat-trigger-span');
+                    }
+
+
+                } else if (href && href !== 'javascript:void(0);') {
+                     // It's a standard link
+                     contentElement = document.createElement('a');
+                     contentElement.href = href;
+                     if (target) contentElement.target = target;
+                     if (rel) contentElement.rel = rel;
+                      if (contentElement.tagName === 'A' && contentElement.target === '_blank' && !contentElement.rel) {
+                         contentElement.rel = 'noopener noreferrer';
+                      }
+                      displayedText = rawValueOrText; // Links display the raw text
+                 } else {
+                     // It's static text (or js:void(0) which we treat as static)
+                     contentElement = document.createElement('span');
+                     displayedText = rawValueOrText; // Static text displays the raw text
+                 }
+
+                // Construct the final innerHTML including the label
+                if (displayLabel) {
+                    contentElement.innerHTML = `<strong>${displayLabel}</strong> ${displayedText}`;
+                } else {
+                     contentElement.textContent = displayedText; // Use textContent if no strong tag needed
                 }
+
                 li.appendChild(contentElement);
 
                 return li;
             }
 
-             function createMainContactLi(iconClass, href, text, target = null, rel = null, isWechat = false) {
+             /**
+             * Creates a main resume page contact list item.
+             * @param {string} iconClass - Font Awesome icon class.
+             * @param {string} href - The link URL or 'javascript:void(0)'.
+             * @param {string} rawValueOrText - The raw contact value (e.g., phone number, wechat ID) or link text.
+             * @param {'phone' | 'wechat' | 'copy-only' | null} typeForMaskingCopy - 'phone' or 'wechat' to trigger masking and copy, 'copy-only' for copy without masking, null otherwise.
+             * @param {string | null} target - Link target attribute.
+             * @param {string | null} rel - Link rel attribute.
+             * @param {boolean} isWechatModalTrigger - Flag to indicate if this is the main wechat item triggering modal and tooltip.
+             * @returns {HTMLLIElement} The created list item element.
+             */
+            function createMainContactLi(iconClass, href, rawValueOrText, typeForMaskingCopy = null, target = null, rel = null, isWechatModalTrigger = false) {
                 const li = document.createElement('li');
                 const i = document.createElement('i');
                 i.className = iconClass;
+                li.appendChild(i); // Add icon first
 
-                if (isWechat) {
+                let displayedText = rawValueOrText;
+                let contentElement;
+
+                // Determine if it should be a copy trigger
+                const isCopyTrigger = typeForMaskingCopy === 'phone' || typeForMaskingCopy === 'wechat' || typeForMaskingCopy === 'copy-only';
+
+                if (isWechatModalTrigger) {
+                    // Special case for the main wechat entry with tooltip/modal
                     li.classList.add('wechat-hover-trigger');
-                    // The wechat tooltip structure is specific
-                    li.innerHTML = `
-                        <i class="${iconClass}"></i>
-                        <span>${text}</span>
-                        <div class="wechat-tooltip">
-                             <img src="${currentSettings.contact?.wechatQr || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}" alt="微信二维码">
-                             <span>微信扫码联系我</span>
-                        </div>
+                    // Displayed text should be masked
+                    displayedText = maskContact(rawValueOrText, 'wechat');
+
+                    // Create the copy trigger span for the masked text
+                    contentElement = document.createElement('span');
+                    contentElement.classList.add('copy-trigger'); // Add class for event delegation
+                    contentElement.dataset.originalValue = rawValueOrText; // Store original value
+                    contentElement.style.cursor = 'pointer'; // Indicate clickable
+                    contentElement.textContent = displayedText; // Set masked text
+
+                    // Create the tooltip div
+                    const tooltipDiv = document.createElement('div');
+                    tooltipDiv.classList.add('wechat-tooltip');
+                    tooltipDiv.innerHTML = `
+                        <img src="${currentSettings.contact?.wechatQr || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}" alt="微信二维码">
+                        <span>微信扫码联系我</span>
                     `;
+                    li.appendChild(contentElement); // Add the span to the li
+                    li.appendChild(tooltipDiv);    // Add the tooltip to the li
+
+                    // Event listener for the modal trigger is on the LI itself (delegated globally)
+                    // We rely on the global click handler checking if the click was NOT on .copy-trigger
+                     // No need for a direct listener here anymore with global delegation
+
+                     return li; // Return the constructed LI directly
+                } else if (isCopyTrigger) {
+                    // Apply masking if needed and make it a copy trigger
+                     if (typeForMaskingCopy === 'phone' || typeForMaskingCopy === 'wechat') {
+                        displayedText = maskContact(rawValueOrText, typeForMaskingCopy);
+                    }
+                    // If type is 'copy-only', displayedText is the rawValueOrText
+
+                    contentElement = document.createElement('span');
+                    contentElement.classList.add('copy-trigger'); // Add class for event delegation
+                    contentElement.dataset.originalValue = rawValueOrText; // Store original value
+                    contentElement.style.cursor = 'pointer'; // Indicate clickable
+                    contentElement.textContent = displayedText; // Set masked/raw text
+
+                     li.appendChild(contentElement); // Add the span to the li
+
                  } else if (href && href !== 'javascript:void(0);') {
-                     // Standard link item
-                     const a = document.createElement('a');
-                     a.href = href;
-                     a.textContent = text;
-                     if (target) a.target = target;
-                     if (rel) a.rel = rel;
-                     // Add default rel for external links for security
-                     if (a.target === '_blank' && !a.rel) {
-                         a.rel = 'noopener noreferrer';
-                     }
-                     li.appendChild(i);
-                     li.appendChild(a);
+                     // It's a standard link
+                     contentElement = document.createElement('a');
+                     contentElement.href = href;
+                     contentElement.textContent = rawValueOrText; // Link text is the raw value/text
+                     if (target) contentElement.target = target;
+                     if (rel) contentElement.rel = rel;
+                      if (contentElement.tagName === 'A' && contentElement.target === '_blank' && !contentElement.rel) {
+                         contentElement.rel = 'noopener noreferrer';
+                      }
+                     li.appendChild(contentElement); // Add the link to the li
+
                  } else {
-                     // Static text item
-                     const span = document.createElement('span');
-                     span.textContent = text;
-                     li.appendChild(i);
-                     li.appendChild(span);
+                     // It's static text
+                     contentElement = document.createElement('span');
+                     contentElement.textContent = rawValueOrText; // Static text is the raw value/text
+                     li.appendChild(contentElement); // Add the span to the li
                  }
+
                 return li;
             }
 
@@ -2901,7 +3161,8 @@
                 if (addProjectBtn) addProjectBtn.addEventListener('click', (e) => { e.preventDefault(); addExperienceEntry(); });
                 if (addEducationBtn) addEducationBtn.addEventListener('click', (e) => { e.preventDefault(); addEducationEntry(); });
                 if (addCertificateBtn) addCertificateBtn.addEventListener('click', (e) => { e.preventDefault(); addCertEntry(); });
-                 if (addOtherContactBtn) addOtherContactBtn.addEventListener('click', (e) => { e.preventDefault(); addOtherContactEntry(); });
+                 // addOtherContactBtn listener is commented out because the button is removed
+                 // if (addOtherContactBtn) addOtherContactBtn.addEventListener('click', (e) => { e.preventDefault(); addOtherContactEntry(); });
 
 
                 // Placeholder Buttons (No change needed for these)
@@ -2935,6 +3196,44 @@
             } else {
                  console.error("Required settings elements (form or settings page div) not found!");
             }
+
+             // --- Global Event Delegation for Copy Trigger and WeChat Modal Trigger ---
+             document.body.addEventListener('click', function(event) {
+                 // Handle Copy Trigger Clicks
+                 const copyTrigger = event.target.closest('.copy-trigger');
+                 // Ensure the click wasn't inside the wechat tooltip itself, which might overlap
+                 if (copyTrigger && !event.target.closest('.wechat-tooltip')) {
+                      event.preventDefault(); // Prevent default link behavior if any
+                      const originalValue = copyTrigger.dataset.originalValue;
+                      if (originalValue) {
+                          copyToClipboard(originalValue);
+                      } else {
+                          console.warn("Copy trigger element has no data-original-value attribute.");
+                          showNotification('复制失败：未能找到原始值。', 'error');
+                      }
+                      // return; // Don't return immediately, allow other click handlers to potentially run if needed
+                  }
+
+                  // Handle Sidebar WeChat Modal Trigger Click
+                  // Check if the clicked element or its ancestor is the specific span inside the sidebar LI
+                  const sidebarWechatTriggerSpan = event.target.closest('#sidebar-contact-list li .sidebar-wechat-trigger-span');
+                  if (sidebarWechatTriggerSpan) {
+                      // event.preventDefault(); // Allow default click behavior on span if any, though we handle modal below
+                      openModal();
+                      // return; // Don't return immediately
+                  }
+
+                  // Handle Main Page WeChat Modal Trigger Click (the whole LI)
+                  const mainWechatTriggerLi = event.target.closest('.main-contact-list .wechat-hover-trigger');
+                   // Check if the click was directly on the LI or its icon/padding, but NOT on the copy trigger span inside
+                  if (mainWechatTriggerLi && !event.target.closest('.copy-trigger')) {
+                      // event.preventDefault(); // Allow default click behavior on li if any, though we handle modal below
+                      openModal();
+                      // return; // Don't return immediately
+                  }
+
+             });
+
 
         }); // End DOMContentLoaded
     </script>
