@@ -252,6 +252,25 @@
              margin-bottom: 0;
          }
 
+        /* Education list item specific styling */
+        .education ul li {
+             margin-bottom: 15px; /* Increased bottom margin for multi-line items */
+             line-height: 1.6; /* Increased line height for readability */
+             display: flex; /* Ensure icon and text align */
+             align-items: flex-start; /* Align text to the top with the icon */
+         }
+          .education ul li i {
+              margin-right: 15px; /* Increased margin */
+              color: var(--primary-color);
+              width: 20px;
+              text-align: center;
+               flex-shrink: 0; /* Prevent icon from shrinking */
+          }
+         .education ul li .edu-details {
+             flex-grow: 1; /* Allow text container to take space */
+             /* Added style for the span wrapping the text details */
+         }
+
 
         .skills-grid {
             display: grid;
@@ -382,17 +401,6 @@
             width: 20px;
             text-align: center;
         }
-         /* Added style for education list items */
-         .education ul li {
-            margin-bottom: 12px;
-             line-height: 1.5;
-         }
-          .education ul li i {
-              margin-right: 10px;
-              color: var(--primary-color);
-              width: 20px;
-              text-align: center;
-          }
 
 
          .online-presence ul {
@@ -535,6 +543,48 @@
              color: #777;
              margin-top: 10px;
          }
+
+        /* Avatar Selection Modal Specific Styles */
+        #avatar-selection-modal .modal-content {
+            max-width: 500px; /* Wider modal for avatar grid */
+        }
+        #avatar-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); /* Responsive grid */
+            gap: 10px;
+            max-height: 300px; /* Limit height and add scroll */
+            overflow-y: auto;
+            padding-right: 5px; /* Add padding for scrollbar */
+        }
+         #avatar-list::-webkit-scrollbar {
+             width: 8px;
+         }
+         #avatar-list::-webkit-scrollbar-track {
+             background: #f1f1f1;
+             border-radius: 10px;
+         }
+         #avatar-list::-webkit-scrollbar-thumb {
+             background: #888;
+             border-radius: 10px;
+         }
+         #avatar-list::-webkit-scrollbar-thumb:hover {
+             background: #555;
+         }
+
+
+        #avatar-list img {
+            width: 100%;
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 50%; /* Make images round */
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.2s ease;
+            object-fit: cover; /* Ensure images fill the circle */
+             aspect-ratio: 1 / 1; /* Keep images square */
+        }
+        #avatar-list img:hover {
+            border-color: var(--primary-color);
+        }
 
 
         .sidebar-info.basic-info {
@@ -901,6 +951,7 @@
             margin-bottom: 10px;
         }
 
+        /* Hide the actual file input */
         .file-input-wrapper input[type="file"] {
             position: absolute;
             left: 0;
@@ -909,6 +960,7 @@
             cursor: pointer;
             width: 100%;
             height: 100%;
+            pointer-events: none; /* Disable clicks on the input itself */
         }
 
         .file-input-button {
@@ -916,10 +968,13 @@
             color: white;
             padding: 8px 15px;
             border-radius: 5px;
-            cursor: pointer;
+            cursor: pointer; /* Indicate clickable */
             display: inline-block;
             font-size: 0.9em;
              transition: background-color 0.3s;
+             /* Make the button clickable area */
+             position: relative;
+             z-index: 1; /* Ensure button is above hidden input if needed */
         }
 
         .file-input-button:hover {
@@ -1191,10 +1246,6 @@
                  width: 100%;
                   padding-top: 0;
               }
-              .avatar-upload:not(.wrapped) .avatar-controls {
-                   padding-top: 0;
-                   width: auto; /* Reset if somehow applied */
-               }
                /* Force controls below preview on mobile */
               .avatar-upload {
                    flex-direction: column;
@@ -1276,7 +1327,8 @@
 
     <aside class="sidebar">
         <div class="profile-pic-placeholder">
-             <img id="sidebar-avatar" src="图片/头像/20191001125343_shtxh.jpg" alt="姜同学头像">
+             <!-- Default avatar path updated -->
+             <img id="sidebar-avatar" src="图片/头像/0.jpg" alt="用户头像">
         </div>
         <h1 id="profile-home-link">
             <span id="sidebar-name">姜同学</span> <!-- Name will be set by JS -->
@@ -1431,13 +1483,15 @@
                                  <span>头像预览</span>
                             </div>
                             <div class="avatar-controls">
+                                <!-- Replaced file input with a clickable button -->
                                 <div class="form-group file-input-wrapper">
-                                    <div class="file-input-button">
-                                        <i class="fas fa-upload"></i> 上传新头像
-                                    </div>
-                                    <input type="file" id="avatar-upload-input" accept="image/*">
+                                    <!-- This span acts as the button to open the avatar selection modal -->
+                                    <span class="file-input-button" id="change-avatar-button">
+                                        <i class="fas fa-image"></i> 更换头像 (共 <span id="avatar-count">101</span> 张)
+                                    </span>
+                                     <!-- The original file input is removed -->
                                 </div>
-                                <div class="hint">推荐使用正方形图片，最佳尺寸为 300x300 像素</div>
+                                <div class="hint">点击按钮选择头像。推荐使用正方形图片，最佳尺寸为 300x300 像素</div>
                             </div>
                         </div>
 
@@ -1624,6 +1678,7 @@
 
     </main>
 
+    <!-- WeChat Modal -->
     <div id="wechat-modal" class="modal">
         <div class="modal-content">
             <span class="modal-close">&times;</span>
@@ -1632,6 +1687,18 @@
              <div class="hint" style="margin-top: 10px;">请勿将本页面二维码直接分享，此二维码可能随更新而变化。</div>
         </div>
     </div>
+
+     <!-- Avatar Selection Modal -->
+    <div id="avatar-selection-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close avatar-modal-close">&times;</span>
+            <p style="font-weight: 500; margin-bottom: 20px; color: var(--primary-color);">选择头像</p>
+            <div id="avatar-list">
+                <!-- Avatar images will be generated here by JS -->
+            </div>
+        </div>
+    </div>
+
 
     <div class="notification" id="notification"></div>
 
@@ -1669,37 +1736,57 @@
 
             // --- WeChat Modal ---
             const wechatModal = document.getElementById("wechat-modal");
-            const modalClose = wechatModal?.querySelector(".modal-close");
+            const wechatModalClose = wechatModal?.querySelector(".modal-close"); // Renamed to avoid conflict
              const wechatQrImageModal = document.getElementById('wechat-qr-image-modal');
 
+            // --- Avatar Selection Modal ---
+            const avatarSelectionModal = document.getElementById("avatar-selection-modal");
+            const avatarModalClose = avatarSelectionModal?.querySelector(".avatar-modal-close");
+            const avatarListContainer = document.getElementById('avatar-list');
+            const changeAvatarButton = document.getElementById('change-avatar-button'); // The button that opens the avatar modal
+            const avatarCountSpan = document.getElementById('avatar-count');
+            const AVATAR_COUNT = 101; // Number of avatars from 0.jpg to 100.jpg
 
-            function openModal() {
-                if (wechatModal) {
-                    wechatModal.style.display = "flex";
+
+            function openModal(modalElement) {
+                if (modalElement) {
+                    modalElement.style.display = "flex";
                 }
             }
 
-            function closeModal() {
-                 if (wechatModal) {
-                    wechatModal.style.display = "none";
+            function closeModal(modalElement) {
+                 if (modalElement) {
+                    modalElement.style.display = "none";
                  }
             }
 
             // WeChat modal trigger in sidebar is handled by click delegation on document.body now
 
-            if (modalClose) {
-                modalClose.addEventListener("click", closeModal);
+            if (wechatModalClose) {
+                wechatModalClose.addEventListener("click", () => closeModal(wechatModal));
             }
+             if (avatarModalClose) {
+                 avatarModalClose.addEventListener("click", () => closeModal(avatarSelectionModal));
+             }
+
 
             window.addEventListener("click", (event) => {
                 if (event.target === wechatModal) {
-                    closeModal();
+                    closeModal(wechatModal);
                 }
+                 if (event.target === avatarSelectionModal) {
+                     closeModal(avatarSelectionModal);
+                 }
             });
 
             window.addEventListener("keydown", (event) => {
-                 if (event.key === "Escape" && wechatModal && wechatModal.style.display === "flex") {
-                     closeModal();
+                 if (event.key === "Escape") {
+                     if (wechatModal && wechatModal.style.display === "flex") {
+                         closeModal(wechatModal);
+                     }
+                     if (avatarSelectionModal && avatarSelectionModal.style.display === "flex") {
+                         closeModal(avatarSelectionModal);
+                     }
                  }
             });
 
@@ -1839,7 +1926,7 @@
             // Selectors for Settings Page Elements
             const settingsPageElement = document.getElementById('settings-page'); // Get the settings page div
             const settingsForm = document.getElementById('settings-form');
-            const avatarUploadInput = document.getElementById('avatar-upload-input');
+            // const avatarUploadInput = document.getElementById('avatar-upload-input'); // Removed this input
             const avatarPreviewContainer = document.getElementById('avatar-preview-container');
             const nameInput = document.getElementById('name-input');
             const jobTitleInput = document.getElementById('job-title-input');
@@ -1894,8 +1981,8 @@
 
             // --- Default Settings Structure ---
             const defaultSettings = {
-                profilePic: '图片/头像/20191001125343_shtxh.jpg',
-                name: '姜同学', // Changed default to a Chinese name example
+                profilePic: '图片/头像/0.jpg', // Updated default avatar path
+                name: '姜同学',
                 jobTitle: '游戏系统策划 / 游戏关卡策划 / 技术策划 /前端开发/ Java开发 / 全栈开发/IT驻场维护',
                 age: '21岁',
                 educationLevel: '大专 (软件技术)',
@@ -2024,12 +2111,13 @@
               * Example: "北京大学" (4 chars) -> "北京大学" (no mask)
               * Example: "清华" (2 chars) -> "清华" (no mask)
               * Example: "武汉大学" (4 chars) -> "武汉大学" (no mask)
+              * Modified: Now keeps first 2 and last 2 for names >= 5 characters.
               */
              function maskSchoolName(value) {
                  if (!value) return '';
                  value = String(value); // Ensure it's a string
-                 if (value.length <= 4) {
-                     return value; // Don't mask if length is 4 or less
+                 if (value.length <= 4) { // Keep names 4 characters or less unmasked
+                     return value;
                  }
                  // Keep first 2, last 2, mask the rest with stars
                  const start = value.substring(0, 2);
@@ -2039,6 +2127,7 @@
                  const stars = maskedLength > 0 ? '*'.repeat(maskedLength) : '';
                  return start + stars + end;
              }
+
 
              /**
               * Generates a random HSL color string and its lightness value.
@@ -2072,6 +2161,34 @@
                     showNotification('复制失败，请手动复制。', 'error');
                 });
             }
+
+             /**
+              * Updates the avatar preview element.
+              * @param {string} src - The image source (URL or data URL).
+              * @param {HTMLElement} previewContainer - The container element (e.g., div.avatar-preview).
+              * @param {string} defaultText - Text to show when no image is present.
+              */
+             function updateAvatarPreview(src, previewContainer, defaultText) {
+                 if (!previewContainer) return;
+
+                 // Remove any existing img or span
+                 previewContainer.innerHTML = '';
+
+                 if (src && src !== 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7') { // Check for actual source, not just transparent pixel
+                     const img = document.createElement('img');
+                     img.src = src;
+                     // Add error handling for broken images
+                     img.onerror = () => {
+                         console.warn(`Failed to load image: ${src}. Displaying placeholder.`);
+                         previewContainer.innerHTML = `<span>${defaultText}</span>`;
+                     };
+                     previewContainer.appendChild(img);
+                 } else {
+                     const span = document.createElement('span');
+                     span.textContent = defaultText;
+                     previewContainer.appendChild(span);
+                 }
+             }
 
 
             /**
@@ -2131,7 +2248,10 @@
             function populateSettingsForm(data) {
                 if (!settingsForm) return;
 
-                updateAvatarPreview(data.profilePic, avatarPreviewContainer, '头像预览');
+                // Update Avatar Preview - Use the stored path directly
+                updateAvatarPreview(data.profilePic || defaultSettings.profilePic, avatarPreviewContainer, '头像预览');
+                // Removed file input handling here
+
                 if (nameInput) nameInput.value = data.name || '';
                 if (jobTitleInput) jobTitleInput.value = data.jobTitle || '';
 
@@ -2168,7 +2288,7 @@
                 if (educationContainerEdit) {
                     educationContainerEdit.innerHTML = '';
                      [...(data.education || [])].forEach(edu => addEducationEntry(edu, false));
-                }
+                 }
 
                  if (certificatesContainerEdit) {
                      certificatesContainerEdit.innerHTML = '';
@@ -2190,7 +2310,9 @@
              */
             function updateResumeDisplay(data) {
                 // Sidebar Updates
+                // Use the path stored in settings
                 if (sidebarAvatar) sidebarAvatar.src = data.profilePic || defaultSettings.profilePic;
+
                 // Apply name masking to the sidebar name display
                 if (sidebarNameSpan) sidebarNameSpan.textContent = maskName(data.name || '');
                 if (sidebarJobTitle) sidebarJobTitle.textContent = data.jobTitle || '';
@@ -2347,6 +2469,7 @@
                                        const img = document.createElement('img');
                                        img.src = exp.image;
                                        img.alt = (exp.desc ? exp.desc.substring(0, 20) : '项目图片') + '...'; // Simple alt text from description
+                                       img.onerror = (e) => { console.error('Project image failed to load:', exp.image, e); e.target.style.display = 'none'; }; // Hide broken image
                                        projectDiv.appendChild(img); // Append the image
                                   } else {
                                        const placeholder = document.createElement('div');
@@ -2377,7 +2500,13 @@
                                  const maskedSchool = maskSchoolName(edu.school);
 
                                  const li = document.createElement('li');
-                                 li.innerHTML = `<i class="fas fa-graduation-cap"></i><strong>学校:</strong> ${maskedSchool || ''}, <strong>专业:</strong> ${edu.major || ''}, <strong>学历:</strong> ${edu.degree || ''}, <strong>时间:</strong> ${edu.time || ''}`;
+                                 // Modified li.innerHTML to display on separate lines as requested
+                                 li.innerHTML = `<i class="fas fa-graduation-cap"></i><span class="edu-details">` +
+                                                `<strong>学校:</strong> ${maskedSchool || ''},<br>` +
+                                                `<strong>专业:</strong> ${edu.major || ''},<br>` +
+                                                `<strong>学历:</strong> ${edu.degree || ''}<br>` +
+                                                `<strong>时间:</strong> ${edu.time || ''}` +
+                                                `</span>`;
                                  educationUl.appendChild(li);
                              });
                              mainEducationSection.appendChild(educationUl); // Append the list
@@ -2567,12 +2696,9 @@
 
             /**
              * Saves the current settings from the form to localStorage and updates display.
-             */
-            /**
-             * Saves the current settings from the form to localStorage and updates display.
              * MODIFIED: Now preserves data for sections not interacted with in the form.
              */
-             function saveSettings() {
+            function saveSettings() {
                  if (!settingsForm) {
                      console.error("Settings form element not found!");
                      showNotification('保存失败：设置表单元素未找到。', 'error');
@@ -2583,7 +2709,11 @@
                  const tempSettings = JSON.parse(JSON.stringify(currentSettings)); // Start with the loaded data
 
                  // 2. Update basic fields and contact info from the form
-                 tempSettings.profilePic = avatarPreviewContainer?.querySelector('img')?.src || null;
+                 // ProfilePic is updated when selecting from the modal, not directly from form input anymore
+                 // tempSettings.profilePic = avatarPreviewContainer?.querySelector('img')?.src || null; // This gets the *current* preview image source, which is correct after selecting an avatar
+                 // The above line is actually correct to use, as the selected avatar path is set into the preview's src, and this line reads it.
+                 tempSettings.profilePic = avatarPreviewContainer?.querySelector('img')?.src || null; // Use the current image src in the preview
+
                  tempSettings.name = nameInput?.value.trim() || '';
                  tempSettings.jobTitle = jobTitleInput?.value.trim() || '';
                  tempSettings.age = ageInput?.value.trim() || '';
@@ -2596,7 +2726,7 @@
                  tempSettings.contact.phone = phoneInput?.value.trim() || '';
                  tempSettings.contact.email = emailInput?.value.trim() || '';
                  tempSettings.contact.wechat = wechatInput?.value.trim() || '';
-                 tempSettings.contact.wechatQr = wechatQrPreviewContainer?.querySelector('img')?.src || null;
+                 tempSettings.contact.wechatQr = wechatQrPreviewContainer?.querySelector('img')?.src || null; // QR uses file upload still
                  tempSettings.contact.github = githubInput?.value.trim() || '';
 
                  tempSettings.welcomeMessage = welcomeMessageInput?.value.trim() || '';
@@ -2614,10 +2744,11 @@
                      const categoryNameInput = categoryDiv.querySelector('.skill-category-name');
                      const tagsListDiv = categoryDiv.querySelector('.tag-input-container');
                      const tags = [];
+                     // Iterate through the .tag elements, skipping the input field
                      tagsListDiv?.querySelectorAll('.tag').forEach(tagSpan => {
-                         const tagName = tagSpan.cloneNode(true);
-                         tagName.querySelector('.remove-tag')?.remove();
-                         tags.push(tagName.textContent.trim());
+                          const tagName = tagSpan.cloneNode(true);
+                          tagName.querySelector('.remove-tag')?.remove(); // Remove the close button span before getting text
+                          tags.push(tagName.textContent.trim());
                      });
                      if (categoryNameInput?.value.trim() || tags.length > 0) {
                          tempSettings.skills.push({
@@ -2627,6 +2758,7 @@
                          });
                      }
                  });
+
 
                  // Experience (Projects)
                  tempSettings.experience = []; // Clear the array in the copy
@@ -2685,7 +2817,7 @@
                      // Save only if at least one field is filled
                      if (typeInput?.value.trim() || valueInput?.value.trim() || iconInput?.value.trim()) {
                          tempSettings.contact.others.push({
-                             id: entry.dataset.id || Date.now() + '_con' + Math.random(), // Reuse ID or create new
+                             id: entry.dataset.id || Date.now() + '_con' + Math.random(), // Reuse ID if exists
                              type: typeInput?.value.trim() || '',
                              value: valueInput?.value.trim() || '',
                              icon: iconInput?.value.trim() || ''
@@ -2774,7 +2906,9 @@
                 // Update the image preview if image data exists in the loaded object
                  const previewContainer = newEntry.querySelector('.project-image-settings-preview');
                  if (previewContainer && exp.image) {
-                     updateAvatarPreview(exp.image, previewContainer, '图片预览');
+                     // Use handleFileUpload's logic to read and set preview if it's a data URL or file object
+                     // For saved paths, just set the src directly
+                      updateAvatarPreview(exp.image, previewContainer, '图片预览');
                  }
 
                 // if (save) { saveSettings(); }
@@ -2853,8 +2987,76 @@
                  // if (save) { saveSettings(); }
              }
 
+             /**
+              * Handle file upload for images (used for QR code and Project images).
+              * Reads file as Data URL and updates the preview element.
+              * @param {Event} event - The change event from the file input.
+              * @param {HTMLElement} previewContainer - The container element (e.g., div.avatar-preview).
+              * @param {string} defaultText - Text to show when no image is present.
+              */
+             function handleFileUpload(event, previewContainer, defaultText) {
+                 const file = event.target.files[0];
+                 if (file) {
+                     const reader = new FileReader();
+                     reader.onload = (e) => {
+                         updateAvatarPreview(e.target.result, previewContainer, defaultText);
+                         // Note: We don't saveSettings() here, save is triggered by the button.
+                     };
+                     reader.onerror = () => {
+                         showNotification(`读取文件失败: ${file.name}`, 'error');
+                         previewContainer.innerHTML = `<span>读取失败</span>`; // Show error in preview
+                     };
+                     reader.readAsDataURL(file);
+                 } else {
+                     // If file selection was cancelled
+                     updateAvatarPreview(null, previewContainer, defaultText); // Clear or reset preview if needed
+                 }
+             }
+
 
             // --- Helper Functions ---
+
+             /**
+              * Generates the list of avatar images in the modal.
+              */
+             function generateAvatarList() {
+                 if (!avatarListContainer) return;
+                 avatarListContainer.innerHTML = ''; // Clear existing list
+
+                 for (let i = 0; i < AVATAR_COUNT; i++) {
+                     const img = document.createElement('img');
+                     img.src = `图片/头像/${i}.jpg`;
+                     img.alt = `头像 ${i}`;
+                     img.dataset.avatarPath = img.src; // Store the path for easy access
+                     // Add error handling in case an avatar image file is missing
+                     img.onerror = (e) => {
+                         console.warn(`Avatar image not found or failed to load: 图片/头像/${i}.jpg`);
+                         e.target.style.display = 'none'; // Hide the broken image element
+                     };
+                     avatarListContainer.appendChild(img);
+                 }
+                 console.log(`Generated list for ${AVATAR_COUNT} avatars.`);
+             }
+
+             /**
+              * Handles clicks on avatar images within the selection modal.
+              * @param {Event} event - The click event.
+              */
+             function handleAvatarSelection(event) {
+                 const clickedImg = event.target.closest('#avatar-list img');
+                 if (clickedImg) {
+                     const selectedAvatarPath = clickedImg.dataset.avatarPath;
+                     if (selectedAvatarPath) {
+                         // Update the avatar preview in the settings page
+                         updateAvatarPreview(selectedAvatarPath, avatarPreviewContainer, '头像预览');
+                         // Update the currentSettings object directly
+                         currentSettings.profilePic = selectedAvatarPath; // Save the path, not data URL
+                         // Note: Settings will be saved when the user clicks the "保存设置" button.
+                         closeModal(avatarSelectionModal);
+                         showNotification('头像已选择，请点击保存设置按钮。', 'info'); // Inform user to save
+                     }
+                 }
+             }
 
 
             /**
@@ -3048,6 +3250,7 @@
 
             // Initial Load - Load settings and update display
             loadSettings(); // Load settings and update display first
+            generateAvatarList(); // Generate the avatar list in the modal on load
 
 
             // Get the settings page element for delegation
@@ -3087,9 +3290,17 @@
                          }
                         return;
                     }
+
+                    // Handle click on "Change Avatar" button to open the modal
+                    if (event.target.closest('#change-avatar-button')) {
+                        event.preventDefault();
+                        openModal(avatarSelectionModal);
+                        return; // Stop propagation for this click
+                    }
+
                 });
 
-                 // Delegate file input change event for project images
+                 // Delegate file input change event for project images and QR
                  settingsPageElement.addEventListener('change', function(event) {
                       // Check if the changed element is a project image upload input
                       if (event.target.classList.contains('project-image-upload-input')) {
@@ -3104,10 +3315,6 @@
                                 console.warn("Could not find project image preview container for uploaded file.");
                            }
                            // No need to call saveSettings here, it's done via the button
-                      }
-                     // Check if the changed element is the main avatar upload input
-                      else if (event.target === avatarUploadInput) {
-                          handleFileUpload(event, avatarPreviewContainer, '头像预览');
                       }
                        // Check if the changed element is the wechat QR upload input
                       else if (event.target === wechatQrUploadInput) {
@@ -3197,12 +3404,12 @@
                  console.error("Required settings elements (form or settings page div) not found!");
             }
 
-             // --- Global Event Delegation for Copy Trigger and WeChat Modal Trigger ---
+             // --- Global Event Delegation for Copy Trigger and WeChat/Avatar Modal Triggers ---
              document.body.addEventListener('click', function(event) {
                  // Handle Copy Trigger Clicks
                  const copyTrigger = event.target.closest('.copy-trigger');
-                 // Ensure the click wasn't inside the wechat tooltip itself, which might overlap
-                 if (copyTrigger && !event.target.closest('.wechat-tooltip')) {
+                 // Ensure the click wasn't inside any modal content itself
+                 if (copyTrigger && !event.target.closest('.modal-content')) {
                       event.preventDefault(); // Prevent default link behavior if any
                       const originalValue = copyTrigger.dataset.originalValue;
                       if (originalValue) {
@@ -3211,7 +3418,6 @@
                           console.warn("Copy trigger element has no data-original-value attribute.");
                           showNotification('复制失败：未能找到原始值。', 'error');
                       }
-                      // return; // Don't return immediately, allow other click handlers to potentially run if needed
                   }
 
                   // Handle Sidebar WeChat Modal Trigger Click
@@ -3219,8 +3425,7 @@
                   const sidebarWechatTriggerSpan = event.target.closest('#sidebar-contact-list li .sidebar-wechat-trigger-span');
                   if (sidebarWechatTriggerSpan) {
                       // event.preventDefault(); // Allow default click behavior on span if any, though we handle modal below
-                      openModal();
-                      // return; // Don't return immediately
+                      openModal(wechatModal);
                   }
 
                   // Handle Main Page WeChat Modal Trigger Click (the whole LI)
@@ -3228,11 +3433,21 @@
                    // Check if the click was directly on the LI or its icon/padding, but NOT on the copy trigger span inside
                   if (mainWechatTriggerLi && !event.target.closest('.copy-trigger')) {
                       // event.preventDefault(); // Allow default click behavior on li if any, though we handle modal below
-                      openModal();
-                      // return; // Don't return immediately
+                      openModal(wechatModal);
+                  }
+
+                  // Handle Avatar Selection Modal Image Click (Delegated)
+                  const clickedAvatarImage = event.target.closest('#avatar-list img');
+                  if (clickedAvatarImage) {
+                      handleAvatarSelection({ target: clickedAvatarImage }); // Call the handler with the clicked image
                   }
 
              });
+
+             // Update avatar count display on load
+             if (avatarCountSpan) {
+                 avatarCountSpan.textContent = AVATAR_COUNT;
+             }
 
 
         }); // End DOMContentLoaded
