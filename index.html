@@ -846,14 +846,14 @@
              border: 1px dashed var(--primary-color); /* Dashed border for project image */
              margin-right: 20px;
              flex-shrink: 0;
+             overflow: hidden;
         }
-
-
-        .avatar-preview img {
+        .project-image-settings-preview img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: cover; /* Or contain, based on desired behavior */
         }
+
 
         .avatar-controls {
             flex-grow: 1;
@@ -1071,6 +1071,73 @@
             margin-top: 10px;
         }
 
+        /* Markdown Image Upload Specific Styles */
+        .markdown-image-upload-container {
+            margin-top: 20px;
+            border-top: 1px dashed var(--light-grey);
+            padding-top: 15px;
+        }
+        .markdown-image-upload-container label {
+             margin-bottom: 10px;
+        }
+         .markdown-uploaded-images-list {
+             margin-top: 15px;
+             display: flex;
+             flex-wrap: wrap;
+             gap: 15px;
+         }
+         .markdown-uploaded-image-item {
+             border: 1px solid var(--light-grey);
+             padding: 10px;
+             border-radius: 5px;
+             background-color: var(--background-color);
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             gap: 8px;
+             position: relative;
+         }
+         .markdown-uploaded-image-item .remove-btn {
+             top: -8px;
+             right: -8px;
+             width: 20px;
+             height: 20px;
+             font-size: 0.7em;
+         }
+
+         .markdown-uploaded-image-item .image-preview {
+             width: 80px;
+             height: 60px;
+             border: 1px dashed var(--primary-color);
+             border-radius: 4px;
+             overflow: hidden;
+             flex-shrink: 0;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             background-color: white;
+         }
+          .markdown-uploaded-image-item .image-preview img {
+             max-width: 100%;
+             max-height: 100%;
+             object-fit: contain;
+          }
+         .markdown-uploaded-image-item .image-tag {
+             font-family: monospace;
+             font-size: 0.85em;
+             background-color: #eee;
+             padding: 4px 8px;
+             border-radius: 3px;
+             cursor: pointer;
+             user-select: all; /* Allows easy selection for copying */
+             text-align: center;
+              word-break: break-all;
+         }
+         .markdown-uploaded-image-item .image-tag:hover {
+             background-color: #ddd;
+         }
+
+
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
@@ -1250,6 +1317,7 @@
 
     <aside class="sidebar">
         <div class="profile-pic-placeholder">
+             <!-- Use forward slashes for web paths -->
              <img id="sidebar-avatar" src="图片/头像/20191001125343_shtxh.jpg" alt="姜同学头像">
         </div>
         <h1 id="profile-home-link">
@@ -1352,7 +1420,7 @@
             </section>
              <!-- Markdown content display section (hidden by default) -->
              <section class="section" id="main-markdown-display" style="display: none;">
-                  <h2><i class="fas fa-file-alt"></i>自定义内容</h2>
+                  <h2><i class="fas fa-file-alt"></i>自定义内容 (Markdown)</h2>
                   <!-- Markdown HTML content will be loaded here -->
              </section>
 
@@ -1582,8 +1650,35 @@
                         <div class="form-group markdown-section" id="markdown-editor-section">
                             <label for="markdown-input">Markdown 内容</label>
                             <textarea id="markdown-input" placeholder="在此处输入 Markdown 格式的个人主页内容..."></textarea>
-                            <div class="hint">启用此选项后，主页将只显示下方您输入的 Markdown 内容。所有其他设置将被忽略。（功能待实现）</div>
+                             <div class="hint">启用此选项后，主页将只显示上方您输入的 Markdown 内容。所有其他设置（除基本信息外）将被忽略。支持部分 Markdown 语法。</div>
+
+                            <!-- New Markdown Image Upload Section -->
+                            <div class="markdown-image-upload-container">
+                                <label>插入图片 (用于 Markdown 内容)</label>
+                                <div class="avatar-upload">
+                                     <!-- Using project preview style for square/rectangle images -->
+                                     <div class="avatar-preview project-image-settings-preview" id="markdown-image-preview-container">
+                                          <span>图片预览</span>
+                                     </div>
+                                    <div class="avatar-controls">
+                                        <div class="form-group file-input-wrapper">
+                                            <div class="file-input-button">
+                                                <i class="fas fa-upload"></i> 上传图片
+                                            </div>
+                                            <input type="file" id="markdown-image-upload-input" accept="image/*">
+                                        </div>
+                                        <div class="hint">上传后下方将显示图片占位符，复制占位符粘贴到 Markdown 编辑器中即可显示图片。</div>
+                                    </div>
+                                </div>
+                                 <div id="markdown-uploaded-images-list" class="markdown-uploaded-images-list">
+                                     <!-- Uploaded markdown images will be listed here -->
+                                 </div>
+                                 <div class="hint" style="margin-top: 15px; color: var(--error-color);"><strong>注意：</strong>图片将存储在浏览器本地，不上传到服务器。请勿清空浏览器缓存。此方式存储容量有限，不适合大量或大尺寸图片。</div>
+                            </div>
+                             <!-- End Markdown Image Upload Section -->
+
                         </div>
+
 
                         <div class="form-group">
                             <button type="button" id="resume-parse-btn" class="placeholder-btn"><i class="fas fa-file-upload"></i> 简历解析 (暂未开放)</button>
@@ -1606,6 +1701,7 @@
         <div class="modal-content">
             <span class="modal-close">&times;</span>
             <p style="font-weight: 500; margin-bottom: 15px; color: var(--secondary-color);">扫描微信二维码</p>
+             <!-- Use forward slashes for web paths -->
             <img src="图片/二维码/Screenshot_2025_0427_015845.png" alt="微信二维码" id="wechat-qr-image-modal">
              <div class="hint" style="margin-top: 10px;">请勿将本页面二维码直接分享，此二维码可能随更新而变化。</div>
         </div>
@@ -1852,8 +1948,16 @@
             const useMarkdownCheckbox = document.getElementById('use-markdown-checkbox');
             const markdownInput = document.getElementById('markdown-input');
             const markdownEditorSection = document.getElementById('markdown-editor-section');
+
+            // NEW: Markdown Image elements
+            const markdownImageUploadInput = document.getElementById('markdown-image-upload-input');
+            const markdownImagePreviewContainer = document.getElementById('markdown-image-preview-container');
+            const markdownUploadedImagesList = document.getElementById('markdown-uploaded-images-list');
+
+            // Placeholder Buttons (Resume Parse, Custom CSS)
             const resumeParseBtn = document.getElementById('resume-parse-btn');
             const customCssBtn = document.getElementById('custom-css-btn');
+
 
             const notificationElement = document.getElementById('notification');
 
@@ -1878,6 +1982,7 @@
 
             // --- Default Settings Structure ---
             const defaultSettings = {
+                // Use forward slashes for web paths
                 profilePic: '图片/头像/20191001125343_shtxh.jpg',
                 name: '姜同学',
                 jobTitle: '游戏系统策划 / 游戏关卡策划 / 技术策划 /前端开发/ Java开发 / 全栈开发/IT驻场维护',
@@ -1889,6 +1994,7 @@
                     phone: '15526312845',
                     email: 'ucxx66@163.com',
                     wechat: 'G16689683054',
+                     // Use forward slashes for web paths
                     wechatQr: '图片/二维码/Screenshot_2025_0427_015845.png',
                     github: 'https://github.com/MisZang/MisZang.github.io/tree/main',
                     others: []
@@ -1930,7 +2036,8 @@
                     { id: 6, name: '电工高压特种作业操作证（备考中）' }
                 ],
                 useMarkdown: false,
-                markdownContent: ''
+                markdownContent: '',
+                 markdownImages: [] // NEW: Array to store markdown images { id: string, src: DataURL }
             };
 
             // --- Core Functions ---
@@ -1941,9 +2048,21 @@
                         if (typeof source[key] === 'object' && source[key] !== null && key in target && typeof target[key] === 'object' && target[key] !== null) {
                              if (Array.isArray(source[key])) {
                                  // For arrays, replace if source is present, otherwise keep target
-                                 if (source[key] !== undefined) {
-                                      target[key] = source[key];
-                                 }
+                                 // Special handling for markdownImages: merge based on id or add new
+                                  if (key === 'markdownImages' && Array.isArray(target[key])) {
+                                      const targetMap = new Map(target[key].map(item => [item.id, item]));
+                                       source[key].forEach(sourceItem => {
+                                           if (targetMap.has(sourceItem.id)) {
+                                                // Update existing item if needed (though here just replacing is fine)
+                                               Object.assign(targetMap.get(sourceItem.id), sourceItem);
+                                           } else {
+                                               // Add new item
+                                               target[key].push(sourceItem);
+                                           }
+                                       });
+                                  } else if (source[key] !== undefined) {
+                                       target[key] = source[key];
+                                  }
                              } else {
                                 deepMerge(target[key], source[key]);
                              }
@@ -1978,6 +2097,8 @@
                      if (!currentSettings.experience) currentSettings.experience = [];
                      if (!currentSettings.education) currentSettings.education = [];
                      if (!currentSettings.certificates) currentSettings.certificates = [];
+                      if (!currentSettings.markdownImages) currentSettings.markdownImages = []; // Ensure markdownImages array exists
+
 
                      console.log('Loaded settings:', currentSettings); // Log loaded settings
 
@@ -2016,15 +2137,18 @@
             function populateSettingsForm(data) {
                 if (!settingsForm) return;
 
+                // Basic Info
                 updateAvatarPreview(data.profilePic, avatarPreviewContainer, '头像预览');
                 if (nameInput) nameInput.value = data.name || '';
                 if (jobTitleInput) jobTitleInput.value = data.jobTitle || '';
 
+                 // Personal Info
                  if (ageInput) ageInput.value = data.age || '';
                  if (educationLevelInput) educationLevelInput.value = data.educationLevel || '';
                  if (locationInput) locationInput.value = data.location || '';
                  if (statusInput) statusInput.value = data.status || '';
 
+                // Contact Info
                 if (phoneInput) phoneInput.value = data.contact?.phone || '';
                 if (emailInput) emailInput.value = data.contact?.email || '';
                 if (wechatInput) wechatInput.value = data.contact?.wechat || '';
@@ -2036,37 +2160,54 @@
                     [...(data.contact?.others || [])].forEach(other => addOtherContactEntry(other, false));
                 }
 
+                // Welcome Message
                 if (welcomeMessageInput) welcomeMessageInput.value = data.welcomeMessage || '';
                 if (aboutMeInput) aboutMeInput.value = data.aboutMe || '';
 
+                 // Skills
                  if (skillsContainerEdit) {
                      skillsContainerEdit.innerHTML = '';
                      [...(data.skills || [])].forEach(category => addSkillCategory(category, false));
                  }
 
+                // Experience
                 if (projectsContainerEdit) {
                     projectsContainerEdit.innerHTML = '';
                      [...(data.experience || [])].forEach(exp => addExperienceEntry(exp, false)); // Pass the whole experience object including image
                 }
 
+                // Education
                 if (educationContainerEdit) {
                     educationContainerEdit.innerHTML = '';
                      [...(data.education || [])].forEach(edu => addEducationEntry(edu, false));
                 }
 
+                 // Certificates
                  if (certificatesContainerEdit) {
                      certificatesContainerEdit.innerHTML = '';
                      [...(data.certificates || [])].forEach(cert => addCertEntry(cert, false));
                  }
 
+                // Advanced Settings - Markdown
                 if (useMarkdownCheckbox) {
                      useMarkdownCheckbox.checked = data.useMarkdown === true;
                      setTimeout(() => {
+                        // Trigger change event to show/hide markdown section
                         const event = new Event('change');
                         useMarkdownCheckbox.dispatchEvent(event);
                      }, 0);
                  }
                 if (markdownInput) markdownInput.value = data.markdownContent || '';
+
+                 // NEW: Populate markdown uploaded images list
+                 if(markdownUploadedImagesList) {
+                     markdownUploadedImagesList.innerHTML = ''; // Clear existing list
+                     [...(data.markdownImages || [])].forEach(image => addMarkdownImageEntryToSettingsUI(image));
+                 }
+                 // Clear the markdown image upload preview placeholder
+                 updateAvatarPreview(null, markdownImagePreviewContainer, '图片预览');
+
+
             }
 
             /**
@@ -2078,7 +2219,7 @@
                 if (sidebarNameSpan) sidebarNameSpan.textContent = data.name || '';
                 if (sidebarJobTitle) sidebarJobTitle.textContent = data.jobTitle || '';
 
-                // FIX: Only update the text content of the inner spans
+                // Only update the text content of the inner spans
                 if (sidebarAgeSpan) sidebarAgeSpan.textContent = data.age || '';
                 if (sidebarEducationSpan) sidebarEducationSpan.textContent = data.educationLevel || '';
                 if (sidebarLocationSpan) sidebarLocationSpan.textContent = data.location || '';
@@ -2156,10 +2297,24 @@
 
                     if (useMarkdown) {
                         mainMarkdownDisplaySection.style.display = 'block';
-                        mainMarkdownDisplaySection.innerHTML = `<h2><i class="fas fa-file-alt"></i>自定义内容</h2>${convertMarkdownToHtml(data.markdownContent || '')}`;
+                        let renderedMarkdown = convertMarkdownToHtml(data.markdownContent || '');
+
+                         // NEW: Replace markdown image placeholders
+                         if (data.markdownImages && data.markdownImages.length > 0) {
+                             data.markdownImages.forEach(imgData => {
+                                 const placeholder = `[image-${imgData.id}]`;
+                                  // Use a regular expression to replace all occurrences globally
+                                  renderedMarkdown = renderedMarkdown.replace(new RegExp(escapeRegExp(placeholder), 'g'), `<img src="${imgData.src}" alt="自定义图片" style="max-width:100%; height:auto; display:block; margin: 15px auto;">`); // Add basic styling for display
+                             });
+                         }
+
+
+                        mainMarkdownDisplaySection.innerHTML = `<h2><i class="fas fa-file-alt"></i>自定义内容 (Markdown)</h2>${renderedMarkdown}`;
+
                     } else {
                         mainMarkdownDisplaySection.style.display = 'none';
 
+                        // Resume sections content
                         mainAboutMeDiv.innerHTML = wrapInParagraphs(data.aboutMe || '');
 
                         mainSkillsGrid.innerHTML = '';
@@ -2190,13 +2345,21 @@
                                 const htmlDesc = convertMarkdownToHtml(exp.desc || '');
                                 const projectDiv = document.createElement('div');
                                 projectDiv.className = 'project';
-                                projectDiv.innerHTML = htmlDesc;
 
-                                   // Add image or placeholder
+                                 // Add image or placeholder
                                   if (exp.image) {
                                        const img = document.createElement('img');
                                        img.src = exp.image;
                                        img.alt = (exp.desc ? exp.desc.substring(0, 20) : '项目图片') + '...'; // Simple alt text from description
+                                        // Handle image load errors for Data URLs or relative paths
+                                       img.onerror = (e) => {
+                                            console.warn(`Failed to load project image: ${exp.image}`, e);
+                                            const fallbackPlaceholder = document.createElement('div');
+                                            fallbackPlaceholder.className = 'project-image-placeholder';
+                                            fallbackPlaceholder.textContent = '图片加载失败';
+                                            projectDiv.appendChild(fallbackPlaceholder);
+                                            img.remove(); // Remove the broken image tag
+                                       };
                                        projectDiv.appendChild(img); // Append the image
                                   } else {
                                        const placeholder = document.createElement('div');
@@ -2204,6 +2367,9 @@
                                        placeholder.textContent = '项目图片/占位符';
                                        projectDiv.appendChild(placeholder); // Append the placeholder div
                                   }
+
+                                // Append description after image
+                                projectDiv.innerHTML += htmlDesc; // Add description HTML
 
 
                                 mainExperienceSection.appendChild(projectDiv);
@@ -2304,13 +2470,19 @@
                 if (!text) return '';
                 let html = text.trim();
 
+                // Headers (h1-h6)
+                html = html.replace(/^######\s+(.*)/gm, '<h6>$1</h6>');
+                html = html.replace(/^#####\s+(.*)/gm, '<h5>$1</h5>');
+                html = html.replace(/^####\s+(.*)/gm, '<h4>$1</h4>');
                 html = html.replace(/^###\s+(.*)/gm, '<h3>$1</h3>');
                 html = html.replace(/^##\s+(.*)/gm, '<h2>$1</h2>');
                 html = html.replace(/^#\s+(.*)/gm, '<h1>$1</h1>');
 
+                // Bold (**text**) and Italic (*text*)
                 html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                html = html.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Basic italic, might conflict with lists
 
+                // Basic Unordered Lists (*) - Simplified: Assumes * at start of line
                 let lines = html.split('\n');
                 let inList = false;
                 let htmlLines = [];
@@ -2322,19 +2494,15 @@
                             htmlLines.push('<ul>');
                             inList = true;
                         }
-                        htmlLines.push(`<li>${trimmedLine.substring(2)}</li>`);
-                    } else if (trimmedLine === '') {
-                        if (inList) {
-                            htmlLines.push('</ul>');
-                            inList = false;
-                        }
-                        htmlLines.push('');
+                         // Convert remaining formatting inside list item
+                        let listItemText = trimmedLine.substring(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
+                        htmlLines.push(`<li>${listItemText}</li>`);
                     } else {
                         if (inList) {
                             htmlLines.push('</ul>');
                             inList = false;
                         }
-                        htmlLines.push(line);
+                        htmlLines.push(line); // Keep other lines as is for now
                     }
                 });
 
@@ -2344,27 +2512,29 @@
 
                 html = htmlLines.join('\n');
 
-                 // Wrap blocks that are not lists or headings into paragraphs
-                 html = html.split(/\n\s*\n+/).map(block => {
-                     const trimmedBlock = block.trim();
-                     if (!trimmedBlock) return '';
+                 // Convert double newlines to paragraph breaks, single newlines to <br>
+                 html = html.split(/\n{2,}/).map(paragraph => {
+                      // If the block starts with a known tag or list marker, don't wrap it
+                      if (/^<(h[1-6]|ul|ol|img)/i.test(paragraph.trim())) {
+                           return paragraph; // Return block as is
+                      }
+                      // Otherwise, replace single newlines with <br> and wrap in <p>
+                     return `<p>${paragraph.trim().replace(/\n/g, '<br>')}</p>`;
+                 }).join('\n');
 
-                     // Check if the block already starts with a common HTML tag we handle
-                     if (/^<(h[1-6]|ul|ol|p|div|img)/i.test(trimmedBlock)) {
-                          return block;
-                     }
-
-                     // Convert remaining newlines within the block to <br>
-                     const htmlBlock = trimmedBlock.replace(/\n/g, '<br>');
-                     return `<p>${htmlBlock}</p>`;
-                 }).join('');
-
-                 // Remove empty paragraphs that might result from split/join
-                 html = html.replace(/<p>\s*<\/p>/g, '');
+                 // Basic handling for <br> within lists or headers introduced by the previous step
+                 // This is a simplification and might require more robust parsing for complex cases
+                  html = html.replace(/<p><br>/g, '<p>').replace(/<br><\/p>/g, '</p>');
+                  html = html.replace(/<li><br>/g, '<li>');
 
 
                 return html;
             }
+
+             // Helper to escape string for use in RegExp
+             function escapeRegExp(string) {
+                 return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+             }
 
 
             /**
@@ -2378,7 +2548,8 @@
                  }
 
                  const newSettings = {
-                     profilePic: avatarPreviewContainer?.querySelector('img')?.src || null,
+                     // Capture Data URL from preview if available, otherwise use default path (or null)
+                     profilePic: avatarPreviewContainer?.querySelector('img')?.src || defaultSettings.profilePic || null,
                      name: nameInput?.value.trim() || '',
                      jobTitle: jobTitleInput?.value.trim() || '',
                      age: ageInput?.value.trim() || '',
@@ -2389,7 +2560,8 @@
                          phone: phoneInput?.value.trim() || '',
                          email: emailInput?.value.trim() || '',
                          wechat: wechatInput?.value.trim() || '',
-                         wechatQr: wechatQrPreviewContainer?.querySelector('img')?.src || null,
+                         // Capture Data URL from preview if available, otherwise use default path (or null)
+                         wechatQr: wechatQrPreviewContainer?.querySelector('img')?.src || defaultSettings.contact.wechatQr || null,
                          github: githubInput?.value.trim() || '',
                          others: []
                      },
@@ -2400,7 +2572,9 @@
                      education: [],
                      certificates: [],
                      useMarkdown: useMarkdownCheckbox?.checked || false,
-                     markdownContent: markdownInput?.value.trim() || ''
+                     markdownContent: markdownInput?.value.trim() || '',
+                      // markdownImages are managed directly by addMarkdownImageEntryToSettingsUI and remove logic
+                     markdownImages: currentSettings.markdownImages // Keep the current array reference
                  };
 
                  skillsContainerEdit?.querySelectorAll('.skill-category').forEach(categoryDiv => {
@@ -2421,7 +2595,7 @@
                      }
                  });
 
-                 projectsContainerEdit?.querySelectorAll('.dynamic-item').forEach(entry => {
+                 projectsContainerEdit?.querySelectorAll('.dynamic-item.project-item').forEach(entry => {
                      const descTextarea = entry.querySelector('textarea');
                      // Get the image source from the preview img tag within this item
                      const imageSrc = entry.querySelector('.project-image-settings-preview img')?.src || null;
@@ -2430,12 +2604,12 @@
                          newSettings.experience.push({
                              id: entry.dataset.id || Date.now() + '_exp' + Math.random(),
                              desc: descTextarea?.value.trim() || '', // Ensure desc is saved even if only image
-                             image: imageSrc
+                             image: imageSrc // Save the Data URL or path
                          });
                      }
                  });
 
-                 educationContainerEdit?.querySelectorAll('.dynamic-item').forEach(entry => {
+                 educationContainerEdit?.querySelectorAll('.dynamic-item.education-item').forEach(entry => {
                       const schoolInput = entry.querySelector('input[placeholder="请输入学校名称"]');
                       const majorInput = entry.querySelector('input[placeholder="请输入专业名称"]');
                       const degreeInput = entry.querySelector('input[placeholder="请输入学历"]');
@@ -2452,7 +2626,7 @@
                       }
                   });
 
-                 certificatesContainerEdit?.querySelectorAll('.dynamic-item').forEach(entry => {
+                 certificatesContainerEdit?.querySelectorAll('.dynamic-item.certificate-item').forEach(entry => {
                      const nameInput = entry.querySelector('input[placeholder="请输入证书名称"]');
                       if (nameInput?.value.trim()) {
                          newSettings.certificates.push({
@@ -2477,7 +2651,10 @@
                       }
                   });
 
-                currentSettings = newSettings;
+                // markdownImages are already in currentSettings.markdownImages and referenced by newSettings
+
+
+                currentSettings = newSettings; // Update the global currentSettings reference
                 try {
                     localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(currentSettings));
                     showNotification('设置已成功保存！', 'success');
@@ -2485,7 +2662,7 @@
                     updateResumeDisplay(currentSettings); // Update main display immediately after saving
                 } catch (e) {
                     console.error("Error saving settings to localStorage:", e);
-                    showNotification('保存设置时出错，请检查浏览器是否支持或空间已满。', 'error');
+                     showNotification(`保存设置时出错，可能原因：浏览器不支持、存储空间不足或数据过大。详细错误: ${e.message}`, 'error');
                 }
             }
 
@@ -2631,29 +2808,92 @@
                  // if (save) { saveSettings(); }
              }
 
+             // NEW: Function to add uploaded markdown image entry to settings UI
+             function addMarkdownImageEntryToSettingsUI(imageData) {
+                 if (!markdownUploadedImagesList || !imageData || !imageData.id || !imageData.src) return;
+
+                 const imageItem = document.createElement('div');
+                 imageItem.classList.add('markdown-uploaded-image-item');
+                 imageItem.dataset.id = imageData.id; // Store the ID on the element
+
+                 imageItem.innerHTML = `
+                    <button type="button" class="remove-btn" aria-label="移除图片"><i class="fas fa-times"></i></button>
+                     <div class="image-preview">
+                          <img src="${imageData.src}" alt="Uploaded Image Preview">
+                     </div>
+                     <div class="image-tag">[image-${imageData.id}]</div>
+                 `;
+                 markdownUploadedImagesList.appendChild(imageItem);
+
+                 // Add event listener to the remove button on this item
+                 imageItem.querySelector('.remove-btn').addEventListener('click', function() {
+                      if (confirm('确定要移除这张图片吗？移除后需要手动删除 Markdown 中的占位符。')) {
+                          // Remove from the DOM
+                          imageItem.remove();
+                           // Remove from currentSettings.markdownImages array
+                           currentSettings.markdownImages = currentSettings.markdownImages.filter(img => img.id !== imageData.id);
+                           // Save updated settings
+                           saveSettings(); // Saving here ensures removal is persisted immediately
+                      }
+                 });
+
+                 // Add event listener to the tag div for easy copying
+                 imageItem.querySelector('.image-tag').addEventListener('click', function() {
+                      const tagText = this.textContent;
+                       navigator.clipboard.writeText(tagText).then(() => {
+                           showNotification('占位符已复制到剪贴板！', 'success');
+                       }).catch(err => {
+                            console.error('无法复制文本: ', err);
+                            showNotification('复制失败，请手动选中复制。', 'error');
+                       });
+                 });
+
+             }
+
 
             // --- Helper Functions ---
 
             // Reusable file upload handler
-            function handleFileUpload(event, previewContainer, placeholderText) {
+            function handleFileUpload(event, previewContainer, placeholderText, callback = null) {
                 const file = event.target.files[0];
                 if (file) {
                     if (file.type.startsWith('image/')) {
+                        // Check file size (e.g., limit to 2MB) - Important for localStorage!
+                        const maxSize = 2 * 1024 * 1024; // 2MB
+                        if (file.size > maxSize) {
+                            showNotification(`图片文件过大 (最大允许 ${maxSize / (1024*1024)} MB)。`, 'error');
+                             event.target.value = ''; // Clear the input
+                             updateAvatarPreview(null, previewContainer, placeholderText); // Clear preview
+                            return;
+                        }
+
                         const reader = new FileReader();
                         reader.onload = function(e) {
-                            updateAvatarPreview(e.target.result, previewContainer, placeholderText);
+                            const dataUrl = e.target.result;
+                            updateAvatarPreview(dataUrl, previewContainer, placeholderText);
+                            // Execute callback with the Data URL and the file
+                            if (callback && typeof callback === 'function') {
+                                callback(dataUrl, file);
+                            }
                         }
+                        reader.onerror = (e) => {
+                            console.error("FileReader error:", e);
+                            showNotification("读取图片文件时出错。", 'error');
+                            event.target.value = ''; // Clear the input
+                            updateAvatarPreview(null, previewContainer, placeholderText); // Clear preview
+                        };
                         reader.readAsDataURL(file);
                     } else {
                         showNotification('请选择一个图片文件。', 'error');
                         // Clear the file input value so the same file can be selected again after error
                         event.target.value = '';
                          // Optionally clear the preview if a non-image was selected
-                         // updateAvatarPreview(null, previewContainer, placeholderText);
+                          updateAvatarPreview(null, previewContainer, placeholderText);
                     }
                 } else {
                     // If no file selected (e.g. user cancelled), potentially clear preview
-                    // updateAvatarPreview(null, previewContainer, placeholderText);
+                    // For avatar/QR, cancelling might mean keeping the old one unless explicitly removed
+                    // For project/markdown upload inputs where user might just cancel, clearing the specific input is enough.
                 }
                  // Clear the file input value after processing or error, allows re-selection
                  event.target.value = '';
@@ -2668,10 +2908,10 @@
                          const img = document.createElement('img');
                          img.src = src;
                          img.alt = placeholderText.replace('预览', '图片'); // Use "图片" for alt text
-                         // Handle potential errors loading data URL, although less common than external URLs
-                         img.onerror = () => {
-                             console.warn(`Failed to load image data for preview. Displaying placeholder.`);
-                             previewContainer.innerHTML = `<span>${placeholderText}</span>`;
+                         // Handle potential errors loading data URL or relative paths
+                         img.onerror = (e) => {
+                             console.warn(`Failed to load image source for preview: ${src}`, e);
+                             previewContainer.innerHTML = `<span>加载失败</span>`; // Show error text in preview
                          };
                          previewContainer.appendChild(img);
                      } else {
@@ -2679,7 +2919,6 @@
                           span.textContent = placeholderText;
                           previewContainer.appendChild(span);
                      }
-                     // previewContainer.dataset.currentSrc = src; // Removed this, img src is sufficient
                  }
             }
 
@@ -2795,16 +3034,25 @@
 
             if (settingsForm && settingsPageElement) {
 
-                // --- Event Delegation for REMOVE buttons, TAG INPUTS, and PROJECT IMAGE UPLOADS on settings page ---
+                // --- Event Delegation for REMOVE buttons, TAG INPUTS, and IMAGE UPLOADS on settings page ---
                 settingsPageElement.addEventListener('click', function(event) {
                     const removeBtn = event.target.closest('.remove-btn');
                     if (removeBtn) {
                         event.preventDefault();
-                        const itemToRemove = removeBtn.closest('.dynamic-item');
-                        if (itemToRemove && confirm('确定要移除此项吗？')) {
-                             itemToRemove.remove();
-                             // Save is now only via the header button, so no saveSettings() here
-                        }
+                        const itemToRemove = removeBtn.closest('.dynamic-item, .markdown-uploaded-image-item'); // Handle both types
+                         if (itemToRemove) {
+                             if (itemToRemove.classList.contains('markdown-uploaded-image-item')) {
+                                  // Specific handling for markdown image removal (includes confirmation and settings update)
+                                   // The event listener is added when the item is created in addMarkdownImageEntryToSettingsUI
+                                   // Clicking it here will trigger *that* listener. So no action needed in this delegated handler.
+                             } else {
+                                 // Generic dynamic item removal
+                                 if (confirm('确定要移除此项吗？')) {
+                                     itemToRemove.remove();
+                                     // Save is now only via the header button, so no saveSettings() here
+                                 }
+                             }
+                         }
                         return;
                     }
 
@@ -2829,30 +3077,51 @@
                     }
                 });
 
-                 // Delegate file input change event for project images
+                 // Delegate file input change event for *all* relevant inputs
                  settingsPageElement.addEventListener('change', function(event) {
-                      // Check if the changed element is a project image upload input
-                      if (event.target.classList.contains('project-image-upload-input')) {
-                          const fileInput = event.target;
+                      const fileInput = event.target;
+
+                      // Main Avatar Upload
+                      if (fileInput === avatarUploadInput) {
+                          handleFileUpload(fileInput, avatarPreviewContainer, '头像预览', () => {
+                              // No immediate save, relies on main save button
+                          });
+                      }
+                       // Wechat QR Upload
+                      else if (fileInput === wechatQrUploadInput) {
+                           handleFileUpload(fileInput, wechatQrPreviewContainer, '二维码预览', () => {
+                               // No immediate save
+                           });
+                       }
+                       // Project Image Upload (delegated by class)
+                       else if (fileInput.classList.contains('project-image-upload-input')) {
                           // Find the associated preview container within the same dynamic item
-                          const projectItem = fileInput.closest('.dynamic-item');
+                          const projectItem = fileInput.closest('.dynamic-item.project-item');
                           const previewContainer = projectItem?.querySelector('.project-image-settings-preview');
                           if (previewContainer) {
                                // Use the reusable handleFileUpload function
-                               handleFileUpload(event, previewContainer, '图片预览');
+                               handleFileUpload(fileInput, previewContainer, '图片预览', () => {
+                                    // No immediate save
+                               });
                            } else {
                                 console.warn("Could not find project image preview container for uploaded file.");
                            }
-                           // No need to call saveSettings here, it's done via the button
-                      }
-                     // Check if the changed element is the main avatar upload input
-                      else if (event.target === avatarUploadInput) {
-                          handleFileUpload(event, avatarPreviewContainer, '头像预览');
-                      }
-                       // Check if the changed element is the wechat QR upload input
-                      else if (event.target === wechatQrUploadInput) {
-                           handleFileUpload(event, wechatQrPreviewContainer, '二维码预览');
                        }
+                        // NEW: Markdown Image Upload
+                        else if (fileInput === markdownImageUploadInput) {
+                             handleFileUpload(fileInput, markdownImagePreviewContainer, '图片预览', (dataUrl, file) => {
+                                  // Generate a unique ID for this image
+                                   const imageId = `img-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+                                  const imageData = { id: imageId, src: dataUrl };
+
+                                  // Add the image data to current settings
+                                   currentSettings.markdownImages.push(imageData);
+                                   // Add the image entry to the UI list below the editor
+                                   addMarkdownImageEntryToSettingsUI(imageData);
+                                  // No immediate save, relies on main save button
+                                   showNotification('图片已准备好，请复制占位符并点击保存设置！', 'info');
+                             });
+                        }
                  });
 
 
@@ -2884,27 +3153,7 @@
                     });
                 }
 
-                 // Listen for form submission on the form itself
-                 // This will trigger if user presses Enter while *not* in a tag input,
-                 // or if there were a submit button (which we removed the bottom one).
-                 // Since header button is type="button", form submit is less critical but good to handle.
-                 settingsForm.addEventListener('submit', (e) => {
-                     e.preventDefault();
-                     // Decide if you want pressing Enter in other fields to save.
-                     // For simplicity, let's rely only on the Save button click for now.
-                     console.log("Form submit event triggered, but saveSettings() is linked to the header button.");
-                 });
-
-
-                // "Add" Buttons (These don't need delegation, attach directly)
-                if (addSkillCategoryBtn) addSkillCategoryBtn.addEventListener('click', (e) => { e.preventDefault(); addSkillCategory(); });
-                if (addProjectBtn) addProjectBtn.addEventListener('click', (e) => { e.preventDefault(); addExperienceEntry(); });
-                if (addEducationBtn) addEducationBtn.addEventListener('click', (e) => { e.preventDefault(); addEducationEntry(); });
-                if (addCertificateBtn) addCertificateBtn.addEventListener('click', (e) => { e.preventDefault(); addCertEntry(); });
-                 if (addOtherContactBtn) addOtherContactBtn.addEventListener('click', (e) => { e.preventDefault(); addOtherContactEntry(); });
-
-
-                // Placeholder Buttons (No change needed for these)
+                 // Placeholder Buttons (Show message)
                 if (resumeParseBtn) {
                     resumeParseBtn.addEventListener('click', (e) => {
                         e.preventDefault();
@@ -2923,14 +3172,30 @@
                      useMarkdownCheckbox.addEventListener('change', function() {
                          const isChecked = this.checked;
                          markdownEditorSection.style.display = isChecked ? 'block' : 'none';
-                         // You might want to disable/enable other form sections here too
-                          // (Implementation left as exercise)
+
+                          // Optionally hide/show other sections if markdown is used
+                          // Find all .settings-section except the '基本信息' and '高级设置' sections
+                           const allSettingsSections = settingsPageElement.querySelectorAll('.settings-section');
+                           allSettingsSections.forEach(section => {
+                                const h2Text = section.querySelector('h2')?.textContent.trim();
+                                if (h2Text !== '基本信息' && h2Text !== '高级设置' && section !== mainMarkdownDisplaySection.parentElement) { // mainMarkdownDisplaySection.parentElement points to the section in main content, not settings
+                                    // To avoid issues with the main content section having display:none,
+                                    // explicitly target the sections *within* the settings page form
+                                     const sectionInForm = settingsForm.querySelector(`.settings-section h2:contains("${h2Text}")`)?.closest('.settings-section');
+                                     if (sectionInForm && sectionInForm !== markdownEditorSection.closest('.settings-section')) { // Exclude the Advanced Settings section itself
+                                        sectionInForm.style.display = isChecked ? 'none' : '';
+                                     }
+                                }
+                           });
+
                      });
                       // Initialize state on load with a slight delay
                      setTimeout(() => {
+                          // Trigger change event to set initial state based on loaded settings
                           useMarkdownCheckbox.dispatchEvent(new Event('change'));
                      }, 50);
                 }
+
 
             } else {
                  console.error("Required settings elements (form or settings page div) not found!");
