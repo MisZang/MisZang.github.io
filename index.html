@@ -1239,16 +1239,6 @@
                  font-size: 1.4em;
              }
         }
-        .tag {
-    padding: 5px 12px;
-    border-radius: 15px;
-    font-size: 0.9em;
-    font-weight: 500;
-    display: inline-block;
-    text-align: center;
-    margin: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
     </style>
 </head>
 <body>
@@ -1394,7 +1384,7 @@
                  <section class="section">
                      <h2><i class="fas fa-code-branch"></i>我的项目汇总</h2>
                      <p>这里是我的项目汇总页面。目前是空白页面，待填充内容。</p>
-                     <p>在这里您可以更详细地看到我的所有项目，或者我提供的不同项目链接。</p>
+                     <p>您可以在这里更详细地展示您的所有项目，或者提供不同项目的链接。</p>
                       <!-- Project summaries will be dynamically populated here based on settings.experience -->
                  </section>
             </div>
@@ -1415,7 +1405,7 @@
                     <div class="settings-section">
                         <h2><i class="fas fa-user"></i>基本信息</h2>
 
-<!--                         <div class="avatar-upload">
+                        <div class="avatar-upload">
                             <div class="avatar-preview" id="avatar-preview-container">
                                  <span>头像预览</span>
                             </div>
@@ -1425,8 +1415,8 @@
                                         <i class="fas fa-upload"></i> 上传新头像
                                     </div>
                                     <input type="file" id="avatar-upload-input" accept="image/*">
-                                </div> -->
-                                <div class="hint">替换头像请到文件夹中进行更改</div>
+                                </div>
+                                <div class="hint">推荐使用正方形图片，最佳尺寸为 300x300 像素</div>
                             </div>
                         </div>
 
@@ -1487,7 +1477,7 @@
                              <div class="hint">仅影响侧边栏和主页的微信文字显示，不影响二维码。</div>
                         </div>
 
-<!--                         <div class="form-group">
+                        <div class="form-group">
                             <label>微信二维码 (弹窗显示)</label>
                             <div class="avatar-upload">
                                 <div class="avatar-preview" id="wechat-qr-preview-container">
@@ -1503,15 +1493,14 @@
                                     <div class="hint">推荐使用清晰的二维码图片</div>
                                 </div>
                             </div>
-                        </div>  
-                        -->
+                        </div>
 
                         <div class="form-group">
                             <label for="github-input">GitHub 主页链接</label>
                             <input type="text" id="github-input" placeholder="请输入您的GitHub主页链接">
                         </div>
 
-<!--                        
+<!--                      
                          <div class="form-group">
                              <label>其他联系方式 (动态添加)</label>
                               <div id="other-contacts-container" class="dynamic-list">
@@ -2948,31 +2937,6 @@
             }
 
         }); // End DOMContentLoaded
-
-        document.addEventListener('DOMContentLoaded', () => {
-    // 定义技能数组
-    const skills = ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'Python', 'Django', 'Git', 'SQL'];
-
-    // 获取技能容器
-    const skillsGrid = document.getElementById('main-skills-grid');
-
-    // 动态生成技能标签
-    skills.forEach(skill => {
-        // 创建技能标签元素
-        const skillTag = document.createElement('div');
-        skillTag.className = 'tag';
-        skillTag.textContent = skill;
-
-        // 随机生成颜色
-        const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-        skillTag.style.backgroundColor = randomColor;
-        skillTag.style.color = '#fff'; // 确保文字颜色对比度足够
-
-        // 将技能标签添加到容器中
-        skillsGrid.appendChild(skillTag);
-    });
-});
     </script>
-
 </body>
 </html>
