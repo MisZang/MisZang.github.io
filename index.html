@@ -1581,8 +1581,7 @@
                               <div id="other-contacts-container" class="dynamic-list">
                                    <!-- Dynamic items will be added here -->
                                </div>
-                               <!-- 已注释掉 "添加其他联系方式" 按钮 -->
-                               <!-- <button type="button" id="add-other-contact-btn" class="add-item-btn"><i class="fas fa-plus"></i> 添加其他联系方式</button> -->
+                               <button type="button" id="add-other-contact-btn" class="add-item-btn"><i class="fas fa-plus"></i> 添加其他联系方式</button>
                          </div>
 
                     </div>
@@ -1857,6 +1856,7 @@
                         page.style.display = 'block';
                         pageFound = true;
                          if (page.id === 'settings-page') {
+                             // IMPORTANT: Only populate avatar here. Other fields remain empty on load.
                              populateSettingsForm(currentSettings);
                          }
                     } else {
@@ -1941,7 +1941,7 @@
             const wechatQrPreviewContainer = document.getElementById('wechat-qr-preview-container');
             const githubInput = document.getElementById('github-input');
             const otherContactsContainer = document.getElementById('other-contacts-container');
-            // const addOtherContactBtn = document.getElementById('add-other-contact-btn'); // Commented out
+            const addOtherContactBtn = document.getElementById('add-other-contact-btn'); // Restored button
             const welcomeMessageInput = document.getElementById('welcome-message-input');
             const aboutMeInput = document.getElementById('about-me-input');
             const skillsContainerEdit = document.getElementById('skills-container');
@@ -2244,66 +2244,102 @@
 
             /**
              * Populates the #settings-page form fields with data.
+             * MODIFIED: Only populates avatar preview. Other fields remain empty initially.
              */
             function populateSettingsForm(data) {
                 if (!settingsForm) return;
 
                 // Update Avatar Preview - Use the stored path directly
                 updateAvatarPreview(data.profilePic || defaultSettings.profilePic, avatarPreviewContainer, '头像预览');
-                // Removed file input handling here
 
-                if (nameInput) nameInput.value = data.name || '';
-                if (jobTitleInput) jobTitleInput.value = data.jobTitle || '';
+                // --- IMPORTANT CHANGE ---
+                // Do NOT populate other form fields or dynamic lists here.
+                // They will remain empty when the settings page is opened.
+                // This satisfies the requirement "所有输入框除了头像以外都是空的" when opened.
+                // The saveSettings function will handle merging with the existing currentSettings data.
 
-                 if (ageInput) ageInput.value = data.age || '';
-                 if (educationLevelInput) educationLevelInput.value = data.educationLevel || '';
-                 if (locationInput) locationInput.value = data.location || '';
-                 if (statusInput) statusInput.value = data.status || '';
+                // Example of NOT populating:
+                if (nameInput) nameInput.value = ''; // Keep empty
+                if (jobTitleInput) jobTitleInput.value = ''; // Keep empty
+                if (ageInput) ageInput.value = '';
+                if (educationLevelInput) educationLevelInput.value = '';
+                if (locationInput) locationInput.value = '';
+                if (statusInput) statusInput.value = '';
+                if (phoneInput) phoneInput.value = '';
+                if (emailInput) emailInput.value = '';
+                if (wechatInput) wechatInput.value = '';
+                if (githubInput) githubInput.value = '';
+                if (welcomeMessageInput) welcomeMessageInput.value = '';
+                if (aboutMeInput) aboutMeInput.value = '';
+                 if (markdownInput) markdownInput.value = '';
 
-                if (phoneInput) phoneInput.value = data.contact?.phone || '';
-                if (emailInput) emailInput.value = data.contact?.email || '';
-                if (wechatInput) wechatInput.value = data.contact?.wechat || '';
-                updateAvatarPreview(data.contact?.wechatQr, wechatQrPreviewContainer, '二维码预览');
-                if (githubInput) githubInput.value = data.contact?.github || '';
 
-                if (otherContactsContainer) {
-                    otherContactsContainer.innerHTML = '';
-                    // Note: The "Add Other Contact" button is commented out, but existing saved data will still be loaded.
-                    [...(data.contact?.others || [])].forEach(other => addOtherContactEntry(other, false));
-                }
+                // Clear dynamic containers
+                if (skillsContainerEdit) skillsContainerEdit.innerHTML = '';
+                if (projectsContainerEdit) projectsContainerEdit.innerHTML = '';
+                if (educationContainerEdit) educationContainerEdit.innerHTML = '';
+                if (certificatesContainerEdit) certificatesContainerEdit.innerHTML = '';
+                if (otherContactsContainer) otherContactsContainer.innerHTML = '';
 
-                if (welcomeMessageInput) welcomeMessageInput.value = data.welcomeMessage || '';
-                if (aboutMeInput) aboutMeInput.value = data.aboutMe || '';
+                // Uncheck markdown checkbox initially
+                if (useMarkdownCheckbox) useMarkdownCheckbox.checked = false;
+                // Trigger change event to hide markdown editor section initially
+                 setTimeout(() => {
+                    const event = new Event('change');
+                    if(useMarkdownCheckbox) useMarkdownCheckbox.dispatchEvent(event);
+                 }, 0);
 
-                 if (skillsContainerEdit) {
-                     skillsContainerEdit.innerHTML = '';
-                     [...(data.skills || [])].forEach(category => addSkillCategory(category, false));
-                 }
 
-                if (projectsContainerEdit) {
-                    projectsContainerEdit.innerHTML = '';
-                     [...(data.experience || [])].forEach(exp => addExperienceEntry(exp, false)); // Pass the whole experience object including image
-                }
+                // Update QR code preview from currentSettings, as it's a different type of image input
+                 updateAvatarPreview(data.contact?.wechatQr, wechatQrPreviewContainer, '二维码预览');
 
-                if (educationContainerEdit) {
-                    educationContainerEdit.innerHTML = '';
-                     [...(data.education || [])].forEach(edu => addEducationEntry(edu, false));
-                 }
 
-                 if (certificatesContainerEdit) {
-                     certificatesContainerEdit.innerHTML = '';
-                     [...(data.certificates || [])].forEach(cert => addCertEntry(cert, false));
-                 }
-
-                if (useMarkdownCheckbox) {
-                     useMarkdownCheckbox.checked = data.useMarkdown === true;
-                     setTimeout(() => {
-                        const event = new Event('change');
-                        useMarkdownCheckbox.dispatchEvent(event);
-                     }, 0);
-                 }
-                if (markdownInput) markdownInput.value = data.markdownContent || '';
+                // Optional: If you wanted a "lazy load" on input focus/typing, you'd add listeners here
+                // that check if the field is empty and, if so, fill it from currentSettings.
+                // This is complex and not implemented in this version based on the refined strategy.
             }
+
+            /**
+             * Clears all input fields and dynamic lists in the settings form.
+             * Called after successful save.
+             */
+             function clearSettingsForm() {
+                 if (!settingsForm) return;
+
+                 // Clear basic inputs
+                 const inputs = settingsForm.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
+                 inputs.forEach(input => {
+                      if (input.id !== 'markdown-input') { // Keep markdown content potentially
+                         input.value = '';
+                      }
+                 });
+                  // Markdown input is also cleared unless specifically excluded
+                  if (markdownInput) markdownInput.value = '';
+
+
+                 // Clear dynamic lists by emptying their containers
+                 if (skillsContainerEdit) skillsContainerEdit.innerHTML = '';
+                 if (projectsContainerEdit) projectsContainerEdit.innerHTML = '';
+                 if (educationContainerEdit) educationContainerEdit.innerHTML = '';
+                 if (certificatesContainerEdit) certificatesContainerEdit.innerHTML = '';
+                 if (otherContactsContainer) otherContactsContainer.innerHTML = '';
+
+                 // Clear image previews (optional, preserves the empty state look)
+                 // Avatar preview is NOT cleared because we want the selected avatar to persist in the form until explicitly changed
+                 // updateAvatarPreview(null, avatarPreviewContainer, '头像预览');
+                 updateAvatarPreview(null, wechatQrPreviewContainer, '二维码预览');
+
+
+                 // Reset checkboxes if necessary
+                 if (useMarkdownCheckbox) useMarkdownCheckbox.checked = false;
+                 // Trigger change event to hide markdown editor section after clear
+                  setTimeout(() => {
+                     const event = new Event('change');
+                     if(useMarkdownCheckbox) useMarkdownCheckbox.dispatchEvent(event);
+                  }, 0);
+
+             }
+
 
             /**
              * Updates the main resume display.
@@ -2696,7 +2732,8 @@
 
             /**
              * Saves the current settings from the form to localStorage and updates display.
-             * MODIFIED: Now preserves data for sections not interacted with in the form.
+             * MODIFIED: Merges form data with existing settings. Uses form value if not empty.
+             * Rebuilds dynamic lists based *only* on current form state.
              */
             function saveSettings() {
                  if (!settingsForm) {
@@ -2705,38 +2742,68 @@
                      return;
                  }
 
-                 // 1. Create a deep copy of the current settings to modify
-                 const tempSettings = JSON.parse(JSON.stringify(currentSettings)); // Start with the loaded data
+                 // Start with a deep copy of the *current* settings (the last saved state)
+                 const tempSettings = JSON.parse(JSON.stringify(currentSettings));
 
-                 // 2. Update basic fields and contact info from the form
-                 // ProfilePic is updated when selecting from the modal, not directly from form input anymore
-                 // tempSettings.profilePic = avatarPreviewContainer?.querySelector('img')?.src || null; // This gets the *current* preview image source, which is correct after selecting an avatar
-                 // The above line is actually correct to use, as the selected avatar path is set into the preview's src, and this line reads it.
-                 tempSettings.profilePic = avatarPreviewContainer?.querySelector('img')?.src || null; // Use the current image src in the preview
+                 // Update basic fields and contact info from the form
+                 // ONLY update if the form input has a non-empty value.
+                 // Avatar and QR are updated directly by the selection/upload logic.
 
-                 tempSettings.name = nameInput?.value.trim() || '';
-                 tempSettings.jobTitle = jobTitleInput?.value.trim() || '';
-                 tempSettings.age = ageInput?.value.trim() || '';
-                 tempSettings.educationLevel = educationLevelInput?.value.trim() || '';
-                 tempSettings.location = locationInput?.value.trim() || '';
-                 tempSettings.status = statusInput?.value.trim() || '';
+                 const nameValue = nameInput?.value.trim();
+                 if (nameValue) tempSettings.name = nameValue;
+
+                 const jobTitleValue = jobTitleInput?.value.trim();
+                 if (jobTitleValue) tempSettings.jobTitle = jobTitleValue;
+
+                 const ageValue = ageInput?.value.trim();
+                 if (ageValue) tempSettings.age = ageValue;
+
+                 const educationLevelValue = educationLevelInput?.value.trim();
+                 if (educationLevelValue) tempSettings.educationLevel = educationLevelValue;
+
+                 const locationValue = locationInput?.value.trim();
+                 if (locationValue) tempSettings.location = locationValue;
+
+                 const statusValue = statusInput?.value.trim();
+                 if (statusValue) tempSettings.status = statusValue;
 
                  // Ensure contact structure exists before assigning
                  if (!tempSettings.contact) tempSettings.contact = {};
-                 tempSettings.contact.phone = phoneInput?.value.trim() || '';
-                 tempSettings.contact.email = emailInput?.value.trim() || '';
-                 tempSettings.contact.wechat = wechatInput?.value.trim() || '';
-                 tempSettings.contact.wechatQr = wechatQrPreviewContainer?.querySelector('img')?.src || null; // QR uses file upload still
-                 tempSettings.contact.github = githubInput?.value.trim() || '';
 
-                 tempSettings.welcomeMessage = welcomeMessageInput?.value.trim() || '';
-                 tempSettings.aboutMe = aboutMeInput?.value.trim() || '';
+                 const phoneValue = phoneInput?.value.trim();
+                 if (phoneValue) tempSettings.contact.phone = phoneValue;
 
+                 const emailValue = emailInput?.value.trim();
+                 if (emailValue) tempSettings.contact.email = emailValue;
+
+                 const wechatValue = wechatInput?.value.trim();
+                 if (wechatValue) tempSettings.contact.wechat = wechatValue;
+
+                 // Avatar and QR preview sources are already updated by file/selection handlers.
+                 // Read them directly from the preview elements.
+                 // If the preview is empty (no img tag), save null.
+                 tempSettings.profilePic = avatarPreviewContainer?.querySelector('img')?.src || null;
+                 tempSettings.contact.wechatQr = wechatQrPreviewContainer?.querySelector('img')?.src || null;
+
+
+                 const githubValue = githubInput?.value.trim();
+                 if (githubValue) tempSettings.contact.github = githubValue;
+
+                 const welcomeMessageValue = welcomeMessageInput?.value.trim();
+                 if (welcomeMessageValue) tempSettings.welcomeMessage = welcomeMessageValue;
+
+                 const aboutMeValue = aboutMeInput?.value.trim();
+                 if (aboutMeValue) tempSettings.aboutMe = aboutMeValue;
+
+
+                 // Markdown content always saves whatever is in the textarea
                  tempSettings.useMarkdown = useMarkdownCheckbox?.checked || false;
                  tempSettings.markdownContent = markdownInput?.value.trim() || '';
 
 
                  // 3. Rebuild dynamic lists based on current form elements
+                 // IMPORTANT: This will OVERWRITE the existing lists in tempSettings
+                 // if the dynamic list container in the form is empty.
 
                  // Skills
                  tempSettings.skills = []; // Clear the array in the copy
@@ -2750,6 +2817,7 @@
                           tagName.querySelector('.remove-tag')?.remove(); // Remove the close button span before getting text
                           tags.push(tagName.textContent.trim());
                      });
+                     // Only add if category name is not empty OR there are tags
                      if (categoryNameInput?.value.trim() || tags.length > 0) {
                          tempSettings.skills.push({
                              id: categoryDiv.dataset.id || Date.now() + '_skillcat' + Math.random(), // Reuse ID or create new
@@ -2766,6 +2834,7 @@
                      const descTextarea = entry.querySelector('textarea');
                      const imageSrc = entry.querySelector('.project-image-settings-preview img')?.src || null;
 
+                      // Only add if description is not empty OR an image is present
                      if (descTextarea?.value.trim() || imageSrc) {
                          tempSettings.experience.push({
                              id: entry.dataset.id || Date.now() + '_exp' + Math.random(), // Reuse ID or create new
@@ -2783,6 +2852,7 @@
                       const degreeInput = entry.querySelector('input[placeholder="请输入学历"]');
                       const timeInput = entry.querySelector('input[placeholder^="例如："]');
 
+                       // Only add if at least one field is not empty
                       if (schoolInput?.value.trim() || majorInput?.value.trim() || degreeInput?.value.trim() || timeInput?.value.trim()) {
                           tempSettings.education.push({
                               id: entry.dataset.id || Date.now() + '_edu' + Math.random(), // Reuse ID or create new
@@ -2798,6 +2868,7 @@
                  tempSettings.certificates = []; // Clear the array in the copy
                  certificatesContainerEdit?.querySelectorAll('.dynamic-item').forEach(entry => {
                      const nameInput = entry.querySelector('input[placeholder="请输入证书名称"]');
+                      // Only add if name is not empty
                       if (nameInput?.value.trim()) {
                          tempSettings.certificates.push({
                              id: entry.dataset.id || Date.now() + '_cert' + Math.random(), // Reuse ID or create new
@@ -2806,8 +2877,7 @@
                       }
                  });
 
-                 // Other Contacts (Keeping this part as it rebuilds based on the form)
-                 // Assuming populateSettingsForm correctly adds existing 'others' to the form.
+                 // Other Contacts
                  tempSettings.contact.others = []; // Clear the array in the copy
                  otherContactsContainer?.querySelectorAll('.dynamic-item').forEach(entry => {
                      const typeInput = entry.querySelector('input[placeholder^="方式类型"]');
@@ -2836,6 +2906,10 @@
                     console.log('Settings saved:', currentSettings);
                     // Update main display immediately after saving with the new settings
                     updateResumeDisplay(currentSettings);
+
+                     // --- NEW: Clear the settings form after saving ---
+                    clearSettingsForm();
+
                 } catch (e) {
                     console.error("Error saving settings to localStorage:", e);
                     showNotification('保存设置时出错，请检查浏览器是否支持或空间已满。', 'error');
@@ -3001,6 +3075,7 @@
                      reader.onload = (e) => {
                          updateAvatarPreview(e.target.result, previewContainer, defaultText);
                          // Note: We don't saveSettings() here, save is triggered by the button.
+                         // Image data URL is saved when saveSettings reads the preview src.
                      };
                      reader.onerror = () => {
                          showNotification(`读取文件失败: ${file.name}`, 'error');
@@ -3008,8 +3083,11 @@
                      };
                      reader.readAsDataURL(file);
                  } else {
-                     // If file selection was cancelled
-                     updateAvatarPreview(null, previewContainer, defaultText); // Clear or reset preview if needed
+                     // If file selection was cancelled or cleared
+                     // User likely wants to remove the image if they clear the input
+                     updateAvatarPreview(null, previewContainer, defaultText); // Clear or reset preview
+                      // Note: This change (setting preview to null) will be picked up by saveSettings
+                      // leading to the image being removed from the saved settings.
                  }
              }
 
@@ -3049,8 +3127,10 @@
                      if (selectedAvatarPath) {
                          // Update the avatar preview in the settings page
                          updateAvatarPreview(selectedAvatarPath, avatarPreviewContainer, '头像预览');
-                         // Update the currentSettings object directly
-                         currentSettings.profilePic = selectedAvatarPath; // Save the path, not data URL
+                         // Update the currentSettings object directly (this is NOT saved until button click)
+                         // This ensures the path is in currentSettings even if user navigates away without saving
+                         // and comes back. But saveSettings will ultimately read from the preview.
+                         currentSettings.profilePic = selectedAvatarPath;
                          // Note: Settings will be saved when the user clicks the "保存设置" button.
                          closeModal(avatarSelectionModal);
                          showNotification('头像已选择，请点击保存设置按钮。', 'info'); // Inform user to save
@@ -3060,17 +3140,17 @@
 
 
             /**
-             * Creates a sidebar contact list item.
-             * @param {string} iconClass - Font Awesome icon class.
-             * @param {string} href - The link URL or 'javascript:void(0)'.
-             * @param {string} rawValueOrText - The raw contact value (e.g., phone number, wechat ID) or link text.
-             * @param {string | null} displayLabel - Optional label to display before the value (e.g., "电话:", "邮箱:").
-             * @param {'phone' | 'wechat' | 'copy-only' | null} typeForMaskingCopy - 'phone' or 'wechat' to trigger masking and copy, 'copy-only' for copy without masking, null otherwise.
-             * @param {string | null} target - Link target attribute.
-             * @param {string | null} rel - Link rel attribute.
-             * @param {string | null} id - Optional ID for the li element.
-             * @returns {HTMLLIElement} The created list item element.
-             */
+              * Creates a sidebar contact list item.
+              * @param {string} iconClass - Font Awesome icon class.
+              * @param {string} href - The link URL or 'javascript:void(0)'.
+              * @param {string} rawValueOrText - The raw contact value (e.g., phone number, wechat ID) or link text.
+              * @param {string | null} displayLabel - Optional label to display before the value (e.g., "电话:", "邮箱:").
+              * @param {'phone' | 'wechat' | 'copy-only' | null} typeForMaskingCopy - 'phone' or 'wechat' to trigger masking and copy, 'copy-only' for copy without masking, null otherwise.
+              * @param {string | null} target - Link target attribute.
+              * @param {string | null} rel - Link rel attribute.
+              * @param {string | null} id - Optional ID for the li element.
+              * @returns {HTMLLIElement} The created list item element.
+              */
             function createSidebarContactLi(iconClass, href, rawValueOrText, displayLabel = null, typeForMaskingCopy = null, target = null, rel = null, id = null) {
                 const li = document.createElement('li');
                  if (id) {
@@ -3137,7 +3217,7 @@
              * Creates a main resume page contact list item.
              * @param {string} iconClass - Font Awesome icon class.
              * @param {string} href - The link URL or 'javascript:void(0)'.
-             * @param {string} rawValueOrText - The raw contact value (e.g., phone number, wechat ID) or link text.
+             * @param {string} rawValueOrText - The raw contact value (e.e., phone number, wechat ID) or link text.
              * @param {'phone' | 'wechat' | 'copy-only' | null} typeForMaskingCopy - 'phone' or 'wechat' to trigger masking and copy, 'copy-only' for copy without masking, null otherwise.
              * @param {string | null} target - Link target attribute.
              * @param {string | null} rel - Link rel attribute.
@@ -3369,7 +3449,7 @@
                 if (addEducationBtn) addEducationBtn.addEventListener('click', (e) => { e.preventDefault(); addEducationEntry(); });
                 if (addCertificateBtn) addCertificateBtn.addEventListener('click', (e) => { e.preventDefault(); addCertEntry(); });
                  // addOtherContactBtn listener is commented out because the button is removed
-                 // if (addOtherContactBtn) addOtherContactBtn.addEventListener('click', (e) => { e.preventDefault(); addOtherContactEntry(); });
+                 if (addOtherContactBtn) addOtherContactBtn.addEventListener('click', (e) => { e.preventDefault(); addOtherContactEntry(); });
 
 
                 // Placeholder Buttons (No change needed for these)
