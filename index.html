@@ -1508,7 +1508,7 @@
                  <section class="section">
                      <h2><i class="fas fa-code-branch"></i>我的项目汇总</h2>
                      <p>这里是我的项目汇总页面。目前是空白页面，待填充内容。</p>
-                     <p>您可以在这里更详细地展示您的所有项目，或者提供不同项目的链接。</p>
+                     <p>这里即将开发，该位置将用于放置我的项目，您可以在该位置查看与下载及使用我的项目</p>
                       <!-- Project summaries will be dynamically populated here based on settings.experience -->
                  </section>
             </div>
@@ -1600,7 +1600,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="wechat-input">微信号 (用于侧边栏显示)</label>
+                            <label for="wechat-input">微信号 </label>
                             <input type="text" id="wechat-input" placeholder="请输入您的微信号">
                              <div class="hint">在设置页面将脱敏显示。仅影响侧边栏和主页的微信文字显示，不影响二维码。</div>
                         </div>
@@ -1626,11 +1626,11 @@
 
                         <!-- Other contacts (dynamic) -->
                          <div class="form-group">
-                             <label>其他联系方式 (动态添加)</label>
+                             <!-- <label>其他联系方式 (动态添加)</label> -->
                               <div id="other-contacts-container" class="dynamic-list">
                                    <!-- Dynamic items will be added here -->
                                </div>
-                               <button type="button" id="add-other-contact-btn" class="add-item-btn"><i class="fas fa-plus"></i> 添加其他联系方式</button>
+                               <!-- <button type="button" id="add-other-contact-btn" class="add-item-btn"><i class="fas fa-plus"></i> 添加其他联系方式</button> -->
                          </div>
 
                     </div>
@@ -2522,24 +2522,24 @@
                     sidebarContactList.innerHTML = ''; // Clear existing list
 
                     // Using the revised createSidebarContactLi
-                    if (hasPhone) sidebarContactList.appendChild(createSidebarContactLi('fas fa-phone', `tel:${contacts.phone}`, contacts.phone, '电话:', 'phone'));
-                    if (hasEmail) sidebarContactList.appendChild(createSidebarContactLi('fas fa-envelope', `mailto:${contacts.email}`, contacts.email, '邮箱:')); // Email is not masked/copied
+                    if (hasPhone) sidebarContactList.appendChild(createSidebarContactLi('fas fa-phone', `tel:${contacts.phone}`, contacts.phone, '电话', 'phone'));
+                    if (hasEmail) sidebarContactList.appendChild(createSidebarContactLi('fas fa-envelope', `mailto:${contacts.email}`, contacts.email, '邮箱')); // Email is not masked/copied
                     // For sidebar wechat, we need the LI to have the wechat-trigger-sidebar class to open the modal via delegation
                     if (hasWechat) {
-                         const wechatLi = createSidebarContactLi('fab fa-weixin', 'javascript:void(0);', contacts.wechat, '微信:', 'wechat', null, null, 'wechat-trigger-sidebar'); // Add the ID here
+                         const wechatLi = createSidebarContactLi('fab fa-weixin', 'javascript:void(0);', contacts.wechat, '微信', 'wechat', null, null, 'wechat-trigger-sidebar'); // Add the ID here
                          // Ensure the span inside also gets a class for click delegation
                          const wechatSpan = wechatLi.querySelector('span');
                          if(wechatSpan) wechatSpan.classList.add('sidebar-wechat-trigger-span');
                          sidebarContactList.appendChild(wechatLi);
                     }
-                    if (hasGithub) sidebarContactList.appendChild(createSidebarContactLi('fab fa-github', contacts.github, 'GitHub', 'GitHub:', null, '_blank', 'noopener noreferrer')); // Github is just a link
+                    if (hasGithub) sidebarContactList.appendChild(createSidebarContactLi('fab fa-github', contacts.github, 'GitHub', 'GitHub', null, '_blank', 'noopener noreferrer')); // Github is just a link
 
                     // Iterate through contacts.others only if it's an array
                     if (Array.isArray(contacts.others)) {
                         contacts.others.forEach(other => {
                              let linkHref = other.value || 'javascript:void(0);'; // Default to js:void if no value
                              let displayLabel = other.type || ''; // Use type as label
-                             if (displayLabel) displayLabel += ':';
+                             //if (displayLabel) displayLabel += ':';
 
                              let typeForMaskingCopy = null;
                              // Check if icon implies phone/wechat/copy for copyability
@@ -2782,12 +2782,59 @@
                          const hasOthers = Array.isArray(contacts.others) && contacts.others.length > 0;
 
 
-                        // Using the revised createMainContactLi
-                         if (hasPhone) mainContactList.appendChild(createMainContactLi('fas fa-phone', `tel:${contacts.phone}`, contacts.phone, 'phone'));
-                         if (hasEmail) mainContactList.appendChild(createMainContactLi('fas fa-envelope', `mailto:${contacts.email}`, contacts.email)); // Not masked/copied
-                         // This is the main wechat entry with tooltip/modal, uses fixed path for the image
-                         if (hasWechat) mainContactList.appendChild(createMainContactLi('fab fa-weixin', 'javascript:void(0);', contacts.wechat, 'wechat', null, null, true));
-                          if (hasGithub) mainContactList.appendChild(createMainContactLi('fab fa-github', contacts.github, 'GitHub', null, '_blank', 'noopener noreferrer')); // Github is just a link
+// Assuming 'currentSettings.labels' contains your display labels like { phone: '电话', email: '邮箱', ... }
+const labels = currentSettings.labels || {}; // Get labels or use empty object as fallback
+
+// --- 修改开始 ---
+
+// Using the revised createMainContactLi with displayLabel as the 4th argument
+if (hasPhone) {
+    mainContactList.appendChild(createMainContactLi(
+        'fas fa-phone',                     // iconClass
+        `tel:${contacts.phone}`,            // href (for potential click action, though copy is main)
+        contacts.phone,                     // rawValueOrText (for copy)
+        labels.phone || '电话',            // displayLabel <-- 新增或调整位置
+        'phone'                             // typeForMaskingCopy
+        // target, rel, isWechatModalTrigger use defaults (null, null, false)
+    ));
+}
+if (hasEmail) {
+    mainContactList.appendChild(createMainContactLi(
+        'fas fa-envelope',                  // iconClass
+        `mailto:${contacts.email}`,         // href
+        contacts.email,                     // rawValueOrText (for title/potential copy)
+        labels.email || '邮箱',            // displayLabel <-- 新增或调整位置
+        null                                // typeForMaskingCopy (not copied/masked here)
+        // target, rel, isWechatModalTrigger use defaults
+    ));
+}
+// This is the main wechat entry with tooltip/modal
+if (hasWechat) {
+    mainContactList.appendChild(createMainContactLi(
+        'fab fa-weixin',                    // iconClass
+        'javascript:void(0);',              // href (not a real link)
+        contacts.wechat,                    // rawValueOrText (for copy)
+        labels.wechat || '微信',           // displayLabel <-- 新增或调整位置
+        'wechat',                           // typeForMaskingCopy (used internally for copy logic)
+        null,                               // target
+        null,                               // rel
+        true                                // isWechatModalTrigger <-- 确认是最后一个参数
+    ));
+}
+if (hasGithub) {
+    mainContactList.appendChild(createMainContactLi(
+        'fab fa-github',                    // iconClass
+        contacts.github,                    // href (the GitHub URL)
+        contacts.github,                    // rawValueOrText (use URL for title attribute)
+        labels.github || 'GitHub',         // displayLabel <-- 新增或调整位置
+        null,                               // typeForMaskingCopy
+        '_blank',                           // target
+        'noopener noreferrer'               // rel
+        // isWechatModalTrigger uses default (false)
+    ));
+}
+
+// --- 修改结束 ---
 
                          // Iterate through contacts.others only if it's an array
                          if (Array.isArray(contacts.others)) {
@@ -3536,12 +3583,16 @@
                      displayedText = rawValueOrText; // Static text displays the raw text
                  }
 
-                // Construct the final innerHTML including the label
-                if (displayLabel) {
-                    contentElement.innerHTML = `<strong>${displayLabel}</strong> ${displayedText}`;
-                } else {
-                     contentElement.textContent = displayedText; // Use textContent if no strong tag needed
-                }
+            // Construct the final innerHTML including the label
+            if (displayLabel) {
+                // 只保留标签 (例如：电话:)，去掉后面的具体文本
+                contentElement.innerHTML = `<strong>${displayLabel}</strong>`; // <--- 修改后
+            } else {
+                 // 如果没有标签，也清空文本（或者根据需要保留 displayedText）
+                 // 如果 GitHub 那一项也没有 displayLabel，你可能想在这里保留 displayedText
+                 // contentElement.textContent = displayedText; // 如果需要保留无标签的文本，取消注释这行
+                 contentElement.textContent = ''; // 如果希望无标签项也清空文本，保持这行
+            }
 
                 li.appendChild(contentElement);
 
@@ -3559,83 +3610,90 @@
              * @param {boolean} isWechatModalTrigger - Flag to indicate if this is the main wechat item triggering modal and tooltip.
              * @returns {HTMLLIElement} The created list item element.
              */
-            function createMainContactLi(iconClass, href, rawValueOrText, typeForMaskingCopy = null, target = null, rel = null, isWechatModalTrigger = false) {
-                const li = document.createElement('li');
-                const i = document.createElement('i');
-                i.className = iconClass;
-                li.appendChild(i); // Add icon first
+           /**
+ * Creates a list item for the main "找到我" contact section.
+ * @param {string} iconClass - The CSS class for the icon (e.g., 'fas fa-phone').
+ * @param {string} href - The URL for links (<a> tags). Use 'javascript:void(0);' or null if not a link.
+ * @param {string} rawValueOrText - The actual contact value (phone number, email, WeChat ID) or static text. Used for copy/title.
+ * @param {string} displayLabel - The text to display next to the icon (e.g., "电话", "邮箱"). <--- 新增参数
+ * @param {string|null} typeForMaskingCopy - Type identifier for masking/copy logic ('phone', 'wechat', 'copy-only', null).
+ * @param {string|null} target - The target attribute for links (e.g., '_blank').
+ * @param {string|null} rel - The rel attribute for links (e.g., 'noopener noreferrer').
+ * @param {boolean} isWechatModalTrigger - Special flag for the WeChat item that triggers a modal/tooltip.
+ * @returns {HTMLLIElement} The created list item element.
+ */
+function createMainContactLi(iconClass, href, rawValueOrText, displayLabel, typeForMaskingCopy = null, target = null, rel = null, isWechatModalTrigger = false) {
+    const li = document.createElement('li');
+    const i = document.createElement('i');
+    i.className = iconClass;
+    li.appendChild(i); // Add icon first
 
-                let displayedText = rawValueOrText;
-                let contentElement;
+    // Add a non-breaking space before the text content
+    const spacing = '\u00A0'; // Use non-breaking space for consistent spacing
 
-                // Determine if it should be a copy trigger
-                const isCopyTrigger = typeForMaskingCopy === 'phone' || typeForMaskingCopy === 'wechat' || typeForMaskingCopy === 'copy-only';
+    let contentElement;
 
-                if (isWechatModalTrigger) {
-                    // Special case for the main wechat entry with tooltip/modal
-                    li.classList.add('wechat-hover-trigger');
-                    // Displayed text should be masked (using the main display mask)
-                    displayedText = maskContact(rawValueOrText, 'wechat');
+    // Determine if it should be a copy trigger based on typeForMaskingCopy
+    const isCopyTrigger = typeForMaskingCopy === 'phone' || typeForMaskingCopy === 'wechat' || typeForMaskingCopy === 'copy-only';
 
-                    // Create the copy trigger span for the masked text
-                    contentElement = document.createElement('span');
-                    contentElement.classList.add('copy-trigger'); // Add class for event delegation
-                    contentElement.dataset.originalValue = rawValueOrText; // Store original value
-                    contentElement.style.cursor = 'pointer'; // Indicate clickable
-                    contentElement.textContent = displayedText; // Set masked text
+    if (isWechatModalTrigger) {
+        // Special case for the main wechat entry with tooltip/modal
+        li.classList.add('wechat-hover-trigger');
 
-                    // Create the tooltip div
-                    const tooltipDiv = document.createElement('div');
-                    tooltipDiv.classList.add('wechat-tooltip');
-                     // Use the fixed QR path for the image source
-                    tooltipDiv.innerHTML = `
-                        <img src="${currentSettings.contact?.wechatQr || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}" alt="微信二维码">
-                        <span>微信扫码联系我</span>
-                    `;
-                    li.appendChild(contentElement); // Add the span to the li
-                    li.appendChild(tooltipDiv);    // Add the tooltip to the li
+        // Create the element that will hold the display label and also act as copy trigger
+        contentElement = document.createElement('span');
+        contentElement.classList.add('copy-trigger'); // Add class for event delegation
+        contentElement.dataset.originalValue = rawValueOrText; // Store original value for copying
+        contentElement.style.cursor = 'pointer'; // Indicate clickable for copy
+        contentElement.textContent = spacing + displayLabel; // <--- 使用 displayLabel
 
-                    // Event listener for the modal trigger is on the LI itself (delegated globally)
-                    // We rely on the global click handler checking if the click was NOT on .copy-trigger
-                     // No need for a direct listener here anymore with global delegation
+        // Create the tooltip div
+        const tooltipDiv = document.createElement('div');
+        tooltipDiv.classList.add('wechat-tooltip');
+        // Use the fixed QR path for the image source
+        tooltipDiv.innerHTML = `
+            <img src="${currentSettings.contact?.wechatQr || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}" alt="微信二维码">
+            <span>微信扫码联系我</span>
+        `;
+        li.appendChild(contentElement); // Add the text span
+        li.appendChild(tooltipDiv);    // Add the tooltip
 
-                     return li; // Return the constructed LI directly
-                } else if (isCopyTrigger) {
-                    // Apply masking if needed and make it a copy trigger (using main display mask)
-                     if (typeForMaskingCopy === 'phone' || typeForMaskingCopy === 'wechat') {
-                        displayedText = maskContact(rawValueOrText, typeForMaskingCopy);
-                    }
-                    // If type is 'copy-only', displayedText is the rawValueOrText
+        // Event listener for the modal trigger is on the LI itself (handled globally)
+        return li; // Return the constructed LI directly
 
-                    contentElement = document.createElement('span');
-                    contentElement.classList.add('copy-trigger'); // Add class for event delegation
-                    contentElement.dataset.originalValue = rawValueOrText; // Store original value
-                    contentElement.style.cursor = 'pointer'; // Indicate clickable
-                    contentElement.textContent = displayedText; // Set masked/raw text
+    } else if (isCopyTrigger) {
+        // Standard copy trigger (Phone, or generic copy-only)
+        contentElement = document.createElement('span');
+        contentElement.classList.add('copy-trigger'); // Add class for event delegation
+        contentElement.dataset.originalValue = rawValueOrText; // Store original value for copying
+        contentElement.style.cursor = 'pointer'; // Indicate clickable
+        contentElement.textContent = spacing + displayLabel; // <--- 使用 displayLabel
 
-                     li.appendChild(contentElement); // Add the span to the li
+        li.appendChild(contentElement); // Add the span to the li
 
-                 } else if (href && href !== 'javascript:void(0);') {
-                     // It's a standard link
-                     contentElement = document.createElement('a');
-                     contentElement.href = href;
-                     contentElement.textContent = rawValueOrText; // Link text is the raw value/text
-                     if (target) contentElement.target = target;
-                     if (rel) contentElement.rel = rel;
-                      if (contentElement.tagName === 'A' && contentElement.target === '_blank' && !contentElement.rel) {
-                         contentElement.rel = 'noopener noreferrer';
-                      }
-                     li.appendChild(contentElement); // Add the link to the li
+    } else if (href && href !== 'javascript:void(0);') {
+        // It's a standard link (Email, GitHub, etc.)
+        contentElement = document.createElement('a');
+        contentElement.href = href;
+        contentElement.textContent = spacing + displayLabel; // <--- 使用 displayLabel
+        contentElement.title = rawValueOrText; // Set title attribute (optional, good for full email etc.)
+        if (target) contentElement.target = target;
+        if (rel) contentElement.rel = rel;
+        // Ensure target="_blank" links have rel="noopener noreferrer" for security
+        if (contentElement.target === '_blank' && !contentElement.rel) {
+            contentElement.rel = 'noopener noreferrer';
+        }
+        li.appendChild(contentElement); // Add the link to the li
 
-                 } else {
-                     // It's static text
-                     contentElement = document.createElement('span');
-                     contentElement.textContent = rawValueOrText; // Static text is the raw value/text
-                     li.appendChild(contentElement); // Add the span to the li
-                 }
+    } else {
+        // It's static text (shouldn't happen often if setup correctly, but handle it)
+        contentElement = document.createElement('span');
+        contentElement.textContent = spacing + displayLabel; // <--- 使用 displayLabel
+        li.appendChild(contentElement); // Add the span to the li
+    }
 
-                return li;
-            }
+    return li;
+}
 
 
              function showNotification(message, type = 'success') {
