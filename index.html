@@ -13,19 +13,19 @@
             --primary-color: #4a90e2;
             --secondary-color: #50e3c2;
             --background-color: #f4f7f6;
-            --text-color: #333; /* Default text color */
+            --text-color: #333;
             --light-grey: #bdc3c7;
-            --dark-grey: #2c3e50; /* Used for darker text like headings */
+            --dark-grey: #2c3e50;
             --card-bg: #ffffff;
             --sidebar-bg: #2c3e50;
             --sidebar-text: #ecf0f1;
-            --tag-bg: #e0e0e0; /* Default grey tag background */
-            --tag-text: #555; /* Default grey tag text color */
-            --header-height: 60px; /* Base header height */
+            --tag-bg: #e0e0e0;
+            --tag-text: #555;
+            --header-height: 60px;
             --sidebar-width: 280px;
             --error-color: #e74c3c;
             --success-color: #2ecc71;
-            --warning-color: #f39c12; /* Added warning color */
+            --warning-color: #f39c12;
         }
 
         * {
@@ -176,7 +176,7 @@
             text-align: center;
             margin-bottom: 25px;
             line-height: 1.4;
-             flex-shrink: 0;
+                flex-shrink: 0;
         }
 
         .sidebar-info ul {
@@ -196,24 +196,23 @@
             text-align: center;
             color: var(--secondary-color);
         }
-         /* Styles for copy trigger elements in sidebar */
-         .sidebar-info li span.copy-trigger,
-         .sidebar-info li a { /* Keep links styled as before */
-             color: #bdc3c7;
-             word-break: break-all;
-             cursor: pointer; /* Indicate copyable items */
-         }
-         .sidebar-info li span.copy-trigger:hover {
-             color: var(--secondary-color); /* Hover effect for copyable items */
-         }
-         .sidebar-info li a:hover {
-             color: var(--secondary-color);
-             text-decoration: none;
-         }
-         .sidebar-info strong {
-             font-weight: 500;
-             color: var(--sidebar-text);
-         }
+        .sidebar-info li span.copy-trigger,
+        .sidebar-info li a {
+            color: #bdc3c7;
+            word-break: break-all;
+            cursor: pointer;
+        }
+        .sidebar-info li span.copy-trigger:hover {
+            color: var(--secondary-color);
+        }
+        .sidebar-info li a:hover {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+        .sidebar-info strong {
+            font-weight: 500;
+            color: var(--sidebar-text);
+        }
 
 
         .main-content {
@@ -242,35 +241,33 @@
             border-left: 5px solid var(--primary-color);
         }
         .section:last-child {
-             margin-bottom: 0;
+                margin-bottom: 0;
         }
 
         .about p, .education p, .online-presence p {
             margin-bottom: 15px;
             font-size: 1.05em;
         }
-         .about p:last-child, .education p:last-child, .online-presence p:last-child {
-             margin-bottom: 0;
-         }
+        .about p:last-child, .education p:last-child, .online-presence p:last-child {
+                margin-bottom: 0;
+            }
 
-        /* Education list item specific styling */
         .education ul li {
-             margin-bottom: 15px; /* Increased bottom margin for multi-line items */
-             line-height: 1.6; /* Increased line height for readability */
-             display: flex; /* Ensure icon and text align */
-             align-items: flex-start; /* Align text to the top with the icon */
-         }
-          .education ul li i {
-              margin-right: 15px; /* Increased margin */
-              color: var(--primary-color);
-              width: 20px;
-              text-align: center;
-               flex-shrink: 0; /* Prevent icon from shrinking */
-          }
-         .education ul li .edu-details {
-             flex-grow: 1; /* Allow text container to take space */
-             /* Added style for the span wrapping the text details */
-         }
+                margin-bottom: 15px;
+                line-height: 1.6;
+                display: flex;
+                align-items: flex-start;
+            }
+            .education ul li i {
+                margin-right: 15px;
+                color: var(--primary-color);
+                width: 20px;
+                text-align: center;
+                flex-shrink: 0;
+            }
+            .education ul li .edu-details {
+                flex-grow: 1;
+            }
 
 
         .skills-grid {
@@ -281,7 +278,7 @@
         }
 
         .skill-category {
-            background-color: var(--background-color); /* Base background for category block */
+            background-color: var(--background-color);
             padding: 15px;
             border-radius: 5px;
         }
@@ -305,39 +302,38 @@
             border-radius: 15px;
             font-size: 0.9em;
             font-weight: 500;
-            transition: none; /* Ensure no transition on style change */
+            transition: none;
         }
-        /* Removed specific color classes as we use random colors */
 
-         .tag .remove-tag {
+            .tag .remove-tag {
             margin-left: 5px;
             cursor: pointer;
             font-size: 0.8em;
-            color: rgba(0,0,0,0.6); /* Fixed color for remove button regardless of tag color */
-             transition: color 0.3s;
+            color: rgba(0,0,0,0.6);
+                transition: color 0.3s;
         }
-         .tag .remove-tag:hover {
-             color: var(--error-color);
+            .tag .remove-tag:hover {
+                color: var(--error-color);
         }
-         .tag-input {
-             flex-grow: 1;
-             border: none;
-             outline: none;
-             padding: 5px;
-             font-family: inherit;
-             font-size: 0.9em;
-              min-width: 100px;
-         }
-         .tag-input-container {
-             display: flex;
-             flex-wrap: wrap;
-             gap: 10px;
-             padding: 10px;
-             border: 1px solid var(--light-grey);
-             border-radius: 5px;
-             margin-bottom: 10px;
-             align-items: center;
-         }
+            .tag-input {
+                flex-grow: 1;
+                border: none;
+                outline: none;
+                padding: 5px;
+                font-family: inherit;
+                font-size: 0.9em;
+                min-width: 100px;
+            }
+            .tag-input-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 10px;
+                border: 1px solid var(--light-grey);
+                border-radius: 5px;
+                margin-bottom: 10px;
+                align-items: center;
+            }
 
 
         .project {
@@ -351,31 +347,30 @@
             padding-bottom: 0;
         }
 
-         .project ul {
-             list-style: disc;
-             padding-left: 20px;
-             margin-bottom: 15px;
-         }
-         .project ul li {
-             margin-bottom: 8px;
-             line-height: 1.5;
-         }
-          .project p {
-              margin-bottom: 15px;
-          }
+            .project ul {
+                list-style: disc;
+                padding-left: 20px;
+                margin-bottom: 15px;
+            }
+            .project ul li {
+                margin-bottom: 8px;
+                line-height: 1.5;
+            }
+            .project p {
+                margin-bottom: 15px;
+            }
 
-        /* Style for the actual project image */
-         .project img {
-             max-width: 100%;
-             height: auto;
-             display: block;
-             margin-top: 15px; /* Match placeholder margin */
-             border-radius: 5px;
-         }
+            .project img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+                margin-top: 15px;
+                border-radius: 5px;
+            }
 
         .project-image-placeholder {
             width: 100%;
-            height: 150px; /* Keep a fixed height for placeholder */
+            height: 150px;
             background-color: var(--tag-bg);
             border-radius: 5px;
             display: flex;
@@ -385,10 +380,8 @@
             font-style: italic;
             margin-top: 15px;
             overflow: hidden;
-            flex-shrink: 0; /* Prevent shrinking in flex layout */
+            flex-shrink: 0;
         }
-        /* If project has an image, hide the placeholder or ensure it's replaced */
-        /* We will handle replacement in JS by checking for image source */
 
 
         .certifications ul li, .online-presence ul li {
@@ -404,92 +397,90 @@
         }
 
 
-         .online-presence ul {
-             display: flex;
-             flex-wrap: wrap;
-             gap: 20px;
-             margin-top: 15px;
-         }
-          .online-presence ul li a {
-              display: flex;
-              align-items: center;
-              font-weight: 500;
-          }
-          .online-presence ul li i.fab, .online-presence ul li i.fas {
-             font-size: 1.2em;
-          }
+            .online-presence ul {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                margin-top: 15px;
+            }
+            .online-presence ul li a {
+                display: flex;
+                align-items: center;
+                font-weight: 500;
+            }
+            .online-presence ul li i.fab, .online-presence ul li i.fas {
+                font-size: 1.2em;
+            }
 
-         /* Styles for copy trigger elements in main content */
-         .online-presence ul li span.copy-trigger {
-             display: flex; /* Use flex to align with icon */
-             align-items: center;
-             font-weight: 500;
-             color: var(--text-color);
-             cursor: pointer; /* Indicate copyable items */
-             transition: color 0.3s;
-         }
-          .online-presence ul li span.copy-trigger:hover {
-             color: var(--primary-color); /* Hover effect for copyable items */
-         }
-
-
-         .wechat-hover-trigger {
-             position: relative;
-             cursor: pointer; /* Make the li clickable for modal */
-             display: flex;
-             align-items: center;
-             font-weight: 500;
-         }
-          /* Style the span inside wechat-hover-trigger as copy trigger */
-         .wechat-hover-trigger > span {
-             margin-left: 5px;
-             color: var(--text-color); /* Default color */
-             cursor: pointer; /* Indicate copyable */
-             transition: color 0.3s;
-         }
-          .wechat-hover-trigger > span:hover {
-              color: var(--primary-color); /* Hover color for the text */
-          }
+            .online-presence ul li span.copy-trigger {
+                display: flex;
+                align-items: center;
+                font-weight: 500;
+                color: var(--text-color);
+                cursor: pointer;
+                transition: color 0.3s;
+            }
+            .online-presence ul li span.copy-trigger:hover {
+                color: var(--primary-color);
+            }
 
 
-         .wechat-tooltip {
-             visibility: hidden;
-             opacity: 0;
-             position: absolute;
-             bottom: 100%;
-             left: 50%;
-             transform: translateX(-50%);
-             margin-bottom: 10px;
-             background-color: white;
-             color: var(--dark-grey);
-             padding: 15px;
-             border-radius: 6px;
-             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-             width: 180px;
-             text-align: center;
-             z-index: 101;
-             transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-             pointer-events: none; /* Prevent tooltip from interfering with clicks */
-         }
-         .wechat-hover-trigger:hover .wechat-tooltip {
-             visibility: visible;
-             opacity: 1;
-             transition: opacity 0.3s ease;
-             pointer-events: auto; /* Allow interaction inside tooltip if needed, though not typically for a QR */
-         }
+            .wechat-hover-trigger {
+                position: relative;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                font-weight: 500;
+            }
+            .wechat-hover-trigger > span {
+                margin-left: 5px;
+                color: var(--text-color);
+                cursor: pointer;
+                transition: color 0.3s;
+            }
+            .wechat-hover-trigger > span:hover {
+                color: var(--primary-color);
+            }
 
-         .wechat-tooltip img {
-             max-width: 100%;
-             height: auto;
-             display: block;
-             margin-bottom: 10px;
-         }
-         .wechat-tooltip span {
+
+            .wechat-tooltip {
+                visibility: hidden;
+                opacity: 0;
+                position: absolute;
+                bottom: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                margin-bottom: 10px;
+                background-color: white;
+                color: var(--dark-grey);
+                padding: 15px;
+                border-radius: 6px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                width: 180px;
+                text-align: center;
+                z-index: 101;
+                transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+                pointer-events: none;
+            }
+            .wechat-hover-trigger:hover .wechat-tooltip {
+                visibility: visible;
+                opacity: 1;
+                transition: opacity 0.3s ease;
+                pointer-events: auto;
+            }
+
+            .wechat-tooltip img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+                margin-bottom: 10px;
+            }
+            .wechat-tooltip span {
             font-size: 0.9em;
             display: block;
             margin: 0;
             color: var(--dark-grey);
-         }
+            }
 
 
         .modal {
@@ -516,10 +507,9 @@
             max-width: 300px;
             width: 80%;
         }
-        /* Wider modal for warnings */
-         #wechat-warning-modal .modal-content {
-             max-width: 450px;
-         }
+        #wechat-warning-modal .modal-content {
+            max-width: 450px;
+        }
 
 
         .modal-close {
@@ -544,56 +534,54 @@
             display: block;
             margin-top: 15px;
         }
-         #wechat-modal .hint {
-             font-size: 0.85em;
-             color: #777;
-             margin-top: 10px;
-         }
-         /* Style for QR error message */
-         .qr-error-message {
-             color: var(--error-color);
-             font-size: 0.9em;
-             margin-top: 10px;
-         }
+            #wechat-modal .hint {
+                font-size: 0.85em;
+                color: #777;
+                margin-top: 10px;
+            }
+            .qr-error-message {
+                color: var(--error-color);
+                font-size: 0.9em;
+                margin-top: 10px;
+            }
 
 
-        /* Avatar Selection Modal Specific Styles */
         #avatar-selection-modal .modal-content {
-            max-width: 500px; /* Wider modal for avatar grid */
+            max-width: 500px;
         }
         #avatar-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); /* Responsive grid */
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
             gap: 10px;
-            max-height: 300px; /* Limit height and add scroll */
+            max-height: 300px;
             overflow-y: auto;
-            padding-right: 5px; /* Add padding for scrollbar */
+            padding-right: 5px;
         }
-         #avatar-list::-webkit-scrollbar {
-             width: 8px;
-         }
-         #avatar-list::-webkit-scrollbar-track {
-             background: #f1f1f1;
-             border-radius: 10px;
-         }
-         #avatar-list::-webkit-scrollbar-thumb {
-             background: #888;
-             border-radius: 10px;
-         }
-         #avatar-list::-webkit-scrollbar-thumb:hover {
-             background: #555;
-         }
+            #avatar-list::-webkit-scrollbar {
+                width: 8px;
+            }
+            #avatar-list::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 10px;
+            }
+            #avatar-list::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 10px;
+            }
+            #avatar-list::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
 
 
         #avatar-list img {
             width: 100%;
-            height: auto; /* Maintain aspect ratio */
-            border-radius: 50%; /* Make images round */
+            height: auto;
+            border-radius: 50%;
             cursor: pointer;
             border: 2px solid transparent;
             transition: border-color 0.2s ease;
-            object-fit: cover; /* Ensure images fill the circle */
-             aspect-ratio: 1 / 1; /* Keep images square */
+            object-fit: cover;
+                aspect-ratio: 1 / 1;
         }
         #avatar-list img:hover {
             border-color: var(--primary-color);
@@ -614,25 +602,25 @@
         .sidebar-collapsible-container {
             width: 100%;
             margin-bottom: auto;
-             flex-grow: 1;
-             overflow-y: auto;
-             overflow-x: hidden;
-             padding-right: 10px;
+                flex-grow: 1;
+                overflow-y: auto;
+                overflow-x: hidden;
+                padding-right: 10px;
         }
-         .sidebar-collapsible-container::-webkit-scrollbar {
-             width: 8px;
-         }
-         .sidebar-collapsible-container::-webkit-scrollbar-track {
-             background: rgba(255, 255, 255, 0.05);
-             border-radius: 10px;
-         }
-         .sidebar-collapsible-container::-webkit-scrollbar-thumb {
-             background: rgba(255, 255, 255, 0.15);
-             border-radius: 10px;
-         }
-          .sidebar-collapsible-container::-webkit-scrollbar-thumb:hover {
-             background: rgba(255, 255, 255, 0.25);
-         }
+            .sidebar-collapsible-container::-webkit-scrollbar {
+                width: 8px;
+            }
+            .sidebar-collapsible-container::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 10px;
+            }
+            .sidebar-collapsible-container::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.15);
+                border-radius: 10px;
+            }
+            .sidebar-collapsible-container::-webkit-scrollbar-thumb:hover {
+                background: rgba(255, 255, 255, 0.25);
+            }
 
 
         .collapsible-trigger {
@@ -649,7 +637,7 @@
             width: 100%;
         }
         .sidebar-collapsible-container .collapsible-trigger:last-of-type {
-             border-bottom: none;
+                border-bottom: none;
         }
 
         .collapsible-trigger:hover {
@@ -679,19 +667,18 @@
         }
 
         .collapsible-content .sidebar-info ul {
-             margin-top: 0;
-             margin-bottom: 10px;
+                margin-top: 0;
+                margin-bottom: 10px;
         }
 
-         /* Style for copy triggers inside collapsible content */
         .collapsible-content .sidebar-info li span.copy-trigger,
-        .collapsible-content .sidebar-info li a { /* Keep links styled as before */
-             color: #bdc3c7;
-             display: inline-block;
-             width: calc(100% - 32px);
+        .collapsible-content .sidebar-info li a {
+                color: #bdc3c7;
+                display: inline-block;
+                width: calc(100% - 32px);
         }
-         .collapsible-content .sidebar-info li span.copy-trigger:hover, /* Hover for copyable span */
-         .collapsible-content .sidebar-info li a:hover {
+            .collapsible-content .sidebar-info li span.copy-trigger:hover,
+            .collapsible-content .sidebar-info li a:hover {
             color: var(--secondary-color);
         }
 
@@ -701,27 +688,27 @@
         }
 
         .sidebar-settings-button {
-             width: 100%;
-             padding: 15px 0;
-             margin-top: 20px;
-             background-color: rgba(255, 255, 255, 0.05);
-             color: var(--light-grey);
-             border: none;
-             border-radius: 5px;
-             font-size: 1em;
-             font-weight: 500;
-             text-align: center;
-             cursor: pointer;
-             transition: background-color 0.3s ease, color 0.3s ease;
-             flex-shrink: 0;
-         }
-         .sidebar-settings-button i {
-             margin-right: 8px;
-         }
-         .sidebar-settings-button:hover {
-             background-color: rgba(80, 227, 194, 0.2);
-             color: var(--secondary-color);
-         }
+                width: 100%;
+                padding: 15px 0;
+                margin-top: 20px;
+                background-color: rgba(255, 255, 255, 0.05);
+                color: var(--light-grey);
+                border: none;
+                border-radius: 5px;
+                font-size: 1em;
+                font-weight: 500;
+                text-align: center;
+                cursor: pointer;
+                transition: background-color 0.3s ease, color 0.3s ease;
+                flex-shrink: 0;
+            }
+            .sidebar-settings-button i {
+                margin-right: 8px;
+            }
+            .sidebar-settings-button:hover {
+                background-color: rgba(80, 227, 194, 0.2);
+                color: var(--secondary-color);
+            }
 
         #welcome-overlay {
             position: fixed;
@@ -760,32 +747,29 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
-        /* Settings Page Specific Styles */
         #settings-page {
             padding: 0;
         }
 
-         #settings-page .content-wrapper {
-             max-width: 1000px;
-             padding: 0 20px;
-             margin-top: 0;
-         }
+            #settings-page .content-wrapper {
+                max-width: 1000px;
+                padding: 0 20px;
+                margin-top: 0;
+            }
 
         #settings-page .header {
-            /* Fixed Header Styles */
             position: fixed;
             top: 0;
-            left: var(--sidebar-width); /* Position it next to the sidebar */
-            width: calc(100% - var(--sidebar-width)); /* Span remaining width */
-            background-color: var(--card-bg); /* Match content background */
-            z-index: 200; /* Ensure it's above scrolling content */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08); /* Add shadow for separation */
+            left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            background-color: var(--card-bg);
+            z-index: 200;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 25px; /* Adjust padding to fit fixed height */
-            border-bottom: 1px solid var(--light-grey); /* Keep the border */
-            /* Removed margin-bottom and margin-top from here */
+            padding: 15px 25px;
+            border-bottom: 1px solid var(--light-grey);
         }
 
         #settings-page .header h1 {
@@ -799,31 +783,29 @@
             margin-right: 10px;
         }
 
-        /* Changed from back-button to save-button style for header */
         #settings-page .header .save-button {
             background-color: var(--secondary-color);
             color: var(--dark-grey);
             border: none;
-            padding: 8px 15px; /* Smaller padding than bottom save button */
+            padding: 8px 15px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 0.9em; /* Smaller font size */
+            font-size: 0.9em;
             font-weight: 500;
             transition: background-color 0.3s;
             display: flex;
             align-items: center;
         }
-         #settings-page .header .save-button i {
-             margin-right: 5px;
-         }
-         #settings-page .header .save-button:hover {
-             background-color: #3dd1b0;
-         }
+            #settings-page .header .save-button i {
+                margin-right: 5px;
+            }
+            #settings-page .header .save-button:hover {
+                background-color: #3dd1b0;
+            }
 
 
-        /* Add padding to the form to prevent content from being under the fixed header */
         #settings-page form {
-             padding-top: 80px; /* Adjust this value based on actual header height */
+                padding-top: 80px;
         }
 
 
@@ -833,7 +815,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             padding: 25px;
             margin-bottom: 30px;
-             border-left: none;
+                border-left: none;
         }
 
         #settings-page .settings-section h2 {
@@ -905,7 +887,7 @@
             display: flex;
             align-items: center;
             margin-bottom: 20px;
-            flex-wrap: wrap; /* Allow wrapping on small screens */
+            flex-wrap: wrap;
         }
 
         .avatar-preview {
@@ -917,24 +899,22 @@
             border: 3px solid var(--secondary-color);
             background-color: var(--light-grey);
             display: flex;
-             align-items: center;
-             justify-content: center;
-             color: #777;
-             font-size: 0.9em;
-             text-align: center;
-             flex-shrink: 0;
+                align-items: center;
+                justify-content: center;
+                color: #777;
+                font-size: 0.9em;
+                text-align: center;
+                flex-shrink: 0;
         }
-        /* Style for project image preview */
         .project-image-settings-preview {
-             width: 150px; /* Slightly larger preview for project image */
-             height: 100px;
-             border-radius: 5px; /* Rectangle corners */
-             margin-bottom: 15px; /* Add margin below on smaller screens */
-             /* Overrides for project image preview */
-             border-radius: 5px;
-             border: 1px dashed var(--primary-color); /* Dashed border for project image */
-             margin-right: 20px;
-             flex-shrink: 0;
+                width: 150px;
+                height: 100px;
+                border-radius: 5px;
+                margin-bottom: 15px;
+                border-radius: 5px;
+                border: 1px dashed var(--primary-color);
+                margin-right: 20px;
+                flex-shrink: 0;
         }
 
 
@@ -946,15 +926,13 @@
 
         .avatar-controls {
             flex-grow: 1;
-             /* Allow controls to take full width on wrap */
-             width: 100%;
-             padding-top: 10px; /* Add padding when wrapped */
+                width: 100%;
+                padding-top: 10px;
         }
-         /* Adjust controls when not wrapped */
-         .avatar-upload:not(.wrapped) .avatar-controls {
-              padding-top: 0;
-              width: auto;
-         }
+            .avatar-upload:not(.wrapped) .avatar-controls {
+                padding-top: 0;
+                width: auto;
+            }
 
 
         .file-input-wrapper {
@@ -964,7 +942,6 @@
             margin-bottom: 10px;
         }
 
-        /* Hide the actual file input */
         .file-input-wrapper input[type="file"] {
             position: absolute;
             left: 0;
@@ -973,7 +950,7 @@
             cursor: pointer;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* Disable clicks on the input itself */
+            pointer-events: none;
         }
 
         .file-input-button {
@@ -981,13 +958,12 @@
             color: white;
             padding: 8px 15px;
             border-radius: 5px;
-            cursor: pointer; /* Indicate clickable */
+            cursor: pointer;
             display: inline-block;
             font-size: 0.9em;
-             transition: background-color 0.3s;
-             /* Make the button clickable area */
-             position: relative;
-             z-index: 1; /* Ensure button is above hidden input if needed */
+                transition: background-color 0.3s;
+                position: relative;
+                z-index: 1;
         }
 
         .file-input-button:hover {
@@ -1004,15 +980,15 @@
             border-radius: 5px;
             margin-bottom: 15px;
             position: relative;
-             border-left: 3px solid var(--primary-color);
+                border-left: 3px solid var(--primary-color);
         }
 
-         .dynamic-item h4 {
-              margin-top: 0;
-              margin-bottom: 15px;
-              color: var(--dark-grey);
-              font-size: 1.1em;
-         }
+            .dynamic-item h4 {
+                margin-top: 0;
+                margin-bottom: 15px;
+                color: var(--dark-grey);
+                font-size: 1.1em;
+            }
 
         .dynamic-item .remove-btn {
             position: absolute;
@@ -1029,18 +1005,18 @@
             justify-content: center;
             cursor: pointer;
             font-size: 0.8em;
-             transition: background-color 0.3s;
-             z-index: 1;
+                transition: background-color 0.3s;
+                z-index: 1;
         }
-         .dynamic-item .remove-btn:hover {
-             background-color: #c0392b;
-         }
-         .dynamic-item .form-group {
-             margin-bottom: 15px;
-         }
-         .dynamic-item .form-group:last-child {
-             margin-bottom: 0;
-         }
+            .dynamic-item .remove-btn:hover {
+                background-color: #c0392b;
+            }
+            .dynamic-item .form-group {
+                margin-bottom: 15px;
+            }
+            .dynamic-item .form-group:last-child {
+                margin-bottom: 0;
+            }
 
 
         .add-item-btn {
@@ -1086,12 +1062,12 @@
         .notification.error {
             background-color: var(--error-color);
         }
-         .notification.info {
-             background-color: var(--primary-color);
-         }
-         .notification.warning {
-             background-color: var(--warning-color);
-         }
+            .notification.info {
+                background-color: var(--primary-color);
+            }
+            .notification.warning {
+                background-color: var(--warning-color);
+            }
 
 
         @keyframes slideIn {
@@ -1124,27 +1100,27 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
-             flex-wrap: wrap;
-             gap: 10px;
+                flex-wrap: wrap;
+                gap: 10px;
         }
 
         .skill-category-header input[type="text"].skill-category-name {
-             flex-grow: 1;
-             min-width: 150px;
-             margin-right: 10px;
-             padding: 5px 8px;
-             border: 1px solid var(--light-grey);
-             border-radius: 4px;
+                flex-grow: 1;
+                min-width: 150px;
+                margin-right: 10px;
+                padding: 5px 8px;
+                border: 1px solid var(--light-grey);
+                border-radius: 4px;
         }
-         .skill-category-header input[type="text"].skill-category-name:focus {
-             border-color: var(--primary-color);
-         }
+            .skill-category-header input[type="text"].skill-category-name:focus {
+                border-color: var(--primary-color);
+            }
 
 
         .skill-category-controls {
             display: flex;
             gap: 5px;
-             flex-shrink: 0;
+                flex-shrink: 0;
         }
 
         .skill-category-controls button {
@@ -1168,38 +1144,37 @@
             margin-top: 10px;
         }
 
-         /* Styles for the warning modal */
-         #wechat-warning-modal .modal-content {
-             text-align: left;
-             max-width: 450px;
-         }
-         #wechat-warning-modal h3 {
-             color: var(--warning-color);
-             margin-top: 0;
-             margin-bottom: 15px;
-         }
-         #wechat-warning-modal p {
-             margin-bottom: 15px;
-             line-height: 1.5;
-             font-size: 0.95em;
-         }
-          #wechat-warning-modal .button-container {
-             text-align: center;
-             margin-top: 25px;
-         }
-          #wechat-warning-modal button {
-             background-color: var(--primary-color);
-             color: white;
-             border: none;
-             padding: 10px 20px;
-             border-radius: 5px;
-             cursor: pointer;
-             font-size: 1em;
-             transition: background-color 0.3s;
-         }
-          #wechat-warning-modal button:hover {
-             background-color: #3a7bc8;
-         }
+        #wechat-warning-modal .modal-content {
+            text-align: left;
+            max-width: 450px;
+        }
+        #wechat-warning-modal h3 {
+            color: var(--warning-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        #wechat-warning-modal p {
+            margin-bottom: 15px;
+            line-height: 1.5;
+            font-size: 0.95em;
+        }
+            #wechat-warning-modal .button-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+            #wechat-warning-modal button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+            #wechat-warning-modal button:hover {
+            background-color: #3a7bc8;
+        }
 
 
         @media (max-width: 768px) {
@@ -1215,156 +1190,152 @@
                 box-shadow: 0 2px 5px rgba(0,0,0,0.1);
                 z-index: 1;
             }
-             .profile-pic-placeholder {
-                 width: 120px;
-                 height: 120px;
-             }
-             .sidebar h1 {
-                 font-size: 1.6em;
-             }
-              .sidebar-collapsible-container {
-                 margin-top: 15px;
-                 padding-top: 10px;
-                 margin-bottom: 0;
-                  flex-grow: 0;
-                   padding-right: 0;
-                   overflow-y: visible;
-             }
-              .sidebar-collapsible-container::-webkit-scrollbar {
-                  display: none;
-              }
-             .collapsible-trigger {
-                 padding: 8px 0;
-             }
-             .sidebar-settings-button {
-                 margin-top: 15px;
-                 padding: 12px 0;
-             }
+                .profile-pic-placeholder {
+                    width: 120px;
+                    height: 120px;
+                }
+                .sidebar h1 {
+                    font-size: 1.6em;
+                }
+                .sidebar-collapsible-container {
+                    margin-top: 15px;
+                    padding-top: 10px;
+                    margin-bottom: 0;
+                    flex-grow: 0;
+                    padding-right: 0;
+                    overflow-y: visible;
+                }
+                .sidebar-collapsible-container::-webkit-scrollbar {
+                    display: none;
+                }
+                .collapsible-trigger {
+                    padding: 8px 0;
+                }
+                .sidebar-settings-button {
+                    margin-top: 15px;
+                    padding: 12px 0;
+                }
 
             .main-content {
                 margin-left: 0;
                 padding: 20px 15px;
                 min-height: auto;
             }
-             #settings-page .content-wrapper {
+                #settings-page .content-wrapper {
                 padding: 0;
-             }
-             #settings-page .header {
-                /* Mobile Fixed Header Styles */
-                position: fixed; /* Keep fixed */
+                }
+                #settings-page .header {
+                position: fixed;
                 top: 0;
-                left: 0; /* Span full width */
+                left: 0;
                 width: 100%;
                 flex-direction: column;
-                 align-items: flex-start;
-                 margin-top: 0;
-                 padding: 10px 15px; /* Adjust padding for mobile */
-                 border-bottom: 1px solid var(--light-grey);
-                 box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-             }
-              #settings-page .header h1 {
-                 margin-bottom: 10px; /* Less margin in mobile */
-                 font-size: 1.6em;
-              }
-              #settings-page .header .save-button {
-                 width: auto; /* Auto width */
-                 margin-top: 5px; /* Space below title */
-              }
+                    align-items: flex-start;
+                    margin-top: 0;
+                    padding: 10px 15px;
+                    border-bottom: 1px solid var(--light-grey);
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                }
+                #settings-page .header h1 {
+                    margin-bottom: 10px;
+                    font-size: 1.6em;
+                }
+                #settings-page .header .save-button {
+                    width: auto;
+                    margin-top: 5px;
+                }
 
-             /* Adjust padding for the form content in mobile */
-             #settings-page form {
-                  padding-top: 100px; /* Increase padding for mobile header height */
-             }
+                #settings-page form {
+                    padding-top: 100px;
+                }
 
-             #settings-page .settings-section {
-                 padding: 15px;
-                 margin-bottom: 25px;
-             }
-             #settings-page .avatar-upload {
-                 flex-direction: column;
-                 align-items: flex-start;
-             }
-             .avatar-preview {
-                 margin-bottom: 15px;
-                 margin-right: 0;
-             }
-             .project-image-settings-preview { /* Adjust project preview for mobile */
-                 margin-right: 0;
-                 margin-bottom: 15px;
-             }
-              .avatar-controls { /* Mobile controls take full width below preview */
-                 width: 100%;
-                  padding-top: 0;
-              }
-               /* Force controls below preview on mobile */
-              .avatar-upload {
-                   flex-direction: column;
-                   align-items: flex-start;
-               }
-              .avatar-upload .avatar-preview {
-                  margin-right: 0;
-                  margin-bottom: 15px;
-              }
-              .avatar-upload .avatar-controls {
-                  width: 100%;
-                  padding-top: 0;
-              }
+                #settings-page .settings-section {
+                    padding: 15px;
+                    margin-bottom: 25px;
+                }
+                #settings-page .avatar-upload {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                .avatar-preview {
+                    margin-bottom: 15px;
+                    margin-right: 0;
+                }
+                .project-image-settings-preview {
+                    margin-right: 0;
+                    margin-bottom: 15px;
+                }
+                .avatar-controls {
+                    width: 100%;
+                    padding-top: 0;
+                }
+                .avatar-upload {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                .avatar-upload .avatar-preview {
+                    margin-right: 0;
+                    margin-bottom: 15px;
+                }
+                .avatar-upload .avatar-controls {
+                    width: 100%;
+                    padding-top: 0;
+                }
 
 
-             .skill-category-header {
+                .skill-category-header {
                 flex-direction: column;
-                 align-items: flex-start;
-                 gap: 5px;
-             }
-             .skill-category-header input[type="text"].skill-category-name {
-                 margin-right: 0;
-                 width: 100%;
-             }
+                    align-items: flex-start;
+                    gap: 5px;
+                }
+                .skill-category-header input[type="text"].skill-category-name {
+                    margin-right: 0;
+                    width: 100%;
+                }
 
-             h2 {
-                 font-size: 1.4em;
-             }
-             h3 {
-                 font-size: 1.2em;
-             }
-             .skills-grid {
-                 grid-template-columns: 1fr;
-             }
-             .online-presence ul {
-                 flex-direction: column;
-                 gap: 10px;
-             }
-             .online-presence ul li {
-                 margin-bottom: 8px;
-             }
-             .main-content > div {
-                 padding: 20px 15px;
-             }
-             #settings-page.page-content {
-                 padding: 0;
-             }
+                h2 {
+                    font-size: 1.4em;
+                }
+                h3 {
+                    font-size: 1.2em;
+                }
+                .skills-grid {
+                    grid-template-columns: 1fr;
+                }
+                .online-presence ul {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+                .online-presence ul li {
+                    margin-bottom: 8px;
+                }
+                .main-content > div {
+                    padding: 20px 15px;
+                }
+                #settings-page.page-content {
+                    padding: 0;
+                }
 
-             .home-tooltip {
+                .home-tooltip {
                 bottom: 120%;
-             }
-             #welcome-message {
+                }
+                #welcome-message {
                 font-size: 1.8em;
                 padding: 15px 20px;
             }
-             /* Adjust project image/placeholder margin for mobile */
-             .project img, .project-image-placeholder {
-                 margin-top: 10px;
-             }
+                .project img, .project-image-placeholder {
+                    margin-top: 10px;
+                }
         }
 
         @media (max-width: 480px) {
             #welcome-message {
                 font-size: 1.4em;
-                 padding: 10px 15px;
+                    padding: 10px 15px;
             }
-             #settings-page .header h1 {
-                 font-size: 1.4em;
-             }
+                #settings-page .header h1 {
+                    font-size: 1.4em;
+                }
         }
     </style>
 </head>
@@ -1377,11 +1348,10 @@
 
     <aside class="sidebar">
         <div class="profile-pic-placeholder">
-             <!-- Default avatar path updated -->
              <img id="sidebar-avatar" src="图片/头像/0.jpg" alt="用户头像">
         </div>
         <h1 id="profile-home-link">
-            <span id="sidebar-name">姜同学</span> <!-- Name will be set by JS -->
+            <span id="sidebar-name">姜同学</span> 
             <span class="home-tooltip" id="home-tooltip">点击这里返回主页</span>
         </h1>
         <p class="job-title-sidebar" id="sidebar-job-title">
@@ -1392,7 +1362,7 @@
              <ul>
                 <li><i class="fas fa-user"></i><span><strong>年龄:</strong> <span class="sidebar-age"></span></span></li>
                 <li><i class="fas fa-graduation-cap"></i><span><strong>学历:</strong> <span class="sidebar-education"></span></span></li>
-                <!-- Apply masking to sidebar location -->
+                
                 <li><i class="fas fa-map-marker-alt"></i><span><strong>坐标:</strong> <span class="sidebar-location"></span></span></li>
                 <li><i class="fas fa-briefcase"></i><span><strong>状态:</strong> <span class="sidebar-status"></span></span></li>
             </ul>
@@ -1406,7 +1376,7 @@
             <div class="collapsible-content" id="contact-info-content">
                 <nav class="sidebar-info">
                      <ul id="sidebar-contact-list">
-                        <!-- Contact list items will be dynamically populated by JS -->
+                        
                     </ul>
                 </nav>
             </div>
@@ -1433,37 +1403,37 @@
     </aside>
 
     <main class="main-content">
-        <!-- Resume Page -->
+        
         <div class="content-wrapper" id="resume-page">
 
             <section class="section about">
                  <h2><i class="fas fa-user-circle"></i>关于我</h2>
                  <div id="main-about-me">
-                    <!-- Content will be dynamically populated -->
+                    
                  </div>
             </section>
 
             <section class="section skills">
                  <h2><i class="fas fa-cogs"></i>专业技能</h2>
                  <div class="skills-grid" id="main-skills-grid">
-                     <!-- Skills will be dynamically populated -->
+                     
                  </div>
             </section>
 
             <section class="section experience" id="main-experience-section">
                  <h2><i class="fas fa-briefcase"></i>项目与实践经历</h2>
-                 <!-- Projects will be dynamically populated -->
+                 
             </section>
 
             <section class="section education" id="main-education-section">
                  <h2><i class="fas fa-university"></i>教育背景</h2>
-                 <!-- Education will be dynamically populated -->
+                 
             </section>
 
             <section class="section certifications" id="main-certs-section">
                 <h2><i class="fas fa-certificate"></i>资格证书</h2>
                 <ul id="main-certs-list">
-                    <!-- Certificates will be dynamically populated -->
+                    
                 </ul>
             </section>
 
@@ -1471,18 +1441,18 @@
                  <h2><i class="fas fa-share-alt"></i>找到我</h2>
                  <p>期待与您进一步交流！您可以通过以下方式联系我或了解更多：</p>
                 <ul id="main-contact-list">
-                    <!-- Contact list items will be dynamically populated -->
+                    
                 </ul>
             </section>
-             <!-- Markdown content display section (hidden by default) -->
+             
              <section class="section" id="main-markdown-display" style="display: none;">
                   <h2><i class="fas fa-file-alt"></i>自定义内容</h2>
-                  <!-- Markdown HTML content will be loaded here -->
+                  
              </section>
 
         </div>
 
-        <!-- Novels Page -->
+        
         <div id="novels-page" class="page-content" style="display: none;">
             <div class="content-wrapper">
                 <section class="section">
@@ -1492,7 +1462,7 @@
             </div>
         </div>
 
-        <!-- Articles Page -->
+        
         <div id="articles-page" class="page-content" style="display: none;">
              <div class="content-wrapper">
                  <section class="section">
@@ -1502,19 +1472,19 @@
             </div>
         </div>
 
-        <!-- Projects Summary Page -->
+        
         <div id="projects-page-content" class="page-content" style="display: none;">
              <div class="content-wrapper">
                  <section class="section">
                      <h2><i class="fas fa-code-branch"></i>我的项目汇总</h2>
                      <p>这里是我的项目汇总页面。目前是空白页面，待填充内容。</p>
                      <p>这里即将开发，该位置将用于放置我的项目，您可以在该位置查看与下载及使用我的项目</p>
-                      <!-- Project summaries will be dynamically populated here based on settings.experience -->
+                      
                  </section>
             </div>
         </div>
 
-        <!-- Settings Page -->
+        
         <div id="settings-page" class="page-content" style="display: none;">
             <div class="content-wrapper">
                 <div class="header">
@@ -1525,7 +1495,7 @@
                 </div>
 
                 <form id="settings-form">
-                    <!-- Added padding-top to the form content -->
+                    
                     <div class="settings-section">
                         <h2><i class="fas fa-user"></i>基本信息</h2>
 
@@ -1534,13 +1504,13 @@
                                  <span>头像预览</span>
                             </div>
                             <div class="avatar-controls">
-                                <!-- Replaced file input with a clickable button -->
+                                
                                 <div class="form-group file-input-wrapper">
-                                    <!-- This span acts as the button to open the avatar selection modal -->
+                                    
                                     <span class="file-input-button" id="change-avatar-button">
                                         <i class="fas fa-image"></i> 更换头像 (共 <span id="avatar-count">101</span> 张)
                                     </span>
-                                     <!-- The original file input is removed -->
+                                     
                                 </div>
                                 <div class="hint">点击按钮选择头像。推荐使用正方形图片，最佳尺寸为 300x300 像素</div>
                             </div>
@@ -1558,7 +1528,7 @@
                         </div>
                     </div>
 
-                    <!-- 个人信息设置 -->
+                    
                     <div class="settings-section">
                         <h2><i class="fas fa-id-card"></i>个人信息</h2>
 
@@ -1584,7 +1554,7 @@
                         </div>
                     </div>
 
-                    <!-- 联系方式设置 -->
+                    
                     <div class="settings-section">
                         <h2><i class="fas fa-address-book"></i>联系方式</h2>
 
@@ -1605,15 +1575,15 @@
                              <div class="hint">在设置页面将脱敏显示。仅影响侧边栏和主页的微信文字显示，不影响二维码。</div>
                         </div>
 
-                        <!-- WeChat QR Code Setting (Modified) -->
+                        
                         <div class="form-group">
                             <label>微信二维码 (弹窗显示)</label>
-                             <!-- Removed the QR preview container -->
+                             
                             <div class="form-group file-input-wrapper">
                                 <div class="file-input-button" id="change-wechat-qr-button">
                                     <i class="fas fa-qrcode"></i> 更换二维码
                                 </div>
-                                <!-- Keep the actual file input, but hide it -->
+                                
                                 <input type="file" id="wechat-qr-upload-input" accept="image/*" style="display: none;">
                             </div>
                             <div class="hint">二维码将在主页侧边栏点击微信号时弹窗显示。<br>上传图片后，请手动将图片重命名为 **WeChatQC.png** 并替换到项目文件夹的 **图片/二维码/** 路径下。</div>
@@ -1624,18 +1594,18 @@
                             <input type="text" id="github-input" placeholder="请输入您的GitHub主页链接">
                         </div>
 
-                        <!-- Other contacts (dynamic) -->
+                        
                          <div class="form-group">
-                             <!-- <label>其他联系方式 (动态添加)</label> -->
+                             
                               <div id="other-contacts-container" class="dynamic-list">
-                                   <!-- Dynamic items will be added here -->
+                                   
                                </div>
-                               <!-- <button type="button" id="add-other-contact-btn" class="add-item-btn"><i class="fas fa-plus"></i> 添加其他联系方式</button> -->
+                               
                          </div>
 
                     </div>
 
-                    <!-- 欢迎语设置 -->
+                    
                     <div class="settings-section">
                         <h2><i class="fas fa-comment-dots"></i>欢迎语设置</h2>
 
@@ -1646,7 +1616,7 @@
                         </div>
                     </div>
 
-                    <!-- 关于我设置 -->
+                    
                     <div class="settings-section">
                         <h2><i class="fas fa-user-circle"></i>关于我</h2>
 
@@ -1657,44 +1627,44 @@
                         </div>
                     </div>
 
-                    <!-- 专业技能设置 -->
+                    
                     <div class="settings-section">
                         <h2><i class="fas fa-cogs"></i>专业技能</h2>
 
                         <div id="skills-container">
-                            <!-- Skill categories will be dynamically populated -->
+                            
                         </div>
                         <button type="button" id="add-skill-category-btn" class="add-item-btn add-category-btn"><i class="fas fa-plus"></i> 添加技能类别</button>
                     </div>
 
-                    <!-- 项目与实践经历设置 -->
+                    
                     <div class="settings-section">
                         <h2><i class="fas fa-project-diagram"></i>项目与实践经历</h2>
                         <div id="projects-container" class="dynamic-list">
-                            <!-- Projects will be dynamically populated -->
+                            
                         </div>
                         <button type="button" id="add-project-btn" class="add-item-btn"><i class="fas fa-plus"></i> 添加项目/经历</button>
                     </div>
 
-                    <!-- 教育背景设置 -->
+                    
                     <div class="settings-section">
                         <h2><i class="fas fa-graduation-cap"></i>教育背景</h2>
                         <div id="education-container" class="dynamic-list">
-                            <!-- Education entries will be dynamically populated -->
+                            
                         </div>
                         <button type="button" id="add-education-btn" class="add-item-btn"><i class="fas fa-plus"></i> 添加教育背景</button>
                     </div>
 
-                    <!-- 资格证书设置 -->
+                    
                     <div class="settings-section">
                         <h2><i class="fas fa-certificate"></i>资格证书</h2>
                         <div id="certificates-container" class="dynamic-list">
-                             <!-- Certificate entries will be dynamically populated -->
+                             
                         </div>
                         <button type="button" id="add-certificate-btn" class="add-item-btn"><i class="fas fa-plus"></i> 添加证书</button>
                     </div>
 
-                    <!-- 高级设置 -->
+                    
                     <div class="settings-section">
                         <h2><i class="fas fa-tools"></i>高级设置</h2>
 
@@ -1722,24 +1692,24 @@
                 </form>
             </div>
         </div>
-        <!-- End Settings Page -->
+        
 
     </main>
 
-    <!-- WeChat Modal (Displays the QR code using the fixed path) -->
+    
     <div id="wechat-modal" class="modal">
         <div class="modal-content">
             <span class="modal-close">&times;</span>
             <p style="font-weight: 500; margin-bottom: 15px; color: var(--secondary-color);">扫描微信二维码</p>
-            <!-- QR code image uses the fixed path -->
+            
             <img src="图片/二维码/WeChatQC.png" alt="微信二维码" id="wechat-qr-image-modal">
              <div class="hint" style="margin-top: 10px;">请勿将本页面二维码直接分享，此二维码可能随更新而变化。</div>
-             <!-- Placeholder for QR image loading error message -->
+             
              <p class="qr-error-message" style="display: none;"></p>
         </div>
     </div>
 
-    <!-- WeChat QR Change Warning Modal (New Modal) -->
+    
      <div id="wechat-warning-modal" class="modal">
          <div class="modal-content">
              <span class="modal-close">&times;</span>
@@ -1761,13 +1731,13 @@
          </div>
      </div>
 
-     <!-- Avatar Selection Modal -->
+     
     <div id="avatar-selection-modal" class="modal">
         <div class="modal-content">
             <span class="modal-close avatar-modal-close">&times;</span>
             <p style="font-weight: 500; margin-bottom: 20px; color: var(--primary-color);">选择头像</p>
             <div id="avatar-list">
-                <!-- Avatar images will be generated here by JS -->
+                
             </div>
         </div>
     </div>
@@ -1779,7 +1749,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-             // --- Fireworks Initialization ---
+
             const overlay = document.getElementById('welcome-overlay');
             const fireworksContainer = document.getElementById('fireworks-container');
             const welcomeMessageDisplay = document.getElementById('welcome-message');
@@ -1807,26 +1777,24 @@
             }
 
 
-            // --- Modals ---
+
             const wechatModal = document.getElementById("wechat-modal");
             const wechatModalClose = wechatModal?.querySelector(".modal-close");
-            const wechatQrImageModal = document.getElementById('wechat-qr-image-modal'); // Image element inside the WeChat display modal
-            const qrErrorMessageElement = wechatModal?.querySelector('.qr-error-message'); // Added error message element
+            const wechatQrImageModal = document.getElementById('wechat-qr-image-modal');
+            const qrErrorMessageElement = wechatModal?.querySelector('.qr-error-message'); 
 
 
             const avatarSelectionModal = document.getElementById("avatar-selection-modal");
             const avatarModalClose = avatarSelectionModal?.querySelector(".avatar-modal-close");
             const avatarListContainer = document.getElementById('avatar-list');
-            const changeAvatarButton = document.getElementById('change-avatar-button'); // The button that opens the avatar modal
+            const changeAvatarButton = document.getElementById('change-avatar-button'); 
             const avatarCountSpan = document.getElementById('avatar-count');
-            const AVATAR_COUNT = 101; // Number of avatars from 0.jpg to 100.jpg
+            const AVATAR_COUNT = 101; 
 
-
-            // New WeChat Warning Modal elements
             const wechatWarningModal = document.getElementById('wechat-warning-modal');
             const wechatWarningModalClose = wechatWarningModal?.querySelector('.modal-close');
             const confirmWechatQrChangeButton = document.getElementById('confirm-wechat-qr-change');
-             // The hidden file input for QR code
+
             const wechatQrUploadInput = document.getElementById('wechat-qr-upload-input');
 
 
@@ -1842,7 +1810,7 @@
                  }
             }
 
-            // --- Modal Close Listeners ---
+
             if (wechatModalClose) {
                 wechatModalClose.addEventListener("click", () => closeModal(wechatModal));
             }
@@ -1854,7 +1822,6 @@
              }
 
 
-            // --- Modal Click Outside Listeners ---
             window.addEventListener("click", (event) => {
                 if (event.target === wechatModal) {
                     closeModal(wechatModal);
@@ -1867,7 +1834,7 @@
                  }
             });
 
-            // --- Modal Escape Key Listener ---
+
             window.addEventListener("keydown", (event) => {
                  if (event.key === "Escape") {
                      if (wechatModal && wechatModal.style.display === "flex") {
@@ -1882,8 +1849,6 @@
                  }
             });
 
-
-            // --- Sidebar Collapsible Logic ---
             const triggers = document.querySelectorAll('.collapsible-trigger');
             triggers.forEach(clickedTrigger => {
                 clickedTrigger.addEventListener('click', () => {
@@ -1922,7 +1887,6 @@
             });
 
 
-            // --- Page Switching Logic ---
             const mainContentArea = document.querySelector('.main-content');
             const sidebarWorkLinks = document.querySelectorAll('#works-content .sidebar-info a[data-target-page]');
             const profileHomeLink = document.getElementById('profile-home-link');
@@ -1936,7 +1900,7 @@
             function showPage(pageIdToShow) {
                 let pageFound = false;
 
-                // Close any tooltips
+
                 if (tooltipTimeoutId) {
                     clearTimeout(tooltipTimeoutId);
                     tooltipTimeoutId = null;
@@ -1944,7 +1908,7 @@
                 if (homeTooltip) {
                     homeTooltip.classList.remove('show');
                 }
-                // Close any open modals
+
                  closeModal(wechatModal);
                  closeModal(avatarSelectionModal);
                  closeModal(wechatWarningModal);
@@ -1957,11 +1921,6 @@
                          if (page.id === 'settings-page') {
                              // Load settings into the form when opening the settings page
                              loadSettingsIntoForm(currentSettings);
-                         } else {
-                             // When navigating *away* from settings, clear the form
-                              // This ensures it's empty next time it's opened
-                              // Commented out clearSettingsForm() as the new requirement is NOT to clear on load.
-                              // clearSettingsForm();
                          }
                     } else {
                         page.style.display = 'none';
@@ -1973,17 +1932,16 @@
                      const resumePage = document.getElementById('resume-page');
                      if (resumePage) resumePage.style.display = 'block';
                 } else {
-                     // Show "click to return home" tooltip when NOT on the resume page
+
                      if (pageIdToShow !== 'resume-page' && homeTooltip) {
                          homeTooltip.classList.add('show');
                          tooltipTimeoutId = setTimeout(() => {
                              homeTooltip.classList.remove('show');
                              tooltipTimeoutId = null;
-                         }, 3000); // Hide after 3 seconds
+                         }, 3000); 
                      }
                 }
 
-                 // Scroll to top or near top
                  if (mainContentArea) {
                      const scrollTarget = window.innerWidth <= 768 ? 0 : mainContentArea.offsetTop - 20;
                      window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
@@ -1992,7 +1950,6 @@
                  }
             }
 
-            // Navigation Links
             sidebarWorkLinks.forEach(link => {
                 link.addEventListener('click', function(event) {
                     event.preventDefault();
@@ -2006,7 +1963,7 @@
             if (profileHomeLink) {
                 profileHomeLink.addEventListener('click', function(event) {
                      event.preventDefault();
-                     // Clear any active tooltips on returning home
+
                      if (tooltipTimeoutId) {
                          clearTimeout(tooltipTimeoutId);
                          tooltipTimeoutId = null;
@@ -2025,15 +1982,12 @@
                 });
             }
 
-            // --- Settings Data & Logic ---
-
             const SETTINGS_STORAGE_KEY = 'resumeSettings';
-            // Define the fixed QR code path
+
             const FIXED_WECHAT_QR_PATH = '图片/二维码/WeChatQC.png';
             let currentSettings = {};
 
-            // Selectors for Settings Page Elements
-            const settingsPageElement = document.getElementById('settings-page'); // Get the settings page div
+            const settingsPageElement = document.getElementById('settings-page'); 
             const settingsForm = document.getElementById('settings-form');
             const avatarPreviewContainer = document.getElementById('avatar-preview-container');
             const nameInput = document.getElementById('name-input');
@@ -2046,11 +2000,7 @@
             const emailInput = document.getElementById('email-input');
             const wechatInput = document.getElementById('wechat-input');
 
-            // changeWechatQrButton is the button that triggers the warning modal
             const changeWechatQrButton = document.getElementById('change-wechat-qr-button');
-            // wechatQrUploadInput is the hidden file input (needed to programmatically trigger file selection)
-            // It was already declared above in the modals section
-
 
             const githubInput = document.getElementById('github-input');
             const otherContactsContainer = document.getElementById('other-contacts-container');
@@ -2073,7 +2023,6 @@
 
             const notificationElement = document.getElementById('notification');
 
-            // Selectors for Main Resume Display Elements
             const sidebarAvatar = document.querySelector('.sidebar .profile-pic-placeholder img');
             const sidebarNameSpan = document.querySelector('#profile-home-link span');
             const sidebarJobTitle = document.querySelector('.job-title-sidebar');
@@ -2090,11 +2039,10 @@
             const mainCertsList = document.getElementById('main-certs-list');
             const mainContactList = document.getElementById('main-contact-list');
              const mainMarkdownDisplaySection = document.getElementById('main-markdown-display');
-
-
-            // --- Default Settings Structure ---
+            
+             //想要修改默认就修改这里
             const defaultSettings = {
-                profilePic: '图片/头像/0.jpg', // Updated default avatar path
+                profilePic: '图片/头像/0.jpg', 
                 name: '姜同学',
                 jobTitle: '游戏系统策划 / 游戏关卡策划 / 技术策划 /前端开发/ Java开发 / 全栈开发/IT驻场维护',
                 age: '21岁',
@@ -2102,10 +2050,10 @@
                 location: '广东',
                 status: '寻找机会中',
                 contact: {
-                    phone: '15526312845',
+                    phone: '15526382145',
                     email: 'ucxx66@163.com',
-                    wechat: 'G16689683054',
-                    // Fixed QR path
+                    wechat: 'G16689683405',
+
                     wechatQr: FIXED_WECHAT_QR_PATH,
                     github: 'https://github.com/MisZang/MisZang.github.io/tree/main',
                     others: []
@@ -2149,16 +2097,13 @@
                 markdownContent: ''
             };
 
-            // --- Core Functions ---
+
 
             function deepMerge(target, source) {
                 for (const key in source) {
                     if (source.hasOwnProperty(key)) {
                         if (typeof source[key] === 'object' && source[key] !== null && key in target && typeof target[key] === 'object' && target[key] !== null) {
                              if (Array.isArray(source[key])) {
-                                 // For arrays, replace if source is present, otherwise keep target
-                                 // If source[key] is an empty array, it will still replace the target array.
-                                 // This is the desired behavior for dynamic lists: what's in the form overwrites.
                                  if (source[key] !== undefined) {
                                       target[key] = source[key];
                                  }
@@ -2166,177 +2111,118 @@
                                 deepMerge(target[key], source[key]);
                              }
                         } else {
-                            // For primitive types or null/undefined, replace if source is present
-                             target[key] = source[key]; // Standard merge behavior for non-objects/arrays
+                             target[key] = source[key]; 
                         }
                     }
                 }
                 return target;
             }
 
-             /**
-              * Masks the name based on rules for main display.
-              * Chinese: First char + "同学". Eg: "赵子龙" -> "赵同学".
-              * English/Other: First part before space, hyphen, or dot. Eg: "aileng·sbmith" -> "aileng".
-              */
              function maskName(name) {
                  if (!name) return '';
                  name = String(name).trim();
                  if (name.length === 0) return '';
 
-                 // Check for Chinese characters
                  if (/[\u4e00-\u9fa5]/.test(name)) {
                      return name[0] + '同学';
                  } else {
-                     // Assume non-Chinese (English, etc.), split by common separators and take the first part
-                     const parts = name.split(/[\s\-\·]/); // Split by space, hyphen, or middle dot
-                     return parts[0] || name; // Return first part, fallback to original if split results in empty first part
+
+                     const parts = name.split(/[\s\-\·]/); 
+                     return parts[0] || name; 
                  }
              }
 
-             /**
-              * Masks the name for SETTINGS DISPLAY ONLY.
-              * Zhao Zilong -> Zhao同学 or 赵子龙 -> 赵同学
-              * (Assuming same rule as main display mask for simplicity)
-              */
              function maskNameForSettings(name) {
-                  return maskName(name); // Reuse the same masking logic
+                  return maskName(name); 
              }
 
-
-            /**
-             * Mask phone numbers and WeChat IDs for main display.
-             * Phone: 13812345678 -> 138****5678 (Mask middle 4 digits)
-             * WeChat: abc123456789 -> abc****789 (Mask middle if length > 7, show first 3 and last 4)
-             */
             function maskContact(value, type) {
                 if (!value) return '';
-                value = String(value); // Ensure it's a string
+                value = String(value);
                 if (type === 'phone' && value.length === 11 && value.startsWith('1')) {
-                    // Mask middle 4 digits for 11-digit phone
+
                     return value.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2');
                 } else if (type === 'wechat') {
-                    // Mask for WeChat: show first 3, last 4, if length > 7
+
                     if (value.length <= 7) {
-                        return value; // Don't mask if too short
+                        return value; 
                     }
                     return value.substring(0, 3) + '****' + value.substring(value.length - 4);
                 }
-                // For other types or unknown formats, just return the value
+
                 return value;
             }
 
-            /**
-             * Masks phone numbers for SETTINGS DISPLAY ONLY.
-             * Based on requirement: Keep first 3, rest ****
-             */
             function maskPhoneForSettings(phone) {
                  if (!phone) return '';
                  phone = String(phone);
-                 if (phone.length <= 3) return phone; // Don't mask if too short
+                 if (phone.length <= 3) return phone;
                  return phone.substring(0, 3) + '****';
              }
 
-            /**
-             * Masks WeChat IDs for SETTINGS DISPLAY ONLY.
-             * Based on requirement: Keep first 4, rest *****
-             */
             function maskWechatForSettings(wechat) {
                  if (!wechat) return '';
                  wechat = String(wechat);
-                 if (wechat.length <= 4) return wechat; // Don't mask if too short
+                 if (wechat.length <= 4) return wechat; 
                  return wechat.substring(0, 4) + '*****';
              }
 
-             /**
-              * Masks location for SETTINGS DISPLAY AND SIDEBAR DISPLAY ONLY.
-              * Keep Province + City level if possible.
-              * Example: "广东省汕头市濠江区" -> "广东省汕头市"
-              */
              function maskLocation(location) {
                  if (!location) return '';
                  location = String(location).trim();
                  if (location.length === 0) return '';
 
-                 // Look for Province (省)
                  const provinceMatch = location.match(/(\S+省)/);
                  let province = provinceMatch ? provinceMatch[1] : null;
                  let remaining = provinceMatch ? location.substring(location.indexOf('省') + 1) : location;
 
-                 // Look for City (市) in the remaining string
                  const cityMatch = remaining.match(/(\S+市)/);
                  let city = cityMatch ? cityMatch[1] : null;
 
                  if (province && city) {
-                     return province + city; // Keep Province + City
+                     return province + city; 
                  } else if (province) {
-                     return province; // Keep only Province if found
+                     return province; 
                  } else if (city) {
-                     // If no province found but city found at the start or after other text
-                     return city; // Keep only City
+                     return city; 
                  } else {
-                      // Fallback: If no 省 or 市 found, just return the original value
                       return location;
                  }
              }
 
-
-             /**
-              * Mask school names for SETTINGS DISPLAY ONLY.
-              * Based on user examples:
-              * Length <= 3: No mask (e.g., "清华", "北大")
-              * Length == 4: First 1 char + one '*' + Last 2 chars (e.g., "清华大学" -> "清*大学")
-              * Length > 4: First 2 chars + '*' repeated (length - 4) times + Last 2 chars (e.g., "广东财经教育学院" (8) -> "广东****学院")
-              */
              function maskSchoolNameForSettings(schoolName) {
                  if (!schoolName) return '';
                  schoolName = String(schoolName).trim();
                  const len = schoolName.length;
 
                  if (len <= 3) {
-                     return schoolName; // No mask for very short names
+                     return schoolName;
                  } else if (len === 4) {
-                     // Matches "清华大学" -> "清*大学" example
                      return schoolName.substring(0, 1) + '*' + schoolName.substring(len - 2);
                  } else {
-                     // General rule for longer names: first 2 + stars + last 2
-                     // Stars count: total length - (chars kept at start + chars kept at end) = len - 4
                      const maskedLength = len - 4;
                      const stars = maskedLength > 0 ? '*'.repeat(maskedLength) : '';
                      return schoolName.substring(0, 2) + stars + schoolName.substring(len - 2);
                  }
              }
 
-
-             /**
-              * Mask school names for MAIN DISPLAY ONLY.
-              * Rule from previous requirement: keep first 2 and last 2 characters, replace middle with stars if length >= 5.
-              * Length <= 4, no mask.
-              * This is DIFFERENT from the settings masking rule.
-              */
              function maskSchoolName(value) {
                  if (!value) return '';
-                 value = String(value); // Ensure it's a string
-                 if (value.length <= 4) { // Keep names 4 characters or less unmasked
+                 value = String(value); 
+                 if (value.length <= 4) { 
                      return value;
                  }
-                 // Keep first 2, last 2, mask the rest with stars
+
                  const start = value.substring(0, 2);
                  const end = value.substring(value.length - 2);
                  const maskedLength = value.length - 4;
-                 // Ensure maskedLength is not negative
+
                  const stars = maskedLength > 0 ? '*'.repeat(maskedLength) : '';
                  return start + stars + end;
              }
 
-
-            /**
-             * Copies text to the clipboard.
-             */
             function copyToClipboard(text) {
                 if (!navigator.clipboard) {
-                    // Fallback for older browsers (e.g., using document.execCommand)
-                    // Could implement a fallback here if needed for wider compatibility
                     showNotification('您的浏览器不支持自动复制，请手动复制。', 'error');
                     console.warn("Clipboard API not available.");
                     return;
@@ -2358,13 +2244,11 @@
              function updateAvatarPreview(src, previewContainer, defaultText) {
                  if (!previewContainer) return;
 
-                 // Remove any existing img or span
                  previewContainer.innerHTML = '';
 
-                 if (src && src !== 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' && src !== '') { // Check for actual source, not just transparent pixel or empty string
+                 if (src && src !== 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' && src !== '') {
                      const img = document.createElement('img');
                      img.src = src;
-                     // Add error handling for broken images
                      img.onerror = () => {
                          console.warn(`Failed to load image: ${src}. Displaying placeholder.`);
                          previewContainer.innerHTML = `<span>${defaultText}</span>`;
@@ -2377,10 +2261,6 @@
                  }
              }
 
-
-            /**
-             * Loads settings from localStorage or uses defaults, then updates UI.
-             */
             function loadSettings() {
                 const storedSettings = localStorage.getItem(SETTINGS_STORAGE_KEY);
                 let parsedSettings = {};
@@ -2388,44 +2268,33 @@
                     parsedSettings = storedSettings ? JSON.parse(storedSettings) : {};
                 } catch (e) {
                     console.error("Error parsing settings from localStorage:", e);
-                    // If parsing fails, start with an empty object, defaults will be used
                     parsedSettings = {};
                     showNotification('加载设置失败，使用了默认设置。', 'error');
                 }
 
-
-                // Start with a fresh copy of defaults
                 currentSettings = JSON.parse(JSON.stringify(defaultSettings));
-                // Deep merge stored settings on top of defaults
+
                 deepMerge(currentSettings, parsedSettings);
 
-                 // --- *** CRITICAL FIX: Ensure array properties are arrays after merge *** ---
-                 // This prevents TypeError if localStorage contained non-array values for these keys
                  if (!Array.isArray(currentSettings.skills)) currentSettings.skills = [];
                  if (!Array.isArray(currentSettings.experience)) currentSettings.experience = [];
                  if (!Array.isArray(currentSettings.education)) currentSettings.education = [];
                  if (!Array.isArray(currentSettings.certificates)) currentSettings.certificates = [];
 
-                 // Ensure contact structure exists and others is an array
                  if (!currentSettings.contact) currentSettings.contact = {};
                  if (!Array.isArray(currentSettings.contact.others)) currentSettings.contact.others = [];
 
-                 // Ensure wechatQr is always the fixed path after loading/fallback
-                 // This will overwrite any potentially corrupted QR path from localStorage
                  currentSettings.contact.wechatQr = FIXED_WECHAT_QR_PATH;
 
-                 console.log('Loaded settings:', currentSettings); // Log loaded settings
-
+                 console.log('Loaded settings:', currentSettings);
 
                 updateResumeDisplay(currentSettings);
 
-                // Start fireworks after settings are loaded and welcome message is set
-                // Check if welcome message is not empty before starting fireworks
                 if(fireworks && overlay && welcomeMessageDisplay?.textContent) {
-                     // Hide overlay initially, show it only if there's a message and fireworks start
-                     overlay.style.display = 'none'; // Start hidden in case no message
+
+                     overlay.style.display = 'none'; 
                      fireworks.start();
-                     overlay.style.display = 'block'; // Ensure overlay is visible before fading
+                     overlay.style.display = 'block'; 
                      overlay.style.opacity = '1';
                      setTimeout(() => {
                         overlay.style.opacity = '0';
@@ -2434,78 +2303,26 @@
                                 fireworks.stop();
                              }
                             overlay.style.display = 'none';
-                        }, 500); // Duration of the welcome display fade out
-                    }, 2000); // Delay before starting fade out
+                        }, 500); 
+                    }, 2000); 
                 } else if (overlay) {
-                     // Hide overlay immediately if no welcome message or fireworks not available
                       overlay.style.display = 'none';
                 }
             }
 
-
-            /**
-             * Clears all input fields and dynamic lists in the settings form.
-             * This function is now commented out as we want to load existing data, not clear.
-             */
-             /*
-             function clearSettingsForm() {
-                 if (!settingsForm) return;
-
-                 // Clear basic inputs
-                 const inputs = settingsForm.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
-                 inputs.forEach(input => {
-                      if (input.id !== 'markdown-input') { // Keep markdown content potentially
-                         input.value = '';
-                      }
-                 });
-                  // Markdown input is also cleared unless specifically excluded
-                  if (markdownInput) markdownInput.value = '';
-
-
-                 // Clear dynamic lists by emptying their containers
-                 if (skillsContainerEdit) skillsContainerEdit.innerHTML = '';
-                 if (projectsContainerEdit) projectsContainerEdit.innerHTML = '';
-                 if (educationContainerEdit) educationContainerEdit.innerHTML = '';
-                 if (certificatesContainerEdit) certificatesContainerEdit.innerHTML = '';
-                 if (otherContactsContainer) otherContactsContainer.innerHTML = '';
-
-                 // Avatar preview is NOT cleared, it stays showing the selected avatar.
-                 // QR preview is NOT cleared because it's not in the settings form anymore.
-
-
-                 // Reset checkboxes if necessary
-                 if (useMarkdownCheckbox) useMarkdownCheckbox.checked = false;
-                 // Trigger change event to hide markdown editor section after clear
-                  setTimeout(() => {
-                     const event = new Event('change');
-                     if(useMarkdownCheckbox) useMarkdownCheckbox.dispatchEvent(event);
-                  }, 0);
-
-             }
-             */
-
-            /**
-             * Updates the main resume display.
-             */
             function updateResumeDisplay(data) {
-                // Sidebar Updates
-                // Use the path stored in settings
                 if (sidebarAvatar) sidebarAvatar.src = data.profilePic || defaultSettings.profilePic;
 
-                // Apply name masking to the sidebar name display (using the original maskName)
                 if (sidebarNameSpan) sidebarNameSpan.textContent = maskName(data.name || '');
                 if (sidebarJobTitle) sidebarJobTitle.textContent = data.jobTitle || '';
 
-                // Only update the text content of the inner spans
                 if (sidebarAgeSpan) sidebarAgeSpan.textContent = data.age || '';
                 if (sidebarEducationSpan) sidebarEducationSpan.textContent = data.educationLevel || '';
 
-                // --- Apply Location Masking to Sidebar Display ---
-                if (sidebarLocationSpan) sidebarLocationSpan.textContent = maskLocation(data.location || ''); // Apply maskLocation here
+                if (sidebarLocationSpan) sidebarLocationSpan.textContent = maskLocation(data.location || ''); 
 
                 if (sidebarStatusSpan) sidebarStatusSpan.textContent = data.status || '';
 
-                // Sidebar Contact Info
                  const sidebarContactTrigger = document.querySelector('.sidebar .collapsible-trigger[data-target="contact-info-content"]');
                  const sidebarContactContent = document.getElementById('contact-info-content');
 
@@ -2515,63 +2332,56 @@
                     const hasPhone = !!contacts.phone;
                     const hasWechat = !!contacts.wechat;
                     const hasGithub = !!contacts.github;
-                    // Check if contacts.others is an array before checking length
                     const hasOthers = Array.isArray(contacts.others) && contacts.others.length > 0;
 
 
-                    sidebarContactList.innerHTML = ''; // Clear existing list
+                    sidebarContactList.innerHTML = '';
 
-                    // Using the revised createSidebarContactLi
                     if (hasPhone) sidebarContactList.appendChild(createSidebarContactLi('fas fa-phone', `tel:${contacts.phone}`, contacts.phone, '电话', 'phone'));
-                    if (hasEmail) sidebarContactList.appendChild(createSidebarContactLi('fas fa-envelope', `mailto:${contacts.email}`, contacts.email, '邮箱')); // Email is not masked/copied
-                    // For sidebar wechat, we need the LI to have the wechat-trigger-sidebar class to open the modal via delegation
+                    if (hasEmail) sidebarContactList.appendChild(createSidebarContactLi('fas fa-envelope', `mailto:${contacts.email}`, contacts.email, '邮箱')); 
+
                     if (hasWechat) {
-                         const wechatLi = createSidebarContactLi('fab fa-weixin', 'javascript:void(0);', contacts.wechat, '微信', 'wechat', null, null, 'wechat-trigger-sidebar'); // Add the ID here
-                         // Ensure the span inside also gets a class for click delegation
+                         const wechatLi = createSidebarContactLi('fab fa-weixin', 'javascript:void(0);', contacts.wechat, '微信', 'wechat', null, null, 'wechat-trigger-sidebar'); 
+
                          const wechatSpan = wechatLi.querySelector('span');
                          if(wechatSpan) wechatSpan.classList.add('sidebar-wechat-trigger-span');
                          sidebarContactList.appendChild(wechatLi);
                     }
-                    if (hasGithub) sidebarContactList.appendChild(createSidebarContactLi('fab fa-github', contacts.github, 'GitHub', 'GitHub', null, '_blank', 'noopener noreferrer')); // Github is just a link
+                    if (hasGithub) sidebarContactList.appendChild(createSidebarContactLi('fab fa-github', contacts.github, 'GitHub', 'GitHub', null, '_blank', 'noopener noreferrer'));
 
-                    // Iterate through contacts.others only if it's an array
+
                     if (Array.isArray(contacts.others)) {
                         contacts.others.forEach(other => {
-                             let linkHref = other.value || 'javascript:void(0);'; // Default to js:void if no value
-                             let displayLabel = other.type || ''; // Use type as label
-                             //if (displayLabel) displayLabel += ':';
+                             let linkHref = other.value || 'javascript:void(0);'; 
+                             let displayLabel = other.type || '';
 
                              let typeForMaskingCopy = null;
-                             // Check if icon implies phone/wechat/copy for copyability
                              if (other.icon === 'fas fa-phone' || (other.type || '').toLowerCase() === '电话') {
                                  typeForMaskingCopy = 'phone';
-                                  // Also update href to tel: if it's a phone icon but href isn't tel:
                                  if (other.value && !other.value.startsWith('tel:')) linkHref = `tel:${other.value}`;
                              } else if (other.icon === 'fab fa-weixin' || (other.type || '').toLowerCase() === '微信') {
                                  typeForMaskingCopy = 'wechat';
-                                  linkHref = 'javascript:void(0);'; // Ensure wechat icon in others is not a clickable link by default, unless value is a real link
-                             } else if (other.icon && (other.icon.includes('copy') || other.icon.includes('paste') || other.icon.includes('clipboard'))) { // Added 'clipboard'
-                                  // Optional: Add a specific icon to mark as copyable text (not masked)
+                                  linkHref = 'javascript:void(0);'; 
+                             } else if (other.icon && (other.icon.includes('copy') || other.icon.includes('paste') || other.icon.includes('clipboard'))) {
                                  typeForMaskingCopy = 'copy-only';
-                                 linkHref = 'javascript:void(0)'; // Make it non-clickable as a link
+                                 linkHref = 'javascript:void(0)';
                              }
 
-                              // If none of the above, and value exists, treat as copyable text by default UNLESS type suggests otherwise.
                                if (typeForMaskingCopy === null && other.value && other.value !== '#' &&
                                    !other.value.startsWith('http://') && !other.value.startsWith('https://') && !other.value.startsWith('tel:') && !other.value.startsWith('mailto:') &&
                                    !(other.type && (other.type.toLowerCase() === 'website' || other.type.toLowerCase() === 'blog' || other.type.toLowerCase() === 'portfolio')) ) {
                                     typeForMaskingCopy = 'copy-only';
-                                    linkHref = 'javascript:void(0)'; // Ensure non-link behavior
+                                    linkHref = 'javascript:void(0)';
                                 }
 
 
                             sidebarContactList.appendChild(createSidebarContactLi(
-                                 other.icon || 'fas fa-link', // Use icon from settings, default to link icon
-                                 linkHref,                   // Href
-                                 other.value,                // Raw value
-                                 displayLabel,               // Display label (e.g. "QQ:", "Telegram:")
-                                 typeForMaskingCopy, // Type for masking/copy ('phone', 'wechat', 'copy-only', or null)
-                                 '_blank', 'noopener noreferrer', null // Default target/rel for 'others' unless overridden
+                                 other.icon || 'fas fa-link',
+                                 linkHref,
+                                 other.value,
+                                 displayLabel,
+                                 typeForMaskingCopy,
+                                 '_blank', 'noopener noreferrer', null
                              ));
                         });
                     }
@@ -2579,78 +2389,67 @@
 
                      if (sidebarContactList.children.length === 0) {
                           sidebarContactTrigger.style.display = 'none';
-                          sidebarContactContent.style.display = 'none'; // Also hide content if list is empty
+                          sidebarContactContent.style.display = 'none';
                      } else {
-                          sidebarContactTrigger.style.display = ''; // Show trigger
-                          // Keep content display based on active class, handled by collapsible logic
-                          // sidebarContactContent.style.display is handled by collapsible logic
+                          sidebarContactTrigger.style.display = ''; 
                      }
                 }
 
-                 // --- Handle QR image loading and error ---
                  if (wechatQrImageModal) {
                       const timestamp = new Date().getTime();
                       const separator = currentSettings.contact.wechatQr.includes('?') ? '&' : '?';
                       const qrSrc = `${currentSettings.contact.wechatQr}${separator}_=${timestamp}`;
 
-                      // Clear previous error message on potential successful load
-                      if (qrErrorMessageElement) qrErrorMessageElement.style.display = 'none';
-                      wechatQrImageModal.style.display = 'none'; // Hide image initially
 
-                      // Add error handler
+                      if (qrErrorMessageElement) qrErrorMessageElement.style.display = 'none';
+                      wechatQrImageModal.style.display = 'none';
+
+
                       wechatQrImageModal.onerror = (e) => {
                            console.error('WeChat QR image failed to load:', qrSrc, e);
                            wechatQrImageModal.alt = '二维码加载失败';
-                           wechatQrImageModal.style.display = 'none'; // Ensure hidden on error
-                           // Show error message in the modal
+                           wechatQrImageModal.style.display = 'none';
                            if (qrErrorMessageElement) {
                                qrErrorMessageElement.textContent = '二维码图片加载失败。请检查图片文件是否存在。';
                                qrErrorMessageElement.style.display = 'block';
-                               // Ensure modal content is visible even if image is hidden
                                if (wechatModal && wechatModal.style.display === 'flex' && wechatModal.querySelector('.modal-content')) {
-                                   wechatModal.querySelector('.modal-content').style.display = 'block'; // Just a safety check
+                                   wechatModal.querySelector('.modal-content').style.display = 'block';
                                }
                            }
                       };
-                      // Add load handler to show image and hide error message
                       wechatQrImageModal.onload = () => {
                            console.log('WeChat QR image loaded successfully:', qrSrc);
-                           wechatQrImageModal.style.display = 'block'; // Show image on success
-                           if (qrErrorMessageElement) qrErrorMessageElement.style.display = 'none'; // Hide error message
-                           wechatQrImageModal.alt = '微信二维码'; // Restore default alt text
+                           wechatQrImageModal.style.display = 'block';
+                           if (qrErrorMessageElement) qrErrorMessageElement.style.display = 'none';
+                           wechatQrImageModal.alt = '微信二维码';
                       };
 
-                      // Set the source to trigger loading
                       wechatQrImageModal.src = qrSrc;
 
-                      // If the modal is already open, manually trigger the load process check
-                      // This handles the case where the page is loaded and the modal is *already* open from a previous session (unlikely but robust)
                        if (wechatModal && wechatModal.style.display === 'flex') {
-                           // A timeout might be needed to ensure the img element is fully ready
                             setTimeout(() => {
                                  if (wechatQrImageModal.complete) {
-                                     wechatQrImageModal.onload(); // Trigger onload if already complete (cached)
+                                     wechatQrImageModal.onload();
                                  } else if (wechatQrImageModal.error) {
-                                     wechatQrImageModal.onerror(); // Trigger onerror if it failed immediately (broken link)
+                                     wechatQrImageModal.onerror();
                                  }
-                            }, 50); // Small delay
+                            }, 50);
                        }
 
 
                  }
 
 
-                // Main Content Updates (Resume Page)
                 const useMarkdown = data.useMarkdown === true;
 
                  if (mainAboutMeDiv && mainSkillsGrid && mainExperienceSection && mainEducationSection && mainCertsList && mainContactList && mainMarkdownDisplaySection) {
                     const sectionsToToggle = [
-                        mainAboutMeDiv.parentElement, // Parent .section of about me
-                        mainSkillsGrid.parentElement, // Parent .section of skills
-                        mainExperienceSection, // Experience section itself
-                        mainEducationSection, // Education section itself
-                        mainCertsList.parentElement, // Parent .section of certs
-                        mainContactList.parentElement // Parent .section of online presence
+                        mainAboutMeDiv.parentElement, 
+                        mainSkillsGrid.parentElement,
+                        mainExperienceSection,
+                        mainEducationSection,
+                        mainCertsList.parentElement,
+                        mainContactList.parentElement
                     ];
 
                     sectionsToToggle.forEach(section => {
@@ -2663,28 +2462,23 @@
                     } else {
                         mainMarkdownDisplaySection.style.display = 'none';
 
-                        // Use the restored wrapInParagraphs function here
                         mainAboutMeDiv.innerHTML = wrapInParagraphs(data.aboutMe || '');
 
                         mainSkillsGrid.innerHTML = '';
-                         // Check if skills is an array before iterating
                          if (Array.isArray(data.skills) && data.skills.length > 0) {
                             data.skills.forEach(category => {
                                 const categoryDiv = document.createElement('div');
                                 categoryDiv.className = 'skill-category';
                                 categoryDiv.innerHTML = `<h4>${category.name || '无类别名称'}</h4><div class="tags-list"></div>`;
                                 const tagsListDiv = categoryDiv.querySelector('.tags-list');
-                                 // Check if tags is an array before iterating
                                  if (Array.isArray(category.tags)) {
                                     category.tags.forEach(tagText => {
                                         const tagSpan = document.createElement('span');
                                         tagSpan.className = 'tag';
                                         tagSpan.textContent = tagText;
 
-                                        // --- Apply Random Color and Set Text Color Based on Lightness ---
                                         const { colorString, lightness } = getRandomHslColor();
                                         tagSpan.style.backgroundColor = colorString;
-                                        // Choose text color: dark-grey if lightness >= 50, white if lightness < 50
                                         tagSpan.style.color = lightness >= 50 ? 'var(--dark-grey)' : 'white';
 
                                         tagsListDiv.appendChild(tagSpan);
@@ -2697,7 +2491,6 @@
                         }
 
                          mainExperienceSection.innerHTML = `<h2><i class="fas fa-briefcase"></i>项目与实践经历</h2>`;
-                         // Check if experience is an array before iterating
                          if (Array.isArray(data.experience) && data.experience.length > 0) {
                             data.experience.forEach((exp, index) => {
                                 const htmlDesc = convertMarkdownToHtml(exp.desc || '');
@@ -2705,23 +2498,21 @@
                                 projectDiv.className = 'project';
                                 projectDiv.innerHTML = htmlDesc;
 
-                                   // Add image or placeholder
                                   if (exp.image) {
                                        const img = document.createElement('img');
                                        img.src = exp.image;
-                                       img.alt = (exp.desc ? exp.desc.substring(0, 20) : '项目图片') + '...'; // Simple alt text from description
-                                       img.onerror = (e) => { console.error('Project image failed to load:', exp.image, e); e.target.style.display = 'none'; }; // Hide broken image
-                                       projectDiv.appendChild(img); // Append the image
+                                       img.alt = (exp.desc ? exp.desc.substring(0, 20) : '项目图片') + '...';
+                                       img.onerror = (e) => { console.error('Project image failed to load:', exp.image, e); e.target.style.display = 'none'; };
+                                       projectDiv.appendChild(img);
                                   } else {
                                        const placeholder = document.createElement('div');
                                        placeholder.className = 'project-image-placeholder';
-                                       placeholder.textContent = '项目图片/占位符';
-                                       projectDiv.appendChild(placeholder); // Append the placeholder div
+                                       placeholder.textContent = '项目图片/占位符/懒得开发了';
+                                       projectDiv.appendChild(placeholder);
                                   }
 
 
                                 mainExperienceSection.appendChild(projectDiv);
-                                 // Add separator if not the last project
                                  if (index < data.experience.length - 1) {
                                      const separator = document.createElement('div');
                                      separator.style.cssText = 'height: 1px; background-color: #eee; margin: 20px 0;';
@@ -2733,16 +2524,12 @@
                         }
 
                          mainEducationSection.innerHTML = `<h2><i class="fas fa-university"></i>教育背景</h2>`;
-                         // Add a ul element for cleaner list structure
                          const educationUl = document.createElement('ul');
-                         // Check if education is an array before iterating
                          if (Array.isArray(data.education) && data.education.length > 0) {
                              data.education.forEach(edu => {
-                                  // Apply school name masking here for main display
                                  const maskedSchool = maskSchoolName(edu.school);
 
                                  const li = document.createElement('li');
-                                 // Modified li.innerHTML to display on separate lines as requested
                                  li.innerHTML = `<i class="fas fa-graduation-cap"></i><span class="edu-details">` +
                                                 `<strong>学校:</strong> ${maskedSchool || ''},<br>` +
                                                 `<strong>专业:</strong> ${edu.major || ''},<br>` +
@@ -2751,15 +2538,13 @@
                                                 `</span>`;
                                  educationUl.appendChild(li);
                              });
-                             mainEducationSection.appendChild(educationUl); // Append the list
+                             mainEducationSection.appendChild(educationUl);
                          } else {
-                              // Append directly if no list is created
                              mainEducationSection.innerHTML += '<p>暂无教育背景信息。</p>';
                          }
 
 
                          mainCertsList.innerHTML = '';
-                         // Check if certificates is an array before iterating
                          if (Array.isArray(data.certificates) && data.certificates.length > 0) {
                              data.certificates.forEach(cert => {
                                  const li = document.createElement('li');
@@ -2778,109 +2563,86 @@
                          const hasPhone = !!contacts.phone;
                          const hasWechat = !!contacts.wechat;
                          const hasGithub = !!contacts.github;
-                         // Check if contacts.others is an array before checking length
                          const hasOthers = Array.isArray(contacts.others) && contacts.others.length > 0;
 
-
-// Assuming 'currentSettings.labels' contains your display labels like { phone: '电话', email: '邮箱', ... }
-const labels = currentSettings.labels || {}; // Get labels or use empty object as fallback
-
-// --- 修改开始 ---
-
-// Using the revised createMainContactLi with displayLabel as the 4th argument
-if (hasPhone) {
-    mainContactList.appendChild(createMainContactLi(
-        'fas fa-phone',                     // iconClass
-        `tel:${contacts.phone}`,            // href (for potential click action, though copy is main)
-        contacts.phone,                     // rawValueOrText (for copy)
-        labels.phone || '电话',            // displayLabel <-- 新增或调整位置
-        'phone'                             // typeForMaskingCopy
-        // target, rel, isWechatModalTrigger use defaults (null, null, false)
-    ));
-}
-if (hasEmail) {
-    mainContactList.appendChild(createMainContactLi(
-        'fas fa-envelope',                  // iconClass
-        `mailto:${contacts.email}`,         // href
-        contacts.email,                     // rawValueOrText (for title/potential copy)
-        labels.email || '邮箱',            // displayLabel <-- 新增或调整位置
-        null                                // typeForMaskingCopy (not copied/masked here)
-        // target, rel, isWechatModalTrigger use defaults
-    ));
-}
-// This is the main wechat entry with tooltip/modal
-if (hasWechat) {
-    mainContactList.appendChild(createMainContactLi(
-        'fab fa-weixin',                    // iconClass
-        'javascript:void(0);',              // href (not a real link)
-        contacts.wechat,                    // rawValueOrText (for copy)
-        labels.wechat || '微信',           // displayLabel <-- 新增或调整位置
-        'wechat',                           // typeForMaskingCopy (used internally for copy logic)
-        null,                               // target
-        null,                               // rel
-        true                                // isWechatModalTrigger <-- 确认是最后一个参数
-    ));
-}
-if (hasGithub) {
-    mainContactList.appendChild(createMainContactLi(
-        'fab fa-github',                    // iconClass
-        contacts.github,                    // href (the GitHub URL)
-        contacts.github,                    // rawValueOrText (use URL for title attribute)
-        labels.github || 'GitHub',         // displayLabel <-- 新增或调整位置
-        null,                               // typeForMaskingCopy
-        '_blank',                           // target
-        'noopener noreferrer'               // rel
-        // isWechatModalTrigger uses default (false)
-    ));
-}
-
-// --- 修改结束 ---
-
-                         // Iterate through contacts.others only if it's an array
+                        const labels = currentSettings.labels || {};
+                        if (hasPhone) {
+                            mainContactList.appendChild(createMainContactLi(
+                                'fas fa-phone',
+                                `tel:${contacts.phone}`,
+                                contacts.phone,
+                                labels.phone || '电话',
+                                'phone'
+                            ));
+                        }
+                        if (hasEmail) {
+                            mainContactList.appendChild(createMainContactLi(
+                                'fas fa-envelope', 
+                                `mailto:${contacts.email}`,
+                                contacts.email, 
+                                labels.email || '邮箱', 
+                                null
+                            ));
+                        }
+                        if (hasWechat) {
+                            mainContactList.appendChild(createMainContactLi(
+                                'fab fa-weixin',
+                                'javascript:void(0);',
+                                contacts.wechat,
+                                labels.wechat || '微信',
+                                'wechat',
+                                null,
+                                null,
+                                true
+                            ));
+                        }
+                        if (hasGithub) {
+                            mainContactList.appendChild(createMainContactLi(
+                                'fab fa-github',
+                                contacts.github,
+                                contacts.github,
+                                labels.github || 'GitHub',
+                                null,
+                                '_blank',
+                                'noopener noreferrer'
+                            ));
+                        }
                          if (Array.isArray(contacts.others)) {
                              contacts.others.forEach(other => {
-                                 let linkHref = other.value || 'javascript:void(0);'; // Default to js:void if no value
+                                 let linkHref = other.value || 'javascript:void(0);';
                                  let rawValueOrText = other.value || '';
 
                                  let typeForMaskingCopy = null;
-                                 // Check if icon implies phone/wechat/copy for copyability
                                  if (other.icon === 'fas fa-phone' || (other.type || '').toLowerCase() === '电话') {
                                      typeForMaskingCopy = 'phone';
                                       if (other.value && !other.value.startsWith('tel:')) linkHref = `tel:${other.value}`;
                                  } else if (other.icon === 'fab fa-weixin' || (other.type || '').toLowerCase() === '微信') {
                                      typeForMaskingCopy = 'wechat';
-                                     linkHref = 'javascript:void(0);'; // Explicitly make wechat icon in others not a link by default
-                                 } else if (other.icon && (other.icon.includes('copy') || other.icon.includes('paste') || other.icon.includes('clipboard'))) { // Added 'clipboard'
-                                      // Add a specific icon to mark as copyable text (not masked)
+                                     linkHref = 'javascript:void(0);';
+                                 } else if (other.icon && (other.icon.includes('copy') || other.icon.includes('paste') || other.icon.includes('clipboard'))) {
                                      typeForMaskingCopy = 'copy-only';
-                                     linkHref = 'javascript:void(0)'; // Make it non-clickable as a link
+                                     linkHref = 'javascript:void(0)';
                                   } else if (other.value && (other.value.startsWith('http://') || other.value.startsWith('https://'))) {
-                                      // If it's a standard URL, it's a link, not copyable text by default
-                                       typeForMaskingCopy = null; // Ensure it's treated as a link
+                                       typeForMaskingCopy = null;
                                   } else if (other.value && (other.value.startsWith('tel:'))) {
-                                       // If it's a tel: link, it's clickable, not copied text by default
                                        typeForMaskingCopy = null;
                                   } else if (other.value && (other.value.startsWith('mailto:'))) {
-                                       // If it's a mailto: link, it's clickable, not copied text by default
                                        typeForMaskingCopy = null;
                                   }
-                                   // If none of the above, and value exists, treat as copyable text by default UNLESS type suggests otherwise.
-                                   // Refined rule: If typeForMaskingCopy is explicitly set by icon check above, use it. Otherwise, if rawValueOrText exists AND it's NOT a standard URL/tel/mailto, AND it's NOT just a placeholder '#' or similar, AND other.type doesn't imply a link (like 'Website', 'Blog'), then make it 'copy-only'.
-
                                    if (typeForMaskingCopy === null && rawValueOrText && rawValueOrText !== '#' &&
                                        !rawValueOrText.startsWith('http://') && !rawValueOrText.startsWith('https://') && !rawValueOrText.startsWith('tel:') && !rawValueOrText.startsWith('mailto:') &&
                                        !(other.type && (other.type.toLowerCase() === 'website' || other.type.toLowerCase() === 'blog' || other.type.toLowerCase() === 'portfolio')) ) {
                                         typeForMaskingCopy = 'copy-only';
-                                        linkHref = 'javascript:void(0)'; // Ensure non-link behavior
+                                        linkHref = 'javascript:void(0)';
                                     }
 
 
                                 mainContactList.appendChild(createMainContactLi(
-                                     other.icon || 'fas fa-link', // Use icon from settings, default to link icon
-                                     linkHref,                   // Href
-                                     rawValueOrText,                // Raw value
-                                     typeForMaskingCopy, // Type for masking/copy ('phone', 'wechat', 'copy-only', or null)
-                                     '_blank', 'noopener noreferrer' // Default target/rel for 'others' unless overridden
+                                     other.icon || 'fas fa-link',
+                                     linkHref,
+                                     rawValueOrText,
+                                     typeForMaskingCopy,
+                                     '_blank', 'noopener noreferrer' 
                                  ));
                             });
                          }
@@ -2896,27 +2658,22 @@ if (hasGithub) {
                     console.error("Main resume display elements not found!");
                 }
 
-                 // Update Welcome Message Display (if it exists)
                  if (welcomeMessageDisplay) {
                       welcomeMessageDisplay.textContent = data.welcomeMessage || '';
                  }
             }
 
-             /** Converts simple markdown-like text to HTML */
             function convertMarkdownToHtml(text) {
                 if (!text) return '';
                 let html = text.trim();
 
-                // Headings (ensure they are at the start of a line)
                 html = html.replace(/^###\s+(.*)/gm, '<h3>$1</h3>');
                 html = html.replace(/^##\s+(.*)/gm, '<h2>$1</h2>');
                 html = html.replace(/^#\s+(.*)/gm, '<h1>$1</h1>');
 
-                // Bold and Italic
                 html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                 html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
-                // List Items (*)
                 let lines = html.split('\n');
                 let inList = false;
                 let htmlLines = [];
@@ -2928,7 +2685,6 @@ if (hasGithub) {
                             htmlLines.push('<ul>');
                             inList = true;
                         }
-                        // Handle bold within list items
                         let listItemContent = trimmedLine.substring(2);
                         listItemContent = listItemContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                         listItemContent = listItemContent.replace(/\*(.*?)\*/g, '<em>$1</em>');
@@ -2939,13 +2695,12 @@ if (hasGithub) {
                             htmlLines.push('</ul>');
                             inList = false;
                         }
-                        htmlLines.push(''); // Preserve empty lines between blocks
+                        htmlLines.push('');
                     } else {
                         if (inList) {
                             htmlLines.push('</ul>');
                             inList = false;
                         }
-                         // If it's not a list item or empty line, treat it as a paragraph candidate
                         htmlLines.push(line);
                     }
                 });
@@ -2956,43 +2711,28 @@ if (hasGithub) {
 
                 html = htmlLines.join('\n');
 
-                 // Wrap blocks that are not lists, headings, or already paragraphs in <p> tags
-                 // Split by two or more newlines (treat single newlines within a block as <br>)
                  html = html.split(/\n\s*\n+/).map(block => {
                      const trimmedBlock = block.trim();
                      if (!trimmedBlock) return '';
 
-                     // Check if the block already starts with a known block HTML tag
-                     // Added <p> to the check
                      if (/^<(h[1-6]|ul|ol|p|div|img|table|blockquote|pre)/i.test(trimmedBlock)) {
-                          return block; // Return block as is if it starts with a block tag
+                          return block;
                      }
 
-                     // Convert remaining single newlines within the block to <br>
                      const htmlBlock = trimmedBlock.replace(/\n/g, '<br>');
                      return `<p>${htmlBlock}</p>`;
-                 }).join('\n\n'); // Join paragraphs with double newline for spacing
+                 }).join('\n\n');
 
-                 // Remove empty paragraphs that might result from split/join
                  html = html.replace(/<p>\s*<\/p>/g, '');
 
                 return html;
             }
 
-            /**
-             * Wraps lines separated by double newlines in <p> tags. Used for About Me section.
-             */
              function wrapInParagraphs(text) {
                  if (!text) return '';
-                 // Split by one or more newlines, trim resulting paragraphs, filter empty ones
                  return text.split(/\n\s*\n+/).map(p => p.trim()).filter(p => p.length > 0).map(p => `<p>${p}</p>`).join('');
              }
 
-
-            /**
-             * Saves the current settings from the form to localStorage and updates display.
-             * Reads whatever is in the input fields (masked or full).
-             */
             function saveSettings() {
                  if (!settingsForm) {
                      console.error("Settings form element not found!");
@@ -3000,32 +2740,23 @@ if (hasGithub) {
                      return;
                  }
 
-                 // Start with a deep copy of the *current* settings (the last loaded/modified state)
-                 // This ensures we don't lose data for fields not currently visible or modified.
                  const tempSettings = JSON.parse(JSON.stringify(currentSettings));
 
-                 // Update basic fields and contact info from the form
-                 // Reads the current value from the input, whether masked or full
                  tempSettings.name = nameInput?.value.trim() || '';
                  tempSettings.jobTitle = jobTitleInput?.value.trim() || '';
                  tempSettings.age = ageInput?.value.trim() || '';
                  tempSettings.educationLevel = educationLevelInput?.value.trim() || '';
-                 tempSettings.location = locationInput?.value.trim() || ''; // Save the value AS IS from the input (could be masked or full)
+                 tempSettings.location = locationInput?.value.trim() || '';
                  tempSettings.status = statusInput?.value.trim() || '';
 
-                 // Ensure contact structure exists before assigning
                  if (!tempSettings.contact) tempSettings.contact = {};
 
-                 tempSettings.contact.phone = phoneInput?.value.trim() || ''; // Save the value AS IS
+                 tempSettings.contact.phone = phoneInput?.value.trim() || '';
                  tempSettings.contact.email = emailInput?.value.trim() || '';
-                 tempSettings.contact.wechat = wechatInput?.value.trim() || ''; // Save the value AS IS
+                 tempSettings.contact.wechat = wechatInput?.value.trim() || '';
 
-                 // Avatar preview source is read directly from the preview element.
                  tempSettings.profilePic = avatarPreviewContainer?.querySelector('img')?.src || null;
 
-                 // QR code path is NOT read from a form preview.
-                 // It is already set to FIXED_WECHAT_QR_PATH by the QR change workflow.
-                 // We ensure it's the fixed path before saving.
                  tempSettings.contact.wechatQr = FIXED_WECHAT_QR_PATH;
 
 
@@ -3033,68 +2764,52 @@ if (hasGithub) {
                  tempSettings.welcomeMessage = welcomeMessageInput?.value.trim() || '';
                  tempSettings.aboutMe = aboutMeInput?.value.trim() || '';
 
-
-                 // Markdown content always saves whatever is in the textarea
-                 tempSettings.useMarkdown = useMarkdownCheckbox?.checked === true; // Ensure boolean
+                 tempSettings.useMarkdown = useMarkdownCheckbox?.checked === true;
                  tempSettings.markdownContent = markdownInput?.value.trim() || '';
 
-
-                 // 3. Rebuild dynamic lists based on current form elements
-                 // This will OVERWRITE the existing lists in tempSettings with whatever is currently in the form.
-
-                 // Skills
-                 tempSettings.skills = []; // Clear the array in the copy
+                 tempSettings.skills = [];
                  skillsContainerEdit?.querySelectorAll('.skill-category').forEach(categoryDiv => {
                      const categoryNameInput = categoryDiv.querySelector('.skill-category-name');
                      const tagsListDiv = categoryDiv.querySelector('.tag-input-container');
                      const tags = [];
-                     // Iterate through the .tag elements, skipping the input field
                      tagsListDiv?.querySelectorAll('.tag').forEach(tagSpan => {
                           const tagName = tagSpan.cloneNode(true);
-                          tagName.querySelector('.remove-tag')?.remove(); // Remove the close button span before getting text
+                          tagName.querySelector('.remove-tag')?.remove();
                           tags.push(tagName.textContent.trim());
                      });
-                     // Only add if category name is not empty OR there are tags
                      if (categoryNameInput?.value.trim() || tags.length > 0) {
                          tempSettings.skills.push({
-                             id: categoryDiv.dataset.id || Date.now() + '_skillcat' + Math.random(), // Reuse ID or create new
+                             id: categoryDiv.dataset.id || Date.now() + '_skillcat' + Math.random(),
                              name: categoryNameInput?.value.trim() || '',
                              tags: tags
                          });
                      }
                  });
 
-
-                 // Experience (Projects)
-                 tempSettings.experience = []; // Clear the array in the copy
+                 tempSettings.experience = [];
                  projectsContainerEdit?.querySelectorAll('.dynamic-item').forEach(entry => {
                      const descTextarea = entry.querySelector('textarea');
-                     // Read the src from the preview element.
                      const imageSrc = entry.querySelector('.project-image-settings-preview img')?.src || null;
-
-                      // Only add if description is not empty OR an image is present
                      if (descTextarea?.value.trim() || imageSrc) {
                          tempSettings.experience.push({
-                             id: entry.dataset.id || Date.now() + '_exp' + Math.random(), // Reuse ID or create new
+                             id: entry.dataset.id || Date.now() + '_exp' + Math.random(),
                              desc: descTextarea?.value.trim() || '',
-                             image: imageSrc // Save the data URL or path
+                             image: imageSrc
                          });
                      }
                  });
 
-                 // Education
-                 tempSettings.education = []; // Clear the array in the copy
+                 tempSettings.education = [];
                  educationContainerEdit?.querySelectorAll('.dynamic-item').forEach(entry => {
                       const schoolInput = entry.querySelector('input[placeholder="请输入学校名称"]');
                       const majorInput = entry.querySelector('input[placeholder="请输入专业名称"]');
                       const degreeInput = entry.querySelector('input[placeholder="请输入学历"]');
                       const timeInput = entry.querySelector('input[placeholder^="例如："]');
 
-                       // Only add if at least one field is not empty
                       if (schoolInput?.value.trim() || majorInput?.value.trim() || degreeInput?.value.trim() || timeInput?.value.trim()) {
                           tempSettings.education.push({
-                              id: entry.dataset.id || Date.now() + '_edu' + Math.random(), // Reuse ID or create new
-                              school: schoolInput?.value.trim() || '', // Save current input value (masked or full)
+                              id: entry.dataset.id || Date.now() + '_edu' + Math.random(),
+                              school: schoolInput?.value.trim() || '',
                               major: majorInput?.value.trim() || '',
                               degree: degreeInput?.value.trim() || '',
                               time: timeInput?.value.trim() || ''
@@ -3102,53 +2817,45 @@ if (hasGithub) {
                       }
                   });
 
-                 // Certificates
-                 tempSettings.certificates = []; // Clear the array in the copy
+                 tempSettings.certificates = [];
                  certificatesContainerEdit?.querySelectorAll('.dynamic-item').forEach(entry => {
                      const nameInput = entry.querySelector('input[placeholder="请输入证书名称"]');
-                      // Only add if name is not empty
+
                       if (nameInput?.value.trim()) {
                          tempSettings.certificates.push({
-                             id: entry.dataset.id || Date.now() + '_cert' + Math.random(), // Reuse ID or create new
+                             id: entry.dataset.id || Date.now() + '_cert' + Math.random(),
                              name: nameInput.value.trim()
                          });
                       }
                  });
 
-                 // Other Contacts
-                 tempSettings.contact.others = []; // Clear the array in the copy
+                 tempSettings.contact.others = [];
                  otherContactsContainer?.querySelectorAll('.dynamic-item').forEach(entry => {
                      const typeInput = entry.querySelector('input[placeholder^="方式类型"]');
                      const valueInput = entry.querySelector('input[placeholder^="内容/链接"]');
                      const iconInput = entry.querySelector('input[placeholder^="Font Awesome 图标类 (可选)"]');
 
-                     // Save only if at least one field is filled
+
                      if (typeInput?.value.trim() || valueInput?.value.trim() || iconInput?.value.trim()) {
                          tempSettings.contact.others.push({
-                             id: entry.dataset.id || Date.now() + '_con' + Math.random(), // Reuse ID if exists
+                             id: entry.dataset.id || Date.now() + '_con' + Math.random(),
                              type: typeInput?.value.trim() || '',
-                             value: valueInput?.value.trim() || '', // Save current input value (masked or full)
+                             value: valueInput?.value.trim() || '',
                              icon: iconInput?.value.trim() || ''
                          });
                      }
                  });
 
-
-                // 4. Update the current settings with the modified temporary settings
                 currentSettings = tempSettings;
 
-                // 5. Save the updated current settings to localStorage
                 try {
                     localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(currentSettings));
                     showNotification('设置已成功保存！', 'success');
                     console.log('Settings saved:', currentSettings);
-                    // Update main display immediately after saving with the new settings
+
                     updateResumeDisplay(currentSettings);
 
-                    // --- IMPORTANT: Reload the form with the saved (now potentially masked) data ---
-                    // This makes the form reflect the saved state.
                     loadSettingsIntoForm(currentSettings);
-
 
                 } catch (e) {
                     console.error("Error saving settings to localStorage:", e);
@@ -3156,54 +2863,38 @@ if (hasGithub) {
                 }
             }
 
-            /**
-             * Loads settings from currentSettings into the settings form.
-             * Applies desensitization for specified fields for SETTINGS DISPLAY ONLY.
-             */
              function loadSettingsIntoForm(settings) {
                  if (!settingsForm) return;
 
-                 // Populate basic inputs with masked/full loaded settings
-                 // Apply masking here before setting the value for display in settings
-                 if (nameInput) nameInput.value = maskNameForSettings(settings.name || ''); // Masked name
-                 if (jobTitleInput) jobTitleInput.value = settings.jobTitle || ''; // Full
-                 if (ageInput) ageInput.value = settings.age || ''; // Full
-                 if (educationLevelInput) educationLevelInput.value = settings.educationLevel || ''; // Full
-                 if (locationInput) locationInput.value = maskLocation(settings.location || ''); // Masked location
-                 if (statusInput) statusInput.value = settings.status || ''; // Full
-                 if (phoneInput) phoneInput.value = maskPhoneForSettings(settings.contact?.phone || ''); // Masked phone
-                 if (emailInput) emailInput.value = settings.contact?.email || ''; // Full email (not masked usually)
-                 if (wechatInput) wechatInput.value = maskWechatForSettings(settings.contact?.wechat || ''); // Masked wechat
-                 if (githubInput) githubInput.value = settings.contact?.github || ''; // Full GitHub (not masked)
-                 if (welcomeMessageInput) welcomeMessageInput.value = settings.welcomeMessage || ''; // Full
-                 if (aboutMeInput) aboutMeInput.value = settings.aboutMe || ''; // Full
-                 if (markdownInput) markdownInput.value = settings.markdownContent || ''; // Full Markdown
+                 if (nameInput) nameInput.value = maskNameForSettings(settings.name || '');
+                 if (jobTitleInput) jobTitleInput.value = settings.jobTitle || '';
+                 if (ageInput) ageInput.value = settings.age || '';
+                 if (educationLevelInput) educationLevelInput.value = settings.educationLevel || '';
+                 if (locationInput) locationInput.value = maskLocation(settings.location || '');
+                 if (statusInput) statusInput.value = settings.status || '';
+                 if (phoneInput) phoneInput.value = maskPhoneForSettings(settings.contact?.phone || '');
+                 if (emailInput) emailInput.value = settings.contact?.email || '';
+                 if (wechatInput) wechatInput.value = maskWechatForSettings(settings.contact?.wechat || '');
+                 if (githubInput) githubInput.value = settings.contact?.github || '';
+                 if (welcomeMessageInput) welcomeMessageInput.value = settings.welcomeMessage || '';
+                 if (aboutMeInput) aboutMeInput.value = settings.aboutMe || '';
+                 if (markdownInput) markdownInput.value = settings.markdownContent || '';
 
-                 // Populate avatar preview (already handled by populateSettingsForm when page opens)
-                 // updateAvatarPreview(settings.profilePic || defaultSettings.profilePic, avatarPreviewContainer, '头像预览');
-
-                 // Clear dynamic containers before populating from saved data
                  if (skillsContainerEdit) skillsContainerEdit.innerHTML = '';
                  if (projectsContainerEdit) projectsContainerEdit.innerHTML = '';
                  if (educationContainerEdit) educationContainerEdit.innerHTML = '';
                  if (certificatesContainerEdit) certificatesContainerEdit.innerHTML = '';
                  if (otherContactsContainer) otherContactsContainer.innerHTML = '';
 
+                 if (Array.isArray(settings.skills)) settings.skills.forEach(skillCat => addSkillCategory(skillCat, false, true));
+                 if (Array.isArray(settings.experience)) settings.experience.forEach(exp => addExperienceEntry(exp, false, true));
+                 if (Array.isArray(settings.education)) settings.education.forEach(edu => addEducationEntry(edu, false, true));
+                 if (Array.isArray(settings.certificates)) settings.certificates.forEach(cert => addCertEntry(cert, false, true));
+                 if (settings.contact && Array.isArray(settings.contact.others)) settings.contact.others.forEach(other => addOtherContactEntry(other, false, true));
 
-                 // Populate dynamic lists from loaded settings
-                 // Pass true flag to indicate this is a load/populate operation, not a new item add
-                 // Check if arrays exist before iterating (safety first, although loadSettings should ensure this)
-                 if (Array.isArray(settings.skills)) settings.skills.forEach(skillCat => addSkillCategory(skillCat, false, true)); // addSkillCategory itself doesn't need masking inside unless default tags are provided
-                 if (Array.isArray(settings.experience)) settings.experience.forEach(exp => addExperienceEntry(exp, false, true)); // addExperienceEntry doesn't need masking inside
-                 if (Array.isArray(settings.education)) settings.education.forEach(edu => addEducationEntry(edu, false, true)); // Pass true flag to addEducationEntry to indicate population mode
-                 if (Array.isArray(settings.certificates)) settings.certificates.forEach(cert => addCertEntry(cert, false, true)); // addCertEntry doesn't need masking
-                 if (settings.contact && Array.isArray(settings.contact.others)) settings.contact.others.forEach(other => addOtherContactEntry(other, false, true)); // Pass true flag to addOtherContactEntry for population mode
-
-
-                 // Set markdown checkbox state and trigger update
                  if (useMarkdownCheckbox) {
                      useMarkdownCheckbox.checked = settings.useMarkdown === true;
-                     // Use a slight delay to ensure the element is visible before dispatching event
+
                      setTimeout(() => {
                           useMarkdownCheckbox.dispatchEvent(new Event('change'));
                      }, 50);
@@ -3212,17 +2903,12 @@ if (hasGithub) {
                   console.log('Settings loaded into form for editing.');
              }
 
-
-            // --- Dynamic Entry Creation Functions ---
-
-            // Added default value save = false and isPopulating flag
              function addSkillCategory(category = {}, save = false, isPopulating = false) {
                  const categoryId = category.id || Date.now() + '_skillcat' + Math.random();
                  const newCategoryDiv = document.createElement('div');
                  newCategoryDiv.classList.add('skill-category');
                  newCategoryDiv.dataset.id = categoryId;
 
-                 // Display the name from the loaded category or default '新的技能类别'
                  const displayCategoryName = category.name || '新的技能类别';
 
                  newCategoryDiv.innerHTML = `
@@ -3241,17 +2927,15 @@ if (hasGithub) {
                     </div>
                  `;
                   skillsContainerEdit.appendChild(newCategoryDiv);
-                 // Save is handled ONLY by the Save button now.
+
              }
 
-            // Added default value save = false and isPopulating flag
             function addExperienceEntry(exp = {}, save = false, isPopulating = false) {
                 const entryId = exp.id || Date.now() + '_exp' + Math.random();
                 const newEntry = document.createElement('div');
                 newEntry.classList.add('dynamic-item', 'project-item');
                 newEntry.dataset.id = entryId;
 
-                // Display title based on whether description exists
                 const displayTitle = exp.desc ? '项目/经历' : '新的项目/经历';
 
                 newEntry.innerHTML = `
@@ -3268,7 +2952,7 @@ if (hasGithub) {
                                      <div class="file-input-button">
                                          <i class="fas fa-upload"></i> 上传图片
                                      </div>
-                                     <!-- Added class for delegation -->
+
                                      <input type="file" class="project-image-upload-input" accept="image/*">
                                  </div>
                                  <div class="hint">仅支持上传一张图片，旧图片将被替换。推荐比例 16:9 或 4:3</div>
@@ -3283,32 +2967,26 @@ if (hasGithub) {
                 `;
                 projectsContainerEdit.appendChild(newEntry);
 
-                // Update the image preview if image data exists in the loaded object
                  const previewContainer = newEntry.querySelector('.project-image-settings-preview');
                  if (previewContainer && exp.image) {
-                     // For saved paths (which are stored as data URLs or relative paths), just set the src directly
+
                       updateAvatarPreview(exp.image, previewContainer, '图片预览');
                  }
 
-                // Save is handled ONLY by the Save button now.
             }
 
-             // Added default value save = false and isPopulating flag
              function addEducationEntry(edu = {}, save = false, isPopulating = false) {
                  const entryId = edu.id || Date.now() + '_edu' + Math.random();
                  const newEntry = document.createElement('div');
                  newEntry.classList.add('dynamic-item', 'education-item');
                  newEntry.dataset.id = entryId;
 
-                 // Apply masking only for settings display when loading existing data
                  const displaySchool = isPopulating ? maskSchoolNameForSettings(edu.school || '') : (edu.school || '');
-                 const displayMajor = edu.major || ''; // Not masked
-                 const displayDegree = edu.degree || ''; // Not masked
-                 const displayTime = edu.time || ''; // Not masked
+                 const displayMajor = edu.major || '';
+                 const displayDegree = edu.degree || '';
+                 const displayTime = edu.time || '';
 
-                 // Display title based on whether school name exists
                  const displayTitle = displaySchool ? displaySchool : '新的教育经历';
-
 
                  newEntry.innerHTML = `
                      <button type="button" class="remove-btn" aria-label="移除教育经历"><i class="fas fa-times"></i></button>
@@ -3331,17 +3009,15 @@ if (hasGithub) {
                      </div>
                  `;
                  educationContainerEdit.appendChild(newEntry);
-                 // Save is handled ONLY by the Save button now.
+
              }
 
-            // Added default value save = false and isPopulating flag
              function addCertEntry(cert = {}, save = false, isPopulating = false) {
                  const entryId = cert.id || Date.now() + '_cert' + Math.random();
                  const newEntry = document.createElement('div');
                  newEntry.classList.add('dynamic-item', 'certificate-item');
                  newEntry.dataset.id = entryId;
 
-                 // Display title based on whether name exists
                  const displayTitle = cert.name ? cert.name : '新的证书';
 
                  newEntry.innerHTML = `
@@ -3353,33 +3029,30 @@ if (hasGithub) {
                      </div>
                  `;
                  certificatesContainerEdit.appendChild(newEntry);
-                 // Save is handled ONLY by the Save button now.
+
              }
 
-             // Added default value save = false and isPopulating flag
              function addOtherContactEntry(other = {}, save = false, isPopulating = false) {
                  const entryId = other.id || Date.now() + '_con' + Math.random();
                  const newEntry = document.createElement('div');
                  newEntry.classList.add('dynamic-item');
-                 newEntry.dataset.id = entryId; // Add dataset.id here
+                 newEntry.dataset.id = entryId;
 
                  let displayValue = other.value || '';
-                 // Apply masking based on icon or type, only when populating
+
                  if (isPopulating) {
                      if (other.icon === 'fas fa-phone' || (other.type || '').toLowerCase() === '电话') {
                          displayValue = maskPhoneForSettings(other.value || '');
                      } else if (other.icon === 'fab fa-weixin' || (other.type || '').toLowerCase() === '微信') {
                          displayValue = maskWechatForSettings(other.value || '');
                      }
-                     // Note: Other types of values (like URLs) are not masked
+
                  }
 
                  const displayType = other.type || '';
                  const displayIcon = other.icon || '';
 
-                 // Display title based on whether type exists
                  const displayTitle = displayType || '其他联系方式';
-
 
                  newEntry.innerHTML = `
                     <button type="button" class="remove-btn" aria-label="移除联系方式"><i class="fas fa-times"></i></button>
@@ -3399,140 +3072,87 @@ if (hasGithub) {
                      </div>
                  `;
                  otherContactsContainer.appendChild(newEntry);
-                 // Save is handled ONLY by the Save button now.
+
              }
 
-
-             /**
-              * Handle file upload for images (used for Project images).
-              * Reads file as Data URL and updates the preview element.
-              * NOTE: This is DIFFERENT from the WeChat QR upload workflow now.
-              * @param {Event} event - The change event from the file input.
-              * @param {HTMLElement} previewContainer - The container element (e.g., div.avatar-preview).
-              * @param {string} defaultText - Text to show when no image is present.
-              */
              function handleProjectImageUpload(event, previewContainer, defaultText) {
                  const file = event.target.files[0];
                  if (file) {
                      const reader = new FileReader();
                      reader.onload = (e) => {
-                         // For project images, we store the Data URL or path directly.
-                         // Storing as Data URL makes it immediately visible in settings.
+
+
                          updateAvatarPreview(e.target.result, previewContainer, defaultText);
-                         // No saveSettings() here.
+
                      };
                      reader.onerror = () => {
                          showNotification(`读取文件失败: ${file.name}`, 'error');
-                         previewContainer.innerHTML = `<span>读取失败</span>`; // Show error in preview
+                         previewContainer.innerHTML = `<span>读取失败</span>`;
                      };
                      reader.readAsDataURL(file);
                  } else {
-                     // If file selection was cancelled or cleared
-                     updateAvatarPreview(null, previewContainer, defaultText); // Clear or reset preview
+
+                     updateAvatarPreview(null, previewContainer, defaultText);
                  }
              }
 
-            /**
-             * Handles the WeChat QR code file selection after the warning modal confirmation.
-             * NOTE: This does NOT actually save or rename the file on the user's disk.
-             * It updates the stored path to the fixed one and updates the display.
-             * @param {Event} event - The change event from the file input.
-             */
             function handleWechatQrFileSelect(event) {
                  const file = event.target.files[0];
                  if (file) {
-                      // We don't read the file content here (it's not needed for display).
-                      // We just confirm a file was selected and proceed.
-
-                      // 1. Update the stored QR path to the fixed path
-                      // This is already the default and should not change unless we added a feature
-                      // to allow changing the path. We are keeping the fixed path logic.
-                      // currentSettings.contact.wechatQr = FIXED_WECHAT_QR_PATH; // This line might be redundant but harmless
-
-                      // 2. Update the main resume display (specifically the QR modal image)
-                      // We force reload the image by appending a timestamp to bypass cache
-                      // This is crucial so the user sees the *new* image after they manually replace it.
                        const timestamp = new Date().getTime();
                        if (wechatQrImageModal) {
-                            // Only append timestamp if the path is the fixed one and doesn't already have a query
+
                            const separator = currentSettings.contact.wechatQr.includes('?') ? '&' : '?';
                            wechatQrImageModal.src = `${currentSettings.contact.wechatQr}${separator}_=${timestamp}`;
                        }
 
-
-                      // 3. Show a notification with instructions
                       showNotification('已选择二维码图片文件 (' + file.name + ')。请手动将图片重命名为 **WeChatQC.png** 并替换到项目文件夹的 **图片/二维码/** 路径下。然后点击 **保存设置**。', 'warning');
                        console.log(`User selected file: ${file.name}. Instructing user to manually replace ${FIXED_WECHAT_QR_PATH}.`);
 
-                      // 4. Optional: Clear the file input value so selecting the same file again triggers change
-                      event.target.value = '';
 
+                      event.target.value = '';
                  } else {
-                      // User cancelled the file selection after confirming the warning
+
                       showNotification('已取消更换二维码。', 'info');
                  }
              }
 
-
-            // --- Helper Functions ---
-
-             /**
-              * Generates the list of avatar images in the modal.
-              */
              function generateAvatarList() {
                  if (!avatarListContainer) return;
-                 avatarListContainer.innerHTML = ''; // Clear existing list
+                 avatarListContainer.innerHTML = '';
 
                  for (let i = 0; i < AVATAR_COUNT; i++) {
                      const img = document.createElement('img');
                      img.src = `图片/头像/${i}.jpg`;
                      img.alt = `头像 ${i}`;
-                     img.dataset.avatarPath = img.src; // Store the path for easy access
-                     // Add error handling in case an avatar image file is missing
+                     img.dataset.avatarPath = img.src;
+
                      img.onerror = (e) => {
                          console.warn(`Avatar image not found or failed to load: 图片/头像/${i}.jpg`);
-                         e.target.style.display = 'none'; // Hide the broken image element
+                         e.target.style.display = 'none';
                      };
                      avatarListContainer.appendChild(img);
                  }
                  console.log(`Generated list for ${AVATAR_COUNT} avatars.`);
              }
 
-             /**
-              * Handles clicks on avatar images within the selection modal.
-              * @param {Event} event - The click event.
-              */
              function handleAvatarSelection(event) {
                  const clickedImg = event.target.closest('#avatar-list img');
                  if (clickedImg) {
                      const selectedAvatarPath = clickedImg.dataset.avatarPath;
                      if (selectedAvatarPath) {
-                         // Update the avatar preview in the settings page
+
                          updateAvatarPreview(selectedAvatarPath, avatarPreviewContainer, '头像预览');
-                         // Update the currentSettings object directly (this is NOT saved until button click)
-                         // This ensures the path is in currentSettings even if user navigates away without saving
-                         // and comes back. But saveSettings will ultimately read from the preview.
+
+
                          currentSettings.profilePic = selectedAvatarPath;
-                         // Note: Settings will be saved when the user clicks the "保存设置" button.
+
                          closeModal(avatarSelectionModal);
-                         showNotification('头像已选择，请点击保存设置按钮。', 'info'); // Inform user to save
+                         showNotification('头像已选择，请点击保存设置按钮。', 'info');
                      }
                  }
              }
 
-
-            /**
-              * Creates a sidebar contact list item.
-              * @param {string} iconClass - Font Awesome icon class.
-              * @param {string} href - The link URL or 'javascript:void(0)'.
-              * @param {string} rawValueOrText - The raw contact value (e.g., phone number, wechat ID) or link text.
-              * @param {string | null} displayLabel - Optional label to display before the value (e.g., "电话:", "邮箱:").
-              * @param {'phone' | 'wechat' | 'copy-only' | null} typeForMaskingCopy - 'phone' or 'wechat' to trigger masking and copy, 'copy-only' for copy without masking, null otherwise.
-              * @param {string | null} target - Link target attribute.
-              * @param {string | null} rel - Link rel attribute.
-              * @param {string | null} id - Optional ID for the li element.
-              * @returns {HTMLLIElement} The created list item element.
-              */
             function createSidebarContactLi(iconClass, href, rawValueOrText, displayLabel = null, typeForMaskingCopy = null, target = null, rel = null, id = null) {
                 const li = document.createElement('li');
                  if (id) {
@@ -3546,29 +3166,26 @@ if (hasGithub) {
                 let displayedText = rawValueOrText;
                 let contentElement;
 
-                // Determine if it should be a copy trigger
                 const isCopyTrigger = typeForMaskingCopy === 'phone' || typeForMaskingCopy === 'wechat' || typeForMaskingCopy === 'copy-only';
 
 
                 if (isCopyTrigger) {
-                    // Apply masking if needed and make it a copy trigger (using main display mask)
+
                     if (typeForMaskingCopy === 'phone' || typeForMaskingCopy === 'wechat') {
                         displayedText = maskContact(rawValueOrText, typeForMaskingCopy);
                     }
-                    // If type is 'copy-only', displayedText is the rawValueOrText
 
                     contentElement = document.createElement('span');
-                    contentElement.classList.add('copy-trigger'); // Add class for event delegation
-                    contentElement.dataset.originalValue = rawValueOrText; // Store original value
-                    contentElement.style.cursor = 'pointer'; // Indicate clickable
-                     // Add specific class for sidebar wechat trigger span inside LI for modal delegation
+                    contentElement.classList.add('copy-trigger');
+                    contentElement.dataset.originalValue = rawValueOrText;
+                    contentElement.style.cursor = 'pointer';
+
                     if (id === 'wechat-trigger-sidebar') {
                          contentElement.classList.add('sidebar-wechat-trigger-span');
                     }
 
-
                 } else if (href && href !== 'javascript:void(0);') {
-                     // It's a standard link
+
                      contentElement = document.createElement('a');
                      contentElement.href = href;
                      if (target) contentElement.target = target;
@@ -3576,22 +3193,19 @@ if (hasGithub) {
                       if (contentElement.tagName === 'A' && contentElement.target === '_blank' && !contentElement.rel) {
                          contentElement.rel = 'noopener noreferrer';
                       }
-                      displayedText = rawValueOrText; // Links display the raw text
+                      displayedText = rawValueOrText;
                  } else {
-                     // It's static text (or js:void(0) which we treat as static)
+
                      contentElement = document.createElement('span');
-                     displayedText = rawValueOrText; // Static text displays the raw text
+                     displayedText = rawValueOrText;
                  }
 
-            // Construct the final innerHTML including the label
             if (displayLabel) {
-                // 只保留标签 (例如：电话:)，去掉后面的具体文本
-                contentElement.innerHTML = `<strong>${displayLabel}</strong>`; // <--- 修改后
+
+                contentElement.innerHTML = `<strong>${displayLabel}</strong>`;
             } else {
-                 // 如果没有标签，也清空文本（或者根据需要保留 displayedText）
-                 // 如果 GitHub 那一项也没有 displayLabel，你可能想在这里保留 displayedText
-                 // contentElement.textContent = displayedText; // 如果需要保留无标签的文本，取消注释这行
-                 contentElement.textContent = ''; // 如果希望无标签项也清空文本，保持这行
+
+                 contentElement.textContent = '';
             }
 
                 li.appendChild(contentElement);
@@ -3599,149 +3213,113 @@ if (hasGithub) {
                 return li;
             }
 
-             /**
-             * Creates a main resume page contact list item.
-             * @param {string} iconClass - Font Awesome icon class.
-             * @param {string} href - The link URL or 'javascript:void(0)'.
-             * @param {string} rawValueOrText - The raw contact value (e.e., phone number, wechat ID) or link text.
-             * @param {'phone' | 'wechat' | 'copy-only' | null} typeForMaskingCopy - 'phone' or 'wechat' to trigger masking and copy, 'copy-only' for copy without masking, null otherwise.
-             * @param {string | null} target - Link target attribute.
-             * @param {string | null} rel - Link rel attribute.
-             * @param {boolean} isWechatModalTrigger - Flag to indicate if this is the main wechat item triggering modal and tooltip.
-             * @returns {HTMLLIElement} The created list item element.
-             */
-           /**
- * Creates a list item for the main "找到我" contact section.
- * @param {string} iconClass - The CSS class for the icon (e.g., 'fas fa-phone').
- * @param {string} href - The URL for links (<a> tags). Use 'javascript:void(0);' or null if not a link.
- * @param {string} rawValueOrText - The actual contact value (phone number, email, WeChat ID) or static text. Used for copy/title.
- * @param {string} displayLabel - The text to display next to the icon (e.g., "电话", "邮箱"). <--- 新增参数
- * @param {string|null} typeForMaskingCopy - Type identifier for masking/copy logic ('phone', 'wechat', 'copy-only', null).
- * @param {string|null} target - The target attribute for links (e.g., '_blank').
- * @param {string|null} rel - The rel attribute for links (e.g., 'noopener noreferrer').
- * @param {boolean} isWechatModalTrigger - Special flag for the WeChat item that triggers a modal/tooltip.
- * @returns {HTMLLIElement} The created list item element.
- */
-function createMainContactLi(iconClass, href, rawValueOrText, displayLabel, typeForMaskingCopy = null, target = null, rel = null, isWechatModalTrigger = false) {
-    const li = document.createElement('li');
-    const i = document.createElement('i');
-    i.className = iconClass;
-    li.appendChild(i); // Add icon first
+            function createMainContactLi(iconClass, href, rawValueOrText, displayLabel, typeForMaskingCopy = null, target = null, rel = null, isWechatModalTrigger = false) {
+            const li = document.createElement('li');
+            const i = document.createElement('i');
+            i.className = iconClass;
+            li.appendChild(i);
 
-    // Add a non-breaking space before the text content
-    const spacing = '\u00A0'; // Use non-breaking space for consistent spacing
+            const spacing = '\u00A0';
 
-    let contentElement;
+            let contentElement;
 
-    // Determine if it should be a copy trigger based on typeForMaskingCopy
-    const isCopyTrigger = typeForMaskingCopy === 'phone' || typeForMaskingCopy === 'wechat' || typeForMaskingCopy === 'copy-only';
+            const isCopyTrigger = typeForMaskingCopy === 'phone' || typeForMaskingCopy === 'wechat' || typeForMaskingCopy === 'copy-only';
 
-    if (isWechatModalTrigger) {
-        // Special case for the main wechat entry with tooltip/modal
-        li.classList.add('wechat-hover-trigger');
+            if (isWechatModalTrigger) {
 
-        // Create the element that will hold the display label and also act as copy trigger
-        contentElement = document.createElement('span');
-        contentElement.classList.add('copy-trigger'); // Add class for event delegation
-        contentElement.dataset.originalValue = rawValueOrText; // Store original value for copying
-        contentElement.style.cursor = 'pointer'; // Indicate clickable for copy
-        contentElement.textContent = spacing + displayLabel; // <--- 使用 displayLabel
+                li.classList.add('wechat-hover-trigger');
 
-        // Create the tooltip div
-        const tooltipDiv = document.createElement('div');
-        tooltipDiv.classList.add('wechat-tooltip');
-        // Use the fixed QR path for the image source
-        tooltipDiv.innerHTML = `
-            <img src="${currentSettings.contact?.wechatQr || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}" alt="微信二维码">
-            <span>微信扫码联系我</span>
-        `;
-        li.appendChild(contentElement); // Add the text span
-        li.appendChild(tooltipDiv);    // Add the tooltip
+                contentElement = document.createElement('span');
+                contentElement.classList.add('copy-trigger');
+                contentElement.dataset.originalValue = rawValueOrText;
+                contentElement.style.cursor = 'pointer';
+                contentElement.textContent = spacing + displayLabel;
 
-        // Event listener for the modal trigger is on the LI itself (handled globally)
-        return li; // Return the constructed LI directly
 
-    } else if (isCopyTrigger) {
-        // Standard copy trigger (Phone, or generic copy-only)
-        contentElement = document.createElement('span');
-        contentElement.classList.add('copy-trigger'); // Add class for event delegation
-        contentElement.dataset.originalValue = rawValueOrText; // Store original value for copying
-        contentElement.style.cursor = 'pointer'; // Indicate clickable
-        contentElement.textContent = spacing + displayLabel; // <--- 使用 displayLabel
+                const tooltipDiv = document.createElement('div');
+                tooltipDiv.classList.add('wechat-tooltip');
 
-        li.appendChild(contentElement); // Add the span to the li
+                tooltipDiv.innerHTML = `
+                    <img src="${currentSettings.contact?.wechatQr || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}" alt="微信二维码">
+                    <span>微信扫码联系我</span>
+                `;
+                li.appendChild(contentElement);
+                li.appendChild(tooltipDiv);
 
-    } else if (href && href !== 'javascript:void(0);') {
-        // It's a standard link (Email, GitHub, etc.)
-        contentElement = document.createElement('a');
-        contentElement.href = href;
-        contentElement.textContent = spacing + displayLabel; // <--- 使用 displayLabel
-        contentElement.title = rawValueOrText; // Set title attribute (optional, good for full email etc.)
-        if (target) contentElement.target = target;
-        if (rel) contentElement.rel = rel;
-        // Ensure target="_blank" links have rel="noopener noreferrer" for security
-        if (contentElement.target === '_blank' && !contentElement.rel) {
-            contentElement.rel = 'noopener noreferrer';
-        }
-        li.appendChild(contentElement); // Add the link to the li
 
-    } else {
-        // It's static text (shouldn't happen often if setup correctly, but handle it)
-        contentElement = document.createElement('span');
-        contentElement.textContent = spacing + displayLabel; // <--- 使用 displayLabel
-        li.appendChild(contentElement); // Add the span to the li
-    }
+                return li;
 
-    return li;
-}
+            } else if (isCopyTrigger) {
 
+                contentElement = document.createElement('span');
+                contentElement.classList.add('copy-trigger');
+                contentElement.dataset.originalValue = rawValueOrText;
+                contentElement.style.cursor = 'pointer';
+                contentElement.textContent = spacing + displayLabel;
+
+                li.appendChild(contentElement);
+
+            } else if (href && href !== 'javascript:void(0);') {
+
+                contentElement = document.createElement('a');
+                contentElement.href = href;
+                contentElement.textContent = spacing + displayLabel;
+                contentElement.title = rawValueOrText;
+                if (target) contentElement.target = target;
+                if (rel) contentElement.rel = rel;
+
+                if (contentElement.target === '_blank' && !contentElement.rel) {
+                    contentElement.rel = 'noopener noreferrer';
+                }
+                li.appendChild(contentElement);
+
+            } else {
+
+                contentElement = document.createElement('span');
+                contentElement.textContent = spacing + displayLabel;
+                li.appendChild(contentElement);
+            }
+
+            return li;
+            }
 
              function showNotification(message, type = 'success') {
                  if (notificationElement) {
-                     // Clear any existing timeout
+
                      if (notificationElement.dataset.timeoutId) {
                          clearTimeout(parseInt(notificationElement.dataset.timeoutId));
                      }
 
-                     // Add clear button
                      const closeBtn = document.createElement('span');
                      closeBtn.innerHTML = '&times;';
                      closeBtn.style.cssText = 'margin-left: 10px; cursor: pointer; font-weight: bold;';
                      closeBtn.onclick = () => { notificationElement.style.display = 'none'; notificationElement.dataset.timeoutId = ''; };
 
-                     notificationElement.innerHTML = ''; // Clear previous content
+                     notificationElement.innerHTML = '';
                      notificationElement.appendChild(document.createTextNode(message));
-                     notificationElement.appendChild(closeBtn); // Add close button
+                     notificationElement.appendChild(closeBtn);
 
-                     notificationElement.className = `notification ${type}`; // Apply base class and type class
-                     notificationElement.style.display = 'block'; // Make visible
+                     notificationElement.className = `notification ${type}`;
+                     notificationElement.style.display = 'block';
 
-                     // Set a timeout to hide it (unless user clicks close)
+
                      const timeoutId = setTimeout(() => {
                          notificationElement.style.display = 'none';
-                         notificationElement.dataset.timeoutId = ''; // Clear the stored ID
-                     }, 10000); // Hide after 10 seconds (increased duration for warning)
-                      notificationElement.dataset.timeoutId = timeoutId.toString(); // Store the timeout ID
+                         notificationElement.dataset.timeoutId = '';
+                     }, 10000);
+                      notificationElement.dataset.timeoutId = timeoutId.toString();
                  } else {
-                      // Fallback for environments without the notification element
+
                       alert(message);
                  }
              }
 
-
-            // --- Event Listeners ---
-
-            // Initial Load - Load settings and update display
-            loadSettings(); // Load settings and update display first
-            generateAvatarList(); // Generate the avatar list in the modal on load
-
-
-            // Get the settings page element for delegation
-            // const settingsPageElement = document.getElementById('settings-page'); // Already declared above
+            loadSettings();
+            generateAvatarList();
 
             if (settingsForm && settingsPageElement) {
 
-                // --- Event Delegation for REMOVE buttons, TAG INPUTS, and PROJECT IMAGE UPLOADS on settings page ---
+
                 settingsPageElement.addEventListener('click', function(event) {
                     const removeBtn = event.target.closest('.remove-btn');
                     if (removeBtn) {
@@ -3749,7 +3327,7 @@ function createMainContactLi(iconClass, href, rawValueOrText, displayLabel, type
                         const itemToRemove = removeBtn.closest('.dynamic-item');
                         if (itemToRemove && confirm('确定要移除此项吗？')) {
                              itemToRemove.remove();
-                             // Save is now only via the header button, so no saveSettings() here
+
                         }
                         return;
                     }
@@ -3774,45 +3352,38 @@ function createMainContactLi(iconClass, href, rawValueOrText, displayLabel, type
                         return;
                     }
 
-                    // Handle click on "Change Avatar" button to open the modal
                     if (event.target.closest('#change-avatar-button')) {
                         event.preventDefault();
                         openModal(avatarSelectionModal);
-                        return; // Stop propagation for this click
+                        return;
                     }
 
-                    // Handle click on "更换二维码" button to open the warning modal
-                    // This button triggers the modal, NOT the file input directly
-                    const changeWechatQrButton = event.target.closest('#change-wechat-qr-button'); // Re-select here or use outer scope var
+                    const changeWechatQrButton = event.target.closest('#change-wechat-qr-button');
                     if (changeWechatQrButton) {
                          event.preventDefault();
                          openModal(wechatWarningModal);
-                         return; // Stop propagation
+                         return;
                     }
 
 
                 });
 
-                 // Delegate file input change event for project images and QR
                  settingsPageElement.addEventListener('change', function(event) {
-                      // Check if the changed element is a project image upload input
+
                       if (event.target.classList.contains('project-image-upload-input')) {
                            handleProjectImageUpload(event, event.target.closest('.dynamic-item')?.querySelector('.project-image-settings-preview'), '图片预览');
-                           // No need to call saveSettings here, it's done via the button
+
                       }
-                       // Check if the changed element is the wechat QR upload input (triggered AFTER the warning modal)
-                       // Note: This listener is attached to settingsPageElement, but the input is hidden.
-                       // The click handler on confirmWechatQrChangeButton programmatically clicks the input.
-                       // So this 'change' event *will* fire when a file is selected via that programmatic click.
+
+
                       else if (event.target === wechatQrUploadInput) {
-                           handleWechatQrFileSelect(event); // Call the specific handler for QR
+                           handleWechatQrFileSelect(event);
                        }
                  });
 
-
                  settingsPageElement.addEventListener('keypress', function(e) {
                      const target = e.target;
-                     // Handle tag input on Enter key press
+
                      if (target.tagName === 'INPUT' && target.classList.contains('tag-input') && e.key === 'Enter' && target.value.trim() !== '') {
                          e.preventDefault();
                          const tagText = target.value.trim();
@@ -3824,40 +3395,30 @@ function createMainContactLi(iconClass, href, rawValueOrText, displayLabel, type
 
                          tagContainer.insertBefore(newTag, target);
 
-                         target.value = ''; // Clear the input field
-                         // No need to call saveSettings here, save is via button
+                         target.value = '';
+
                      }
                  });
 
-
-                // Header Save Button Listener
                 if (settingsSaveButtonHeader) {
                     settingsSaveButtonHeader.addEventListener('click', (e) => {
                         e.preventDefault();
-                        saveSettings(); // This is the ONLY place saveSettings should be called
+                        saveSettings();
                     });
                 }
 
-                 // Listen for form submission on the form itself
                  settingsForm.addEventListener('submit', (e) => {
                      e.preventDefault();
-                     // For simplicity, let's rely only on the Save button click for now.
-                     // If you want pressing Enter in a text field to save, link saveSettings() here.
-                     // But be careful, it might save partial data if not all fields are filled.
+
                      console.log("Form submit event triggered, relying on header button for save.");
                  });
 
+                if (addSkillCategoryBtn) addSkillCategoryBtn.addEventListener('click', (e) => { e.preventDefault(); addSkillCategory({}); });
+                if (addProjectBtn) addProjectBtn.addEventListener('click', (e) => { e.preventDefault(); addExperienceEntry({}); });
+                if (addEducationBtn) addEducationBtn.addEventListener('click', (e) => { e.preventDefault(); addEducationEntry({}); });
+                if (addCertificateBtn) addCertificateBtn.addEventListener('click', (e) => { e.preventDefault(); addCertEntry({}); });
+                if (addOtherContactBtn) addOtherContactBtn.addEventListener('click', (e) => { e.preventDefault(); addOtherContactEntry({}); });
 
-                // "Add" Buttons (These don't need delegation, attach directly)
-                // *** IMPORTANT FIX: Ensure save=false is passed or default is false ***
-                if (addSkillCategoryBtn) addSkillCategoryBtn.addEventListener('click', (e) => { e.preventDefault(); addSkillCategory({}); }); // Pass empty object and default save=false
-                if (addProjectBtn) addProjectBtn.addEventListener('click', (e) => { e.preventDefault(); addExperienceEntry({}); }); // Pass empty object and default save=false
-                if (addEducationBtn) addEducationBtn.addEventListener('click', (e) => { e.preventDefault(); addEducationEntry({}); }); // Pass empty object and default save=false
-                if (addCertificateBtn) addCertificateBtn.addEventListener('click', (e) => { e.preventDefault(); addCertEntry({}); }); // Pass empty object and default save=false
-                 if (addOtherContactBtn) addOtherContactBtn.addEventListener('click', (e) => { e.preventDefault(); addOtherContactEntry({}); }); // Pass empty object and default save=false
-
-
-                // Placeholder Buttons (No change needed for these)
                 if (resumeParseBtn) {
                     resumeParseBtn.addEventListener('click', (e) => {
                         e.preventDefault();
@@ -3871,34 +3432,28 @@ function createMainContactLi(iconClass, href, rawValueOrText, displayLabel, type
                     });
                  }
 
-                // "不使用模板" checkbox logic (No change needed)
                 if (useMarkdownCheckbox && markdownEditorSection) {
                      useMarkdownCheckbox.addEventListener('change', function() {
                          const isChecked = this.checked;
                          markdownEditorSection.style.display = isChecked ? 'block' : 'none';
-                         // You might want to disable/enable other form sections here too
-                          // (Implementation left as exercise)
+
                      });
-                      // Initialize state on load with a slight delay
+
                      setTimeout(() => {
                           useMarkdownCheckbox.dispatchEvent(new Event('change'));
                      }, 50);
                 }
 
-                 // Call loadSettingsIntoForm after the settings page is shown and its elements are accessible
-                 // This is done within the modified showPage function triggered by the settings button click.
-
             } else {
                  console.error("Required settings elements (form or settings page div) not found!");
             }
 
-             // --- Global Event Delegation for Copy Trigger and WeChat/Avatar Modal Triggers ---
              document.body.addEventListener('click', function(event) {
-                 // Handle Copy Trigger Clicks
+
                  const copyTrigger = event.target.closest('.copy-trigger');
-                 // Ensure the click wasn't inside any modal content itself
+
                  if (copyTrigger && !event.target.closest('.modal-content')) {
-                      event.preventDefault(); // Prevent default link behavior if any
+                      event.preventDefault();
                       const originalValue = copyTrigger.dataset.originalValue;
                       if (originalValue) {
                           copyToClipboard(originalValue);
@@ -3908,79 +3463,63 @@ function createMainContactLi(iconClass, href, rawValueOrText, displayLabel, type
                       }
                   }
 
-                  // Handle Sidebar WeChat Modal Trigger Click
-                  // Check if the clicked element or its ancestor is the specific span inside the sidebar LI
                   const sidebarWechatTriggerSpan = event.target.closest('#sidebar-contact-list li .sidebar-wechat-trigger-span');
                   if (sidebarWechatTriggerSpan) {
-                      // event.preventDefault(); // Allow default click behavior on span if any, though we handle modal below
+
                       openModal(wechatModal);
                   }
 
-                  // Handle Main Page WeChat Modal Trigger Click (the whole LI)
                   const mainWechatTriggerLi = event.target.closest('.main-contact-list .wechat-hover-trigger');
-                   // Check if the click was directly on the LI or its icon/padding, but NOT on the copy trigger span inside
+
                   if (mainWechatTriggerLi && !event.target.closest('.copy-trigger')) {
-                      // event.preventDefault(); // Allow default click behavior on li if any, though we handle modal below
+
                       openModal(wechatModal);
                   }
 
-                  // Handle Avatar Selection Modal Image Click (Delegated)
+
                   const clickedAvatarImage = event.target.closest('#avatar-list img');
                   if (clickedAvatarImage) {
-                      handleAvatarSelection({ target: clickedAvatarImage }); // Call the handler with the clicked image
+                      handleAvatarSelection({ target: clickedAvatarImage });
                   }
 
              });
 
-             // --- WeChat Warning Modal Confirmation Listener ---
              if (confirmWechatQrChangeButton && wechatQrUploadInput) {
                  confirmWechatQrChangeButton.addEventListener('click', function() {
-                     closeModal(wechatWarningModal); // Close the warning modal
-                     wechatQrUploadInput.click(); // Programmatically click the hidden file input
+                     closeModal(wechatWarningModal);
+                     wechatQrUploadInput.click();
                  });
              } else {
                   console.error("WeChat warning modal button or file input not found!");
              }
 
-             // Update avatar count display on load
              if (avatarCountSpan) {
                  avatarCountSpan.textContent = AVATAR_COUNT;
              }
 
-             // --- Modify showPage function to load settings into form when opening settings page ---
-             // Re-declare showPage or modify it after its initial declaration
              const originalShowPage = showPage;
              showPage = function(pageIdToShow) {
-                 // When navigating *away* from settings, perform a soft clear if needed (currently commented out)
-                 // if (currentPageId === 'settings-page' && pageIdToShow !== 'settings-page') {
-                 //    clearSettingsForm(); // Only clear when leaving settings
-                 // }
 
-                 originalShowPage(pageIdToShow); // Run original logic (handles displaying the correct page)
+                 originalShowPage(pageIdToShow);
 
                  if (pageIdToShow === 'settings-page') {
-                      // When opening settings:
-                      // Load settings into the form with desensitization
+
+
                       loadSettingsIntoForm(currentSettings);
                  }
-                 // Update currentPageId after the page switch is complete
-                 // currentPageId = pageIdToShow;
+
              };
 
-             // Initial population of settings form is now handled *inside* the modified showPage function
-             // triggered by the click on the settings button.
-
-             // Helper function to get a random HSL color string and its lightness
              function getRandomHslColor() {
-                 const hue = Math.floor(Math.random() * 360); // 0-359
-                 const saturation = '70%'; // Keep saturation relatively high for visible color
-                 const lightness = '60%'; // Keep lightness in mid-range for good contrast
+                 const hue = Math.floor(Math.random() * 360);
+                 const saturation = '70%';
+                 const lightness = '60%';
                  return {
                      colorString: `hsl(${hue}, ${saturation}, ${lightness})`,
-                     lightness: parseInt(lightness) // Return lightness as number for comparison
+                     lightness: parseInt(lightness)
                  };
              }
-        }); // End DOMContentLoaded
+        });
     </script>
 </body>
 </html>
